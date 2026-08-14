@@ -8,7 +8,7 @@ import {
   saveStoredAdmins
 } from './mockData';
 
-const API_BASE_URL = 'http://localhost:8080/api/v1';
+export const API_BASE_URL = process.env.REACT_APP_API_URL || window.__REACT_APP_API_URL__ || 'http://localhost:8080/api/v1';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,

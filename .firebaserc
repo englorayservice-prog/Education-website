@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "education-website-17c4b"
+  },
+  "targets": {
+    "education-website-17c4b": {
+      "hosting": {
+        "student-site": [
+          "education-website-17c4b"
+        ],
+        "admin-site": [
+          "education-website-admin"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

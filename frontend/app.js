@@ -222,8 +222,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Real-Time Sync Engine with Backend Database & Admin Portal
   async function syncWithBackend() {
+    const apiBase = window.API_BASE_URL || 'http://localhost:8080/api/v1';
     try {
-      const res = await fetch('http://localhost:8080/api/v1/admin/courses');
+      const res = await fetch(`${apiBase}/admin/courses`);
       if (res.ok) {
         const adminCourses = await res.json();
         if (Array.isArray(adminCourses)) {
@@ -736,15 +737,16 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem(storeKeyStudent, JSON.stringify(existingStudent));
       window.dispatchEvent(new Event('storage'));
 
-      // Post submission directly to MySQL backend server on port 8080 if available
+      // Post submission directly to MySQL backend server if available
       try {
+        const apiBase = window.API_BASE_URL || 'http://localhost:8080/api/v1';
         const formData = new FormData();
         formData.append('dayClassId', state.currentClassId || 6);
         formData.append('studentEmail', emailValue);
         formData.append('gradeNumber', COURSES_DATA.currentGradeNumber || 5);
         formData.append('file', state.selectedFile);
 
-        fetch('http://localhost:8080/api/v1/student/task/upload', {
+        fetch(`${apiBase}/student/task/upload`, {
           method: 'POST',
           body: formData
         }).then(res => res.json()).then(data => {

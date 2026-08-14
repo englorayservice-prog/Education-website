@@ -65,7 +65,7 @@ export const Navbar = () => {
 
       realList.push({
         id: 'sys-conn',
-        text: 'Live Backend Connection Active (localhost:8080)',
+        text: `Live Backend: ${API_BASE_URL}`,
         time: 'Connected',
         type: 'info'
       });
