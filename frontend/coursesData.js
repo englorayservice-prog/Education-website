@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    ENGLORAY LEARNING - CENTRAL COURSES MASTER DATASET (GRADES 3 TO 10)
    Contains Complete Daily Classes for All Grades (3 to 10), 5 Quiz Questions per Class
    ========================================================================== */
@@ -37,7 +37,7 @@ const COURSES_DATA = {
         step3Website: {
           title: "Step 3: Interactive Learning Activity",
           description: "Explore the interactive educational website portal for hands-on practice.",
-          websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/",
+          websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/computer-fundamentals-tutorial/",
           portalName: "GeeksforGeeks Educational Portal"
         },
         step4Quiz: {
@@ -206,7 +206,7 @@ const COURSES_DATA = {
         step3Website: {
           title: "Step 3: Interactive Learning Activity",
           description: "Explore the interactive educational website portal for hands-on practice.",
-          websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/",
+          websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/computer-fundamentals-tutorial/",
           portalName: "GeeksforGeeks Educational Portal"
         },
         step4Quiz: {
@@ -374,7 +374,7 @@ const COURSES_DATA = {
         step3Website: {
           title: "Step 3: Interactive Learning Activity",
           description: "Explore the interactive educational website portal for hands-on practice.",
-          websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/",
+          websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/computer-fundamentals-tutorial/",
           portalName: "GeeksforGeeks Educational Portal"
         },
         step4Quiz: {
@@ -542,7 +542,7 @@ const COURSES_DATA = {
         step3Website: {
           title: "Step 3: Interactive Learning Activity",
           description: "Explore the interactive educational website portal for hands-on practice.",
-          websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/",
+          websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/computer-fundamentals-tutorial/",
           portalName: "GeeksforGeeks Educational Portal"
         },
         step4Quiz: {
@@ -720,7 +720,7 @@ const COURSES_DATA = {
                 step3Website: {
                   title: "Step 3: Interactive Learning Activity",
                   description: "Interactive learning resource and activity portal.",
-                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/",
+                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/computer-fundamentals-tutorial/",
                   portalName: "GeeksforGeeks Educational Portal"
                 },
                 step4Quiz: {
@@ -763,7 +763,7 @@ const COURSES_DATA = {
                 step3Website: {
                   title: "Step 3: Interactive Learning Activity",
                   description: "Interactive learning resource and activity portal.",
-                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/",
+                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/computer-fundamentals-tutorial/",
                   portalName: "GeeksforGeeks Educational Portal"
                 },
                 step4Quiz: {
@@ -806,7 +806,7 @@ const COURSES_DATA = {
                 step3Website: {
                   title: "Step 3: Interactive Learning Activity",
                   description: "Interactive learning resource and activity portal.",
-                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/",
+                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/computer-fundamentals-tutorial/",
                   portalName: "GeeksforGeeks Educational Portal"
                 },
                 step4Quiz: {
@@ -849,7 +849,7 @@ const COURSES_DATA = {
                 step3Website: {
                   title: "Step 3: Interactive Learning Activity",
                   description: "Interactive learning resource and activity portal.",
-                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/",
+                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/computer-fundamentals-tutorial/",
                   portalName: "GeeksforGeeks Educational Portal"
                 },
                 step4Quiz: {
@@ -905,7 +905,7 @@ const COURSES_DATA = {
                 step3Website: {
                   title: "Step 3: Interactive Learning Activity",
                   description: "Interactive learning resource and activity portal.",
-                  websiteUrl: "https://www.geeksforgeeks.org/operating-systems/operating-systems/",
+                  websiteUrl: "https://www.geeksforgeeks.org/operating-systems/",
                   portalName: "GeeksforGeeks OS Resource"
                 },
                 step4Quiz: {
@@ -948,7 +948,7 @@ const COURSES_DATA = {
                 step3Website: {
                   title: "Step 3: Interactive Learning Activity",
                   description: "Interactive learning resource and activity portal.",
-                  websiteUrl: "https://www.geeksforgeeks.org/operating-systems/operating-systems/",
+                  websiteUrl: "https://www.geeksforgeeks.org/operating-systems/",
                   portalName: "GeeksforGeeks OS Resource"
                 },
                 step4Quiz: {
@@ -991,7 +991,7 @@ const COURSES_DATA = {
                 step3Website: {
                   title: "Step 3: Interactive Learning Activity",
                   description: "Interactive learning resource and activity portal.",
-                  websiteUrl: "https://www.geeksforgeeks.org/operating-systems/operating-systems/",
+                  websiteUrl: "https://www.geeksforgeeks.org/operating-systems/",
                   portalName: "GeeksforGeeks OS Resource"
                 },
                 step4Quiz: {
@@ -1034,7 +1034,7 @@ const COURSES_DATA = {
                 step3Website: {
                   title: "Step 3: Interactive Learning Activity",
                   description: "Interactive learning resource and activity portal.",
-                  websiteUrl: "https://www.geeksforgeeks.org/operating-systems/operating-systems/",
+                  websiteUrl: "https://www.geeksforgeeks.org/operating-systems/",
                   portalName: "GeeksforGeeks OS Resource"
                 },
                 step4Quiz: {
@@ -1090,7 +1090,7 @@ const COURSES_DATA = {
                 step3Website: {
                   title: "Step 3: Interactive Learning Activity",
                   description: "Interactive learning resource and activity portal.",
-                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/",
+                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/computer-fundamentals-tutorial/",
                   portalName: "GeeksforGeeks Educational Portal"
                 },
                 step4Quiz: {
@@ -1133,7 +1133,7 @@ const COURSES_DATA = {
                 step3Website: {
                   title: "Step 3: Interactive Learning Activity",
                   description: "Interactive learning resource and activity portal.",
-                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/",
+                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/computer-fundamentals-tutorial/",
                   portalName: "GeeksforGeeks Educational Portal"
                 },
                 step4Quiz: {
@@ -1176,7 +1176,7 @@ const COURSES_DATA = {
                 step3Website: {
                   title: "Step 3: Interactive Learning Activity",
                   description: "Interactive learning resource and activity portal.",
-                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/",
+                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/computer-fundamentals-tutorial/",
                   portalName: "GeeksforGeeks Educational Portal"
                 },
                 step4Quiz: {
@@ -1219,7 +1219,7 @@ const COURSES_DATA = {
                 step3Website: {
                   title: "Step 3: Interactive Learning Activity",
                   description: "Interactive learning resource and activity portal.",
-                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/",
+                  websiteUrl: "https://www.geeksforgeeks.org/computer-science-fundamentals/computer-fundamentals-tutorial/",
                   portalName: "GeeksforGeeks Educational Portal"
                 },
                 step4Quiz: {
@@ -1268,7 +1268,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI – Term I Digital Foundation.pdf",
+                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI â€“ Term I Digital Foundation.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["RAM is volatile working memory.", "ROM stores permanent boot instructions."]
                 },
@@ -1290,7 +1290,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 1: Memory Classification & RAM vs ROM Comparison Table.",
-                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI – Term I Digital Foundation.pdf",
+                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI â€“ Term I Digital Foundation.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1311,7 +1311,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI – Term I Digital Foundation.pdf",
+                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI â€“ Term I Digital Foundation.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["ALU performs arithmetic and logic calculations.", "Control unit directs instruction flow."]
                 },
@@ -1333,7 +1333,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 2: CPU Architecture Diagram & Fetch-Decode-Execute Flowchart.",
-                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI – Term I Digital Foundation.pdf",
+                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI â€“ Term I Digital Foundation.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1354,7 +1354,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI – Term I Digital Foundation.pdf",
+                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI â€“ Term I Digital Foundation.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Ports connect external devices to motherboard.", "USB is standard universal serial bus."]
                 },
@@ -1376,7 +1376,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 3: Computer Ports & Connectors Matching Worksheet.",
-                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI – Term I Digital Foundation.pdf",
+                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI â€“ Term I Digital Foundation.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1397,7 +1397,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI – Term I Digital Foundation.pdf",
+                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI â€“ Term I Digital Foundation.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["8 bits equal 1 byte.", "1024 Kilobytes equal 1 Megabyte."]
                 },
@@ -1419,7 +1419,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 4: Data Storage Unit Conversions & Revision Challenge.",
-                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI – Term I Digital Foundation.pdf",
+                  pdfUrl: "/asset/6th class/Chapter 1 Computer Fundamentals/Class VI â€“ Term I Digital Foundation.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1453,7 +1453,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/7th class/Class VII – Term I Future Skills.pdf",
+                  pdfUrl: "/asset/7th class/Class VII â€“ Term I Future Skills.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Motherboard acts as the central printed circuit board.", "Buses transport data between CPU and memory."]
                 },
@@ -1475,7 +1475,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 1: Motherboard Component Labeling & Function Matching Worksheet.",
-                  pdfUrl: "/asset/7th class/Class VII – Term I Future Skills.pdf",
+                  pdfUrl: "/asset/7th class/Class VII â€“ Term I Future Skills.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1496,7 +1496,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/7th class/Class VII – Term I Future Skills.pdf",
+                  pdfUrl: "/asset/7th class/Class VII â€“ Term I Future Skills.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["SSD utilizes flash memory chips for high-speed read/write.", "Cloud storage enables remote data backup."]
                 },
@@ -1518,7 +1518,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 2: Storage Media Comparison Table & Speed Calculations.",
-                  pdfUrl: "/asset/7th class/Class VII – Term I Future Skills.pdf",
+                  pdfUrl: "/asset/7th class/Class VII â€“ Term I Future Skills.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1539,7 +1539,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/7th class/Class VII – Term I Future Skills.pdf",
+                  pdfUrl: "/asset/7th class/Class VII â€“ Term I Future Skills.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Biometric sensors scan physical features for authentication.", "3D printers construct physical objects layer by layer."]
                 },
@@ -1561,7 +1561,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 3: Advanced Peripherals & Biometric Security Devices Assignment.",
-                  pdfUrl: "/asset/7th class/Class VII – Term I Future Skills.pdf",
+                  pdfUrl: "/asset/7th class/Class VII â€“ Term I Future Skills.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1582,7 +1582,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/7th class/Class VII – Term I Future Skills.pdf",
+                  pdfUrl: "/asset/7th class/Class VII â€“ Term I Future Skills.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Architecture unites input, output, CPU, and storage.", "Chapter 1 review and self-evaluation."]
                 },
@@ -1604,7 +1604,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 4: Chapter 1 System Architecture Summary & Review Test.",
-                  pdfUrl: "/asset/7th class/Class VII – Term I Future Skills.pdf",
+                  pdfUrl: "/asset/7th class/Class VII â€“ Term I Future Skills.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1638,7 +1638,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII – Graphic Design & Digital Creativity.pdf",
+                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII â€“ Graphic Design & Digital Creativity.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Visual hierarchy guides viewer attention.", "Color harmony creates attractive designs."]
                 },
@@ -1660,7 +1660,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 1: Design an Educational Event Poster in Canva.",
-                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII – Graphic Design & Digital Creativity.pdf",
+                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII â€“ Graphic Design & Digital Creativity.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1681,7 +1681,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII – Graphic Design & Digital Creativity.pdf",
+                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII â€“ Graphic Design & Digital Creativity.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Shapes create structure and visual balance.", "Icons simplify complex concepts."]
                 },
@@ -1703,7 +1703,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 2: Create a Geometric Infographic Banner Worksheet.",
-                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII – Graphic Design & Digital Creativity.pdf",
+                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII â€“ Graphic Design & Digital Creativity.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1724,7 +1724,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII – Graphic Design & Digital Creativity.pdf",
+                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII â€“ Graphic Design & Digital Creativity.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Sans-serif fonts are clean for digital displays.", "Limit designs to 2-3 matching font families."]
                 },
@@ -1746,7 +1746,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 3: Typography Poster & Font Pairing Design Exercise.",
-                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII – Graphic Design & Digital Creativity.pdf",
+                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII â€“ Graphic Design & Digital Creativity.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1767,7 +1767,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII – Graphic Design & Digital Creativity.pdf",
+                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII â€“ Graphic Design & Digital Creativity.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Complementary colors create high-contrast call-outs.", "Color wheel guides harmonious palette selection."]
                 },
@@ -1789,7 +1789,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 4: Create Brand Color Palette & Contrast Test Assignment.",
-                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII – Graphic Design & Digital Creativity.pdf",
+                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII â€“ Graphic Design & Digital Creativity.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1810,7 +1810,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII – Graphic Design & Digital Creativity.pdf",
+                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII â€“ Graphic Design & Digital Creativity.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Certificates require formal symmetrical balance.", "High-resolution PDF print export ensures quality."]
                 },
@@ -1832,7 +1832,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 5: Design a Student Achievement Award Certificate in Canva.",
-                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII – Graphic Design & Digital Creativity.pdf",
+                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII â€“ Graphic Design & Digital Creativity.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1853,7 +1853,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII – Graphic Design & Digital Creativity.pdf",
+                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII â€“ Graphic Design & Digital Creativity.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Design presentation highlights choices.", "Peer review improves composition skills."]
                 },
@@ -1875,7 +1875,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 6: Chapter 1 Portfolio Presentation & Final Design Assessment.",
-                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII – Graphic Design & Digital Creativity.pdf",
+                  pdfUrl: "/asset/8th class/Chapter 1 Canva Basics/Class VIII â€“ Graphic Design & Digital Creativity.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1909,7 +1909,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/9th class/Class IX – Term I.pdf",
+                  pdfUrl: "/asset/9th class/Class IX â€“ Term I.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Data processing converts raw facts into meaningful information.", "CPU coordinates ALU and Control Unit."]
                 },
@@ -1931,7 +1931,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 1: Data Processing Cycle Flow Diagram & System Architecture Mapping.",
-                  pdfUrl: "/asset/9th class/Class IX – Term I.pdf",
+                  pdfUrl: "/asset/9th class/Class IX â€“ Term I.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1952,7 +1952,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/9th class/Class IX – Term I.pdf",
+                  pdfUrl: "/asset/9th class/Class IX â€“ Term I.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Kernel is core OS engine.", "NTFS provides file encryption and security."]
                 },
@@ -1974,7 +1974,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 2: File System Comparison (NTFS vs FAT32) & OS Architecture Chart.",
-                  pdfUrl: "/asset/9th class/Class IX – Term I.pdf",
+                  pdfUrl: "/asset/9th class/Class IX â€“ Term I.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -1995,7 +1995,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/9th class/Class IX – Term I.pdf",
+                  pdfUrl: "/asset/9th class/Class IX â€“ Term I.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Memory hierarchy balances speed and capacity.", "Cache L1/L2/L3 minimizes CPU wait time."]
                 },
@@ -2017,7 +2017,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 3: Memory Unit Conversions & Hierarchy Pyramid Chart.",
-                  pdfUrl: "/asset/9th class/Class IX – Term I.pdf",
+                  pdfUrl: "/asset/9th class/Class IX â€“ Term I.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -2038,7 +2038,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/9th class/Class IX – Term I.pdf",
+                  pdfUrl: "/asset/9th class/Class IX â€“ Term I.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["PCI Express bus provides high bandwidth for graphics cards.", "Data bus is bidirectional."]
                 },
@@ -2060,7 +2060,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 4: Motherboard Bus Architecture & Peripheral Controllers Worksheet.",
-                  pdfUrl: "/asset/9th class/Class IX – Term I.pdf",
+                  pdfUrl: "/asset/9th class/Class IX â€“ Term I.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -2081,7 +2081,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/9th class/Class IX – Term I.pdf",
+                  pdfUrl: "/asset/9th class/Class IX â€“ Term I.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["3-2-1 backup strategy ensures data recovery.", "Defragmentation reorganizes scattered file clusters."]
                 },
@@ -2103,7 +2103,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 5: System Maintenance & Data Security Best Practices Assignment.",
-                  pdfUrl: "/asset/9th class/Class IX – Term I.pdf",
+                  pdfUrl: "/asset/9th class/Class IX â€“ Term I.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -2124,7 +2124,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/9th class/Class IX – Term I.pdf",
+                  pdfUrl: "/asset/9th class/Class IX â€“ Term I.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Chapter 1 comprehensive review.", "Systems architecture self-assessment."]
                 },
@@ -2146,7 +2146,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Activity 6: Chapter 1 Systems Architecture Review & Practice Assessment.",
-                  pdfUrl: "/asset/9th class/Class IX – Term I.pdf",
+                  pdfUrl: "/asset/9th class/Class IX â€“ Term I.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -2180,7 +2180,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/10th class/Class X – Term I syllabus structure.pdf",
+                  pdfUrl: "/asset/10th class/Class X â€“ Term I syllabus structure.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["AI tools assist in organizing research and summarizing complex texts.", "Always cross-verify AI generated citations."]
                 },
@@ -2202,7 +2202,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Class 1 Practical: AI Tool Exploration & Fact-Checking Research Activity.",
-                  pdfUrl: "/asset/10th class/Class X – Term I syllabus structure.pdf",
+                  pdfUrl: "/asset/10th class/Class X â€“ Term I syllabus structure.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -2223,7 +2223,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/10th class/Class X – Term I syllabus structure.pdf",
+                  pdfUrl: "/asset/10th class/Class X â€“ Term I syllabus structure.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Few-shot prompting provides examples to guide model output.", "Specific constraints improve precision."]
                 },
@@ -2245,7 +2245,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Class 2 Practical: Prompt Engineering Lab & Precision Search Assignment.",
-                  pdfUrl: "/asset/10th class/Class X – Term I syllabus structure.pdf",
+                  pdfUrl: "/asset/10th class/Class X â€“ Term I syllabus structure.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -2266,7 +2266,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/10th class/Class X – Term I syllabus structure.pdf",
+                  pdfUrl: "/asset/10th class/Class X â€“ Term I syllabus structure.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["AI summarizes long academic articles into bulleted key points.", "Mind mapping connects concepts visually."]
                 },
@@ -2288,7 +2288,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Class 3 Practical: Research Article Summarization & Cornell Note Synthesis.",
-                  pdfUrl: "/asset/10th class/Class X – Term I syllabus structure.pdf",
+                  pdfUrl: "/asset/10th class/Class X â€“ Term I syllabus structure.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -2309,7 +2309,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/10th class/Class X – Term I syllabus structure.pdf",
+                  pdfUrl: "/asset/10th class/Class X â€“ Term I syllabus structure.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Gantt charts visualize project timelines and dependencies.", "Task boards track team progress."]
                 },
@@ -2331,7 +2331,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Class 4 Practical: Build Project Kanban Board & Milestone Timeline.",
-                  pdfUrl: "/asset/10th class/Class X – Term I syllabus structure.pdf",
+                  pdfUrl: "/asset/10th class/Class X â€“ Term I syllabus structure.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -2352,7 +2352,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/10th class/Class X – Term I syllabus structure.pdf",
+                  pdfUrl: "/asset/10th class/Class X â€“ Term I syllabus structure.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Plagiarism is passing off another's work as own.", "APA/MLA standards format academic citations."]
                 },
@@ -2374,7 +2374,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Class 5 Practical: Academic Citation & AI Ethics Case Study Assignment.",
-                  pdfUrl: "/asset/10th class/Class X – Term I syllabus structure.pdf",
+                  pdfUrl: "/asset/10th class/Class X â€“ Term I syllabus structure.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -2395,7 +2395,7 @@ const COURSES_DATA = {
                 step2TopicPdf: {
                   title: "Step 2: Review Topics Covered",
                   description: "Read detailed topic documentation and concepts.",
-                  pdfUrl: "/asset/10th class/Class X – Term I syllabus structure.pdf",
+                  pdfUrl: "/asset/10th class/Class X â€“ Term I syllabus structure.pdf",
                   fileName: "TOPIC COVERED.pdf",
                   keyConcepts: ["Final research synthesis demonstrates topic mastery.", "Portfolio review checks citations and quality."]
                 },
@@ -2417,7 +2417,7 @@ const COURSES_DATA = {
                   title: "Step 5: Practical Activity & Task Submission",
                   description: "Complete practical assignment.",
                   instructions: "Class 6 Practical: AI Research Project Presentation & Final Portfolio Submission.",
-                  pdfUrl: "/asset/10th class/Class X – Term I syllabus structure.pdf",
+                  pdfUrl: "/asset/10th class/Class X â€“ Term I syllabus structure.pdf",
                   fileName: "practical activities.pdf"
                 }
               }
@@ -2428,3 +2428,4 @@ const COURSES_DATA = {
     }
   ]
 };
+

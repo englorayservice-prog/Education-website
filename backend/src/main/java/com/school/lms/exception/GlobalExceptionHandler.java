@@ -5,6 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
@@ -12,6 +15,8 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<Map<String, Object>> handleBadCredentials(BadCredentialsException ex) {
@@ -34,12 +39,18 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(org.springframework.web.servlet.resource.NoResourceFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleNoResourceFound(org.springframework.web.servlet.resource.NoResourceFoundException ex) {
+    public ResponseEntity<Map<String, Object>> handleNoResourceFound(org.springframework.web.servlet.resource.NoResourceFoundException ex,
+                                                                     HttpServletRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.NOT_FOUND.value());
         body.put("error", "Not Found");
-        body.put("message", "Endpoint or resource not found: " + ex.getResourcePath());
+        String resourcePath = ex.getResourcePath();
+        String requestUri = request.getRequestURI();
+        String query = request.getQueryString();
+        String fullRequest = requestUri + (query != null ? "?" + query : "");
+        logger.warn("No resource found. requestUri={} resourcePath={}", fullRequest, resourcePath);
+        body.put("message", "Endpoint or resource not found: " + (resourcePath != null ? resourcePath : fullRequest));
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
