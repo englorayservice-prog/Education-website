@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/grade-*/**", "destination": "/frontend/index.html" },
+    { "source": "/styles.css", "destination": "/frontend/styles.css" },
+    { "source": "/app.js", "destination": "/frontend/app.js" },
+    { "source": "/coursesData.js", "destination": "/frontend/coursesData.js" },
+    { "source": "/config.js", "destination": "/frontend/config.js" },
+    { "source": "/logo.png", "destination": "/frontend/logo.png" },
+    { "source": "/", "destination": "/frontend/index.html" }
+  ]
+}

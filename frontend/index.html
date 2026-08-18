@@ -109,15 +109,15 @@
             </div>
 
             <div class="step-body">
-              <div class="video-container">
-                <iframe id="youtubeIframe" src="https://www.youtube.com/embed/Iv8X7aLikLE" title="Class Video"
+              <div class="video-container" id="videoContainer">
+                <iframe id="youtubeIframe" src="https://www.youtube.com/embed/Iv8X7aLikLE?enablejsapi=1&origin=http://localhost:3000" title="Class Video"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen>
                 </iframe>
               </div>
               <div class="step-actions">
-                <button class="btn btn-primary" id="btnCompleteStep1">
-                  <i class="fa-solid fa-circle-check"></i> Mark Video as Watched
+                <button class="btn btn-primary" id="btnCompleteStep1" disabled>
+                  <i class="fa-solid fa-lock"></i> Mark Video as Watched
                 </button>
               </div>
             </div>
@@ -160,8 +160,8 @@
               </div>
 
               <div class="step-actions">
-                <button class="btn btn-primary" id="btnCompleteStep2">
-                  <i class="fa-solid fa-book-open-reader"></i> Confirm Topic Reviewed
+                <button class="btn btn-primary" id="btnCompleteStep2" disabled>
+                  <i class="fa-solid fa-lock"></i> Confirm Topic Reviewed
                 </button>
               </div>
             </div>
@@ -199,8 +199,8 @@
               </div>
 
               <div class="step-actions">
-                <button class="btn btn-primary" id="btnCompleteStep3">
-                  <i class="fa-solid fa-square-check"></i> Mark Activity Complete
+                <button class="btn btn-primary" id="btnCompleteStep3" disabled>
+                  <i class="fa-solid fa-lock"></i> Mark Activity Complete
                 </button>
               </div>
             </div>
@@ -236,8 +236,8 @@
                 </div>
 
                 <div class="step-actions">
-                  <button class="btn btn-success" id="btnSubmitQuiz">
-                    <i class="fa-solid fa-paper-plane"></i> Submit Quiz Answers
+                  <button class="btn btn-success" id="btnSubmitQuiz" disabled>
+                    <i class="fa-solid fa-lock"></i> Submit Quiz Answers
                   </button>
                 </div>
               </div>
@@ -303,8 +303,8 @@
                   <i class="fa-solid fa-envelope input-email-icon"></i>
                   <input type="email" id="studentEmailInput" class="compact-email-input" placeholder="Enter student email (required) *" required>
                 </div>
-                <button class="btn btn-primary btn-lg" id="btnSubmitTask">
-                  <i class="fa-solid fa-upload"></i> Upload & Submit Assignment
+                <button class="btn btn-primary btn-lg" id="btnSubmitTask" disabled>
+                  <i class="fa-solid fa-lock"></i> Upload & Submit Assignment
                 </button>
               </div>
             </div>

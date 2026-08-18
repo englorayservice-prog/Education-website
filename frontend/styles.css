@@ -1165,6 +1165,24 @@ p, span, li, a {
   background: var(--bg-blue-light);
 }
 
+.btn:disabled,
+.btn[disabled],
+.btn.disabled {
+  background-color: #CBD5E1 !important;
+  color: #64748B !important;
+  border-color: #CBD5E1 !important;
+  box-shadow: none !important;
+  opacity: 0.65;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.btn:disabled:hover,
+.btn[disabled]:hover {
+  background-color: #CBD5E1 !important;
+  color: #64748B !important;
+}
+
 /* Right Sidebar Styling */
 .sidebar-content {
   display: flex;

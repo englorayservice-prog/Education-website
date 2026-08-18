@@ -4,16 +4,40 @@
    Supports clean URL routing: /grade-3/chapter-1/class-1, /grade-5/chapter-1/overview, etc.
    ========================================================================== */
 
+// Load YouTube IFrame API
+(function() {
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
   // LMS Application State
   const state = {
     currentClassId: 6, // Default Class ID
     currentView: 'learning', // 'learning' or 'overview'
     completedStepsPerClass: {},
+    prerequisitesPerClass: {}, // Track videoWatched, docOpened, websiteOpened per classId
     unlockedClassIds: [6, 7, 301, 401, 601, 701, 801, 901, 1001], // Class 1 unlocked across all grades
     selectedQuizOptionId: null,
-    selectedFile: null
+    selectedFile: null,
+    websiteCountdownTimer: null, // Active website 20-sec countdown
+    youtubePlayer: null          // YouTube IFrame API player instance
   };
+
+  // Helper to ensure prerequisite state object exists per class
+  function getPrerequisites(classId) {
+    if (!state.prerequisitesPerClass[classId]) {
+      const isDone = state.completedStepsPerClass[classId] || {};
+      state.prerequisitesPerClass[classId] = {
+        videoWatched: !!isDone.step1Video,
+        docOpened: !!isDone.step2TopicPdf,
+        websiteOpened: !!isDone.step3Website
+      };
+    }
+    return state.prerequisitesPerClass[classId];
+  }
 
   // DOM Element Selectors
   const elements = {
@@ -34,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     step1Title: document.getElementById('step1Title'),
     step1Desc: document.getElementById('step1Desc'),
     youtubeIframe: document.getElementById('youtubeIframe'),
+    videoContainer: document.getElementById('videoContainer'),
     btnCompleteStep1: document.getElementById('btnCompleteStep1'),
     step1StatusBadge: document.getElementById('step1StatusBadge'),
 
@@ -287,10 +312,16 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.classTopicTitle.textContent = classData.title;
     elements.classTopicDescription.textContent = classData.description;
 
-    // Step 1: Video
+    // Step 1: Video — ensure enablejsapi=1 & origin are always present for YT IFrame API
     elements.step1Title.textContent = classData.steps.step1Video.title;
     elements.step1Desc.textContent = classData.steps.step1Video.description;
-    elements.youtubeIframe.src = classData.steps.step1Video.videoUrl;
+    let videoUrl = classData.steps.step1Video.videoUrl || '';
+    if (videoUrl) {
+      const sep = videoUrl.includes('?') ? '&' : '?';
+      if (!videoUrl.includes('enablejsapi')) videoUrl += sep + 'enablejsapi=1';
+      if (!videoUrl.includes('origin')) videoUrl += '&origin=' + encodeURIComponent(window.location.origin);
+    }
+    elements.youtubeIframe.src = videoUrl;
 
     // Step 2: Topics PDF
     elements.step2Title.textContent = classData.steps.step2TopicPdf.title;
@@ -324,6 +355,11 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.linkPracticalPdf.href = classData.steps.step5Task.pdfUrl;
 
     // Reset / Restore Step UI Statuses for this Class
+    // Also clear any active website countdown from a previous class
+    if (state.websiteCountdownTimer) {
+      clearInterval(state.websiteCountdownTimer);
+      state.websiteCountdownTimer = null;
+    }
     restoreClassStepUIState(classId);
 
     // Render Sidebar Navigation & Assets
@@ -382,6 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
             radio.checked = true;
             state.selectedQuizAnswers[qIdx] = parseInt(radio.value);
             card.classList.remove('unanswered-warning');
+            updatePrerequisiteButtons();
           }
         });
       });
@@ -552,43 +589,272 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast(`Switched to ${targetGrade.gradeName} - ${firstChapter.chapterTitle}`, 'success');
   }
 
-  // 8. Step Completion Actions
+  // 8. Dynamic Prerequisite Logic & Step Completion Actions
+  function updatePrerequisiteButtons() {
+    const classId = state.currentClassId;
+    const prereqs = getPrerequisites(classId);
+    const completed = state.completedStepsPerClass[classId] || {};
+
+    // Step 1: Video
+    if (completed.step1Video) {
+      if (elements.btnCompleteStep1) {
+        elements.btnCompleteStep1.disabled = false;
+        elements.btnCompleteStep1.className = 'btn btn-outline';
+        elements.btnCompleteStep1.innerHTML = '<i class="fa-solid fa-check-double"></i> Step 1 Completed';
+      }
+    } else if (prereqs.videoWatched) {
+      if (elements.btnCompleteStep1) {
+        elements.btnCompleteStep1.disabled = false;
+        elements.btnCompleteStep1.className = 'btn btn-primary';
+        elements.btnCompleteStep1.innerHTML = '<i class="fa-solid fa-circle-check"></i> Mark Video as Watched';
+      }
+    } else {
+      if (elements.btnCompleteStep1) {
+        elements.btnCompleteStep1.disabled = true;
+        elements.btnCompleteStep1.className = 'btn btn-primary';
+        elements.btnCompleteStep1.innerHTML = '<i class="fa-solid fa-lock"></i> Mark Video as Watched (Watch Full Video First)';
+      }
+    }
+
+    // Step 2: PDF Document
+    if (completed.step2TopicPdf) {
+      if (elements.btnCompleteStep2) {
+        elements.btnCompleteStep2.disabled = false;
+        elements.btnCompleteStep2.className = 'btn btn-outline';
+        elements.btnCompleteStep2.innerHTML = '<i class="fa-solid fa-check-double"></i> Step 2 Completed';
+      }
+    } else if (prereqs.docOpened) {
+      if (elements.btnCompleteStep2) {
+        elements.btnCompleteStep2.disabled = false;
+        elements.btnCompleteStep2.className = 'btn btn-primary';
+        elements.btnCompleteStep2.innerHTML = '<i class="fa-solid fa-book-open-reader"></i> Confirm Topic Reviewed';
+      }
+    } else {
+      if (elements.btnCompleteStep2) {
+        elements.btnCompleteStep2.disabled = true;
+        elements.btnCompleteStep2.className = 'btn btn-primary';
+        elements.btnCompleteStep2.innerHTML = '<i class="fa-solid fa-lock"></i> Confirm Topic Reviewed (Open PDF First)';
+      }
+    }
+
+    // Step 3: Website Activity
+    if (completed.step3Website) {
+      if (elements.btnCompleteStep3) {
+        elements.btnCompleteStep3.disabled = false;
+        elements.btnCompleteStep3.className = 'btn btn-outline';
+        elements.btnCompleteStep3.innerHTML = '<i class="fa-solid fa-check-double"></i> Step 3 Completed';
+      }
+    } else if (prereqs.websiteOpened) {
+      if (elements.btnCompleteStep3) {
+        elements.btnCompleteStep3.disabled = false;
+        elements.btnCompleteStep3.className = 'btn btn-primary';
+        elements.btnCompleteStep3.innerHTML = '<i class="fa-solid fa-square-check"></i> Mark Activity Complete';
+      }
+    } else {
+      if (elements.btnCompleteStep3) {
+        elements.btnCompleteStep3.disabled = true;
+        elements.btnCompleteStep3.className = 'btn btn-primary';
+        elements.btnCompleteStep3.innerHTML = '<i class="fa-solid fa-lock"></i> Mark Activity Complete (Launch Portal First)';
+      }
+    }
+
+    // Step 4: Quiz
+    const classData = COURSES_DATA.classes ? COURSES_DATA.classes.find(c => c.id === classId) : null;
+    const questions = classData?.steps?.step4Quiz?.questions || [];
+    const answeredCount = Object.keys(state.selectedQuizAnswers || {}).length;
+    const totalQuestions = questions.length || 5;
+    const allQuizAnswered = totalQuestions > 0 && answeredCount >= totalQuestions;
+
+    if (completed.step4Quiz) {
+      if (elements.btnSubmitQuiz) {
+        elements.btnSubmitQuiz.disabled = false;
+        elements.btnSubmitQuiz.className = 'btn btn-success';
+        elements.btnSubmitQuiz.innerHTML = '<i class="fa-solid fa-check-double"></i> Quiz Completed';
+      }
+    } else if (allQuizAnswered) {
+      if (elements.btnSubmitQuiz) {
+        elements.btnSubmitQuiz.disabled = false;
+        elements.btnSubmitQuiz.className = 'btn btn-success';
+        elements.btnSubmitQuiz.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Quiz Answers';
+      }
+    } else {
+      if (elements.btnSubmitQuiz) {
+        elements.btnSubmitQuiz.disabled = true;
+        elements.btnSubmitQuiz.className = 'btn btn-success disabled';
+        elements.btnSubmitQuiz.innerHTML = `<i class="fa-solid fa-lock"></i> Submit Quiz Answers (${answeredCount}/${totalQuestions} Answered)`;
+      }
+    }
+
+    // Step 5: Task Upload
+    const emailVal = elements.studentEmailInput ? elements.studentEmailInput.value.trim() : '';
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailRegex.test(emailVal);
+    const isDocUploaded = !!state.selectedFile;
+
+    if (completed.step5Task) {
+      if (elements.btnSubmitTask) {
+        elements.btnSubmitTask.disabled = false;
+        elements.btnSubmitTask.className = 'btn btn-primary btn-lg';
+        elements.btnSubmitTask.innerHTML = '<i class="fa-solid fa-check-double"></i> Assignment Submitted';
+      }
+    } else if (isDocUploaded && isEmailValid) {
+      if (elements.btnSubmitTask) {
+        elements.btnSubmitTask.disabled = false;
+        elements.btnSubmitTask.className = 'btn btn-primary btn-lg';
+        elements.btnSubmitTask.innerHTML = '<i class="fa-solid fa-upload"></i> Upload & Submit Assignment';
+      }
+    } else {
+      if (elements.btnSubmitTask) {
+        elements.btnSubmitTask.disabled = true;
+        elements.btnSubmitTask.className = 'btn btn-primary btn-lg disabled';
+        let missing = [];
+        if (!isDocUploaded) missing.push('Attach File');
+        if (!isEmailValid) missing.push('Enter Email');
+        elements.btnSubmitTask.innerHTML = `<i class="fa-solid fa-lock"></i> Upload & Submit Assignment (${missing.join(' & ')})`;
+      }
+    }
+  }
+
   function setupStepActions() {
-    // Step 1 Video
-    elements.btnCompleteStep1?.addEventListener('click', () => {
+    // ── Step 2: PDF Link ─────────────────────────────────────────────────────
+    // Use a single 'click' listener via event delegation so the link still opens normally
+    document.addEventListener('click', (e) => {
+      const pdfLink = e.target.closest('#linkTopicPdf');
+      if (pdfLink) {
+        // Link opens in new tab — mark as opened immediately
+        const p = getPrerequisites(state.currentClassId);
+        if (!p.docOpened) {
+          p.docOpened = true;
+          showToast('📄 PDF Document opened! "Confirm Topic Reviewed" button is now unlocked.', 'info');
+          updatePrerequisiteButtons();
+        }
+      }
+
+      // ── Step 3: Website Link — start 20-second countdown ─────────────────
+      const webLink = e.target.closest('#linkWebsite');
+      if (webLink) {
+        const p = getPrerequisites(state.currentClassId);
+        if (!p.websiteOpened) {
+          // Clear any existing countdown
+          if (state.websiteCountdownTimer) {
+            clearInterval(state.websiteCountdownTimer);
+            state.websiteCountdownTimer = null;
+          }
+
+          let secondsLeft = 20;
+          showToast(`🌐 Website opened! Stay on the site for 20 seconds to unlock Step 3.`, 'info');
+
+          // Update Step 3 button with a live countdown
+          const updateCountdownBtn = () => {
+            if (elements.btnCompleteStep3 && !p.websiteOpened) {
+              elements.btnCompleteStep3.disabled = true;
+              elements.btnCompleteStep3.className = 'btn btn-primary';
+              elements.btnCompleteStep3.innerHTML =
+                `<i class="fa-solid fa-clock"></i> Mark Activity Complete (Wait ${secondsLeft}s...)`;
+            }
+          };
+          updateCountdownBtn();
+
+          state.websiteCountdownTimer = setInterval(() => {
+            secondsLeft--;
+            if (secondsLeft > 0) {
+              updateCountdownBtn();
+            } else {
+              clearInterval(state.websiteCountdownTimer);
+              state.websiteCountdownTimer = null;
+              p.websiteOpened = true;
+              showToast('✅ 20 seconds completed! Step 3 "Mark Activity Complete" button is now unlocked.', 'success');
+              updatePrerequisiteButtons();
+            }
+          }, 1000);
+        }
+      }
+    });
+
+    // ── Step 1: YouTube IFrame API Video Completion ───────────────────────────
+    // Initialize YouTube Player via IFrame API so we can detect video ended
+    function initYouTubePlayer() {
+      const iframe = document.getElementById('youtubeIframe');
+      if (!iframe) return;
+
+      if (window.YT && window.YT.Player) {
+        state.youtubePlayer = new YT.Player('youtubeIframe', {
+          events: {
+            onStateChange: (event) => {
+              // YT.PlayerState.ENDED = 0
+              if (event.data === YT.PlayerState.ENDED) {
+                const p = getPrerequisites(state.currentClassId);
+                if (!p.videoWatched) {
+                  p.videoWatched = true;
+                  showToast('🎬 Video completed! "Mark Video as Watched" button is now unlocked.', 'success');
+                  updatePrerequisiteButtons();
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    // YouTube IFrame API calls this global function when ready
+    if (!window.onYouTubeIframeAPIReady) {
+      window.onYouTubeIframeAPIReady = () => {
+        initYouTubePlayer();
+      };
+    } else {
+      // API already loaded (e.g. page was not refreshed)
+      initYouTubePlayer();
+    }
+
+    // Step 1 Video Button
+    elements.btnCompleteStep1?.addEventListener('click', (e) => {
+      if (elements.btnCompleteStep1.disabled) {
+        e.preventDefault();
+        showToast('REQUIREMENT: Please watch/play the lesson video before marking Step 1 complete!', 'error');
+        return;
+      }
       state.completedStepsPerClass[state.currentClassId].step1Video = true;
       markStepBadgeCompleted(elements.step1StatusBadge, 'Watched');
-      elements.btnCompleteStep1.classList.remove('btn-primary');
-      elements.btnCompleteStep1.classList.add('btn-outline');
-      elements.btnCompleteStep1.innerHTML = '<i class="fa-solid fa-check-double"></i> Step 1 Completed';
+      updatePrerequisiteButtons();
       showToast('Step 1 Complete: Lesson Video Watched!', 'success');
       updateProgressUI();
     });
 
-    // Step 2 Topic PDF
-    elements.btnCompleteStep2?.addEventListener('click', () => {
+    // Step 2 Topic PDF Button
+    elements.btnCompleteStep2?.addEventListener('click', (e) => {
+      if (elements.btnCompleteStep2.disabled) {
+        e.preventDefault();
+        showToast('REQUIREMENT: Please click "Open PDF Document" to review topics before confirming!', 'error');
+        return;
+      }
       state.completedStepsPerClass[state.currentClassId].step2TopicPdf = true;
       markStepBadgeCompleted(elements.step2StatusBadge, 'Reviewed');
-      elements.btnCompleteStep2.classList.remove('btn-primary');
-      elements.btnCompleteStep2.classList.add('btn-outline');
-      elements.btnCompleteStep2.innerHTML = '<i class="fa-solid fa-check-double"></i> Step 2 Completed';
+      updatePrerequisiteButtons();
       showToast('Step 2 Complete: Topics Reviewed!', 'success');
       updateProgressUI();
     });
 
-    // Step 3 Website Activity
-    elements.btnCompleteStep3?.addEventListener('click', () => {
+    // Step 3 Website Activity Button
+    elements.btnCompleteStep3?.addEventListener('click', (e) => {
+      if (elements.btnCompleteStep3.disabled) {
+        e.preventDefault();
+        showToast('REQUIREMENT: Please click "Launch Portal" to open the educational website before marking complete!', 'error');
+        return;
+      }
       state.completedStepsPerClass[state.currentClassId].step3Website = true;
       markStepBadgeCompleted(elements.step3StatusBadge, 'Visited');
-      elements.btnCompleteStep3.classList.remove('btn-primary');
-      elements.btnCompleteStep3.classList.add('btn-outline');
-      elements.btnCompleteStep3.innerHTML = '<i class="fa-solid fa-check-double"></i> Step 3 Completed';
+      updatePrerequisiteButtons();
       showToast('Step 3 Complete: Interactive Website Activity!', 'success');
       updateProgressUI();
     });
 
-    // Step 4 Quiz Submission (Mandatory 5 Questions)
-    elements.btnSubmitQuiz?.addEventListener('click', () => {
+    // Step 4 Quiz Submission
+    elements.btnSubmitQuiz?.addEventListener('click', (e) => {
+      if (elements.btnSubmitQuiz.disabled) {
+        e.preventDefault();
+        showToast('REQUIREMENT: Please answer ALL quiz questions before submitting!', 'error');
+        return;
+      }
       const classData = COURSES_DATA.classes.find(c => c.id === state.currentClassId);
       const questions = classData?.steps?.step4Quiz?.questions || [];
 
@@ -643,6 +909,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast(`Quiz Failed (${scorePercent}%). Review topic and retry!`, 'error');
       }
 
+      updatePrerequisiteButtons();
       updateProgressUI();
     });
   }
@@ -657,6 +924,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.target.files.length > 0) {
         handleFileSelected(e.target.files[0]);
       }
+    });
+
+    elements.studentEmailInput?.addEventListener('input', () => {
+      updatePrerequisiteButtons();
     });
 
     elements.dropzone?.addEventListener('dragover', (e) => {
@@ -680,9 +951,15 @@ document.addEventListener('DOMContentLoaded', () => {
       state.selectedFile = null;
       elements.fileInput.value = '';
       elements.selectedFileInfo.classList.add('hidden');
+      updatePrerequisiteButtons();
     });
 
-    elements.btnSubmitTask?.addEventListener('click', () => {
+    elements.btnSubmitTask?.addEventListener('click', (e) => {
+      if (elements.btnSubmitTask.disabled) {
+        e.preventDefault();
+        showToast('REQUIREMENT: Please attach your completed assignment worksheet and enter student email first!', 'error');
+        return;
+      }
       const emailInput = elements.studentEmailInput;
       const emailValue = emailInput ? emailInput.value.trim() : '';
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -762,6 +1039,7 @@ document.addEventListener('DOMContentLoaded', () => {
       elements.submissionMetaText.innerHTML = `File: <strong>${state.selectedFile.name}</strong> • Student Email: <strong>${emailValue}</strong> • Status: SUBMITTED FOR REVIEW`;
 
       showToast(`Step 5 Task Submitted Successfully for ${emailValue}!`, 'success');
+      updatePrerequisiteButtons();
       updateProgressUI();
     });
   }
@@ -771,6 +1049,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.fileNameDisplay.textContent = file.name;
     elements.selectedFileInfo.classList.remove('hidden');
     showToast(`File selected: ${file.name}`, 'info');
+    updatePrerequisiteButtons();
   }
 
   // 10. Class & Step Progress Calculations
@@ -836,37 +1115,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Step 1
     if (p.step1Video) {
       markStepBadgeCompleted(elements.step1StatusBadge, 'Watched');
-      elements.btnCompleteStep1.classList.remove('btn-primary');
-      elements.btnCompleteStep1.classList.add('btn-outline');
-      elements.btnCompleteStep1.innerHTML = '<i class="fa-solid fa-check-double"></i> Step 1 Completed';
     } else {
       resetStepBadge(elements.step1StatusBadge, 'Step 1');
-      elements.btnCompleteStep1.className = 'btn btn-primary btn-md';
-      elements.btnCompleteStep1.innerHTML = '<i class="fa-solid fa-circle-check"></i> Mark Video as Completed';
     }
 
     // Step 2
     if (p.step2TopicPdf) {
       markStepBadgeCompleted(elements.step2StatusBadge, 'Reviewed');
-      elements.btnCompleteStep2.classList.remove('btn-primary');
-      elements.btnCompleteStep2.classList.add('btn-outline');
-      elements.btnCompleteStep2.innerHTML = '<i class="fa-solid fa-check-double"></i> Step 2 Completed';
     } else {
       resetStepBadge(elements.step2StatusBadge, 'Step 2');
-      elements.btnCompleteStep2.className = 'btn btn-primary btn-md';
-      elements.btnCompleteStep2.innerHTML = '<i class="fa-solid fa-circle-check"></i> Mark Topic PDF as Read';
     }
 
     // Step 3
     if (p.step3Website) {
       markStepBadgeCompleted(elements.step3StatusBadge, 'Visited');
-      elements.btnCompleteStep3.classList.remove('btn-primary');
-      elements.btnCompleteStep3.classList.add('btn-outline');
-      elements.btnCompleteStep3.innerHTML = '<i class="fa-solid fa-check-double"></i> Step 3 Completed';
     } else {
       resetStepBadge(elements.step3StatusBadge, 'Step 3');
-      elements.btnCompleteStep3.className = 'btn btn-primary btn-md';
-      elements.btnCompleteStep3.innerHTML = '<i class="fa-solid fa-circle-check"></i> Mark Activity Completed';
     }
 
     // Step 4 Quiz
@@ -889,6 +1153,8 @@ document.addEventListener('DOMContentLoaded', () => {
       resetStepBadge(elements.step5StatusBadge, 'Step 5');
       elements.submissionStatusBox.classList.add('hidden');
     }
+
+    updatePrerequisiteButtons();
   }
 
   function markStepBadgeCompleted(badgeElement, text) {
