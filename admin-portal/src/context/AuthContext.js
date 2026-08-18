@@ -4,8 +4,13 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem('lms_admin_user');
-    return storedUser ? JSON.parse(storedUser) : null;
+    try {
+      const storedUser = localStorage.getItem('lms_admin_user');
+      return (storedUser && storedUser !== 'undefined') ? JSON.parse(storedUser) : null;
+    } catch (e) {
+      console.warn('Failed to parse stored admin user:', e);
+      return null;
+    }
   });
 
   const loginUser = (userData, token) => {

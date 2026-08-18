@@ -1323,8 +1323,14 @@ export const getStoredSubmissions = () => {
   const adminData = localStorage.getItem('lms_admin_submissions');
   const studentData = localStorage.getItem('engloray_student_submissions');
   
-  let adminSubs = adminData ? JSON.parse(adminData) : [];
-  let studentSubs = studentData ? JSON.parse(studentData) : [];
+  let adminSubs = [];
+  let studentSubs = [];
+  try {
+    if (adminData && adminData !== 'undefined') adminSubs = JSON.parse(adminData);
+  } catch (e) {}
+  try {
+    if (studentData && studentData !== 'undefined') studentSubs = JSON.parse(studentData);
+  } catch (e) {}
 
   const map = new Map();
   const combine = [...studentSubs, ...adminSubs];
@@ -1405,7 +1411,12 @@ export const getStoredCourses = () => {
 
 export const getStoredAdmins = () => {
   const data = localStorage.getItem('lms_admin_admins');
-  return data ? JSON.parse(data) : INITIAL_ADMINS;
+  if (data && data !== 'undefined') {
+    try {
+      return JSON.parse(data);
+    } catch (e) {}
+  }
+  return INITIAL_ADMINS;
 };
 
 export const saveStoredAdmins = (admins) => {
