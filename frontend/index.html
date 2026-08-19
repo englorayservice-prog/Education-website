@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Engloray Learning LMS - Grade 5 Computer Skills</title>
-  <meta name="description" content="Interactive Class 5 Learning Management System - Chapter 1 Computer Fundamentals">
+  <title>Engloray Learning - Complete Digital Education Ecosystem</title>
+  <meta name="description" content="Engloray Learning Platform - Student and Mentor Portal">
   <base href="/">
 
   <!-- Google Fonts: Inter & Outfit -->
@@ -22,352 +22,1540 @@
 </head>
 
 <body>
-  <!-- Top Navigation Header -->
-  <header class="app-header">
-    <div class="header-container">
-      <div class="header-top-row">
-        <div class="brand-logo" id="logoHeaderHome" style="cursor: pointer;">
-          <img src="/logo.png" alt="Engloray Learning Logo" class="logo-image">
-          <div class="logo-text">
-            <!-- <span class="brand-title">ENGLORAY LEARNING</span> -->
-            <!-- <span class="brand-subtitle">LMS Platform</span> -->
-          </div>
-        </div>
+
+  <!-- ==========================================================================
+       VIEW 1: BASE44 LOGIN ROLE SELECTION PAGE (/login)
+       ========================================================================== -->
+  <section id="loginRoleSelectPage" class="auth-page-wrapper">
+    <div class="auth-center-container">
+      <div class="auth-logo-header">
+        <img src="/logo.png" alt="Engloray Learning Logo" class="auth-logo-img">
+        <h1 class="auth-main-title">Engloray Learning</h1>
+        <p class="auth-main-subtitle">A complete digital education ecosystem.</p>
       </div>
 
-      <div class="course-breadcrumb">
-        <span id="gradeDisplayBadge" class="grade-display-badge">Grade 3</span>
-        <i class="fa-solid fa-chevron-right breadcrumb-separator"></i>
-        <span class="breadcrumb-item">Term 1</span>
-        <i class="fa-solid fa-chevron-right breadcrumb-separator"></i>
-        <span class="breadcrumb-item active" id="breadcrumbChapterTitle">Chapter 1: Computer Skills</span>
+      <div class="role-cards-grid">
+        <!-- Student / Parent Role Card -->
+        <div class="role-card" id="cardStudentRole">
+          <div class="role-icon-box blue-box">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <h2 class="role-card-title">Student / Parent</h2>
+          <p class="role-card-desc">Access lessons, assignments, attendance and progress.</p>
+          <div class="role-card-action">
+            <span>Continue &rarr;</span>
+          </div>
+        </div>
+
+        <!-- Mentor Role Card -->
+        <div class="role-card" id="cardMentorRole">
+          <div class="role-icon-box blue-box">
+            <i class="fa-solid fa-user-gear"></i>
+          </div>
+          <h2 class="role-card-title">Mentor</h2>
+          <p class="role-card-desc">Manage classes, content, attendance and approvals.</p>
+          <div class="role-card-action">
+            <span>Continue &rarr;</span>
+          </div>
+        </div>
       </div>
     </div>
-  </header>
+  </section>
 
-  <!-- Main Container -->
-  <main class="app-container">
+  <!-- ==========================================================================
+       VIEW 2A: STUDENT & PARENT SIGN-IN FORM PAGE (/login/student)
+       ========================================================================== -->
+  <section id="studentSignInPage" class="auth-page-wrapper hidden">
+    <div class="auth-center-container">
+      <div class="auth-logo-header">
+        <img src="/logo.png" alt="Engloray Learning Logo" class="auth-logo-img">
+        <h1 class="auth-main-title">Engloray Learning</h1>
+        <p class="auth-main-subtitle">A complete digital education ecosystem.</p>
+      </div>
 
-    <!-- VIEW 1: COURSE OVERVIEW PAGE (GRID OF ALL CLASSES FOR GRADE 5) -->
-    <section id="courseOverviewPage" class="course-overview-container hidden">
-      <div class="overview-hero-card">
-        <div class="hero-badge">
-          <span class="badge badge-primary" style="background: rgba(255,255,255,0.2); color: white; border: none;">
-            <i class="fa-solid fa-book-open"></i> Grade 5 • Term 1
-          </span>
+      <div class="auth-form-card">
+        <button type="button" class="btn-back-link" id="btnBackFromStudentSignIn">
+          <i class="fa-solid fa-arrow-left"></i> Back
+        </button>
+
+        <h2 class="form-card-title">Student & Parent sign in</h2>
+        <p class="form-card-subtitle">Welcome back to your learning space.</p>
+
+        <button type="button" class="btn-google-auth" id="btnStudentGoogleSignIn">
+          <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <div class="auth-divider">
+          <span>or</span>
         </div>
-        <h1>Chapter 1: Computer Skills & Hardware Devices</h1>
-        <p>Explore computer fundamentals, input/output peripherals, digital ethics, and practical activity worksheets.
-        </p>
-      </div>
 
-      <div class="classes-grid-header">
-        <h2><i class="fa-solid fa-list-check text-blue"></i> Daily Classes Schedule</h2>
-        <p>Click on any unlocked class to open its 5-step interactive learning page.</p>
-      </div>
-
-      <div class="classes-grid" id="courseClassesGrid">
-        <!-- Dynamically rendered from coursesData.js -->
-      </div>
-    </section>
-
-    <!-- VIEW 2: DYNAMIC 5-STEP CLASS LEARNING PAGE -->
-    <section id="classLearningPage" class="content-grid">
-
-      <!-- Left Main Column (70%) -->
-      <div class="main-content">
-
-        <!-- Class Header & Title Card -->
-        <div class="class-hero-card">
-          <div class="hero-badge">
-            <span class="badge badge-accent" id="activeDayBadge">Class 1 of 4</span>
-            <span class="badge badge-success" id="overallCompletionBadge"><i class="fa-solid fa-spinner fa-spin"></i> In
-              Progress (0/5 Steps)</span>
+        <form id="studentLoginForm">
+          <div class="form-group">
+            <label for="studentSignInEmail">Email</label>
+            <div class="input-with-icon">
+              <i class="fa-regular fa-envelope input-icon"></i>
+              <input type="email" id="studentSignInEmail" placeholder="you@example.com" value="student5@school.com" required>
+            </div>
           </div>
-          <h1 class="class-title" id="classTopicTitle">Class 1: Computer Fundamentals, Hardware Devices & Computer
-            System</h1>
-          <p class="class-description" id="classTopicDescription">
-            Topics Covered: Introduction to Computers, Computer Fundamentals, Computer System...
-          </p>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="studentSignInPassword">Password</label>
+              <a href="#" class="forgot-link" onclick="alert('Please contact admin to reset your password.'); return false;">Forgot password?</a>
+            </div>
+            <div class="input-with-icon">
+              <i class="fa-solid fa-lock input-icon"></i>
+              <input type="password" id="studentSignInPassword" placeholder="••••••••" value="student123" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit-primary" id="btnStudentSignInSubmit">Sign in</button>
+        </form>
+
+        <div class="auth-card-footer">
+          <span>New here? </span>
+          <a href="#" class="auth-link" id="btnLinkGoToRegister">Create an account</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       VIEW 2B: MENTOR SIGN-IN FORM PAGE (/login/mentor)
+       ========================================================================== -->
+  <section id="mentorSignInPage" class="auth-page-wrapper hidden">
+    <div class="auth-center-container">
+      <div class="auth-logo-header">
+        <img src="/logo.png" alt="Engloray Learning Logo" class="auth-logo-img">
+        <h1 class="auth-main-title">Engloray Learning</h1>
+        <p class="auth-main-subtitle">A complete digital education ecosystem.</p>
+      </div>
+
+      <div class="auth-form-card">
+        <button type="button" class="btn-back-link" id="btnBackToRoleSelect">
+          <i class="fa-solid fa-arrow-left"></i> Back
+        </button>
+
+        <h2 class="form-card-title">Mentor sign in</h2>
+        <p class="form-card-subtitle">Only authorised Mentor accounts can access this area.</p>
+
+        <button type="button" class="btn-google-auth" id="btnGoogleSignIn">
+          <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <div class="auth-divider">
+          <span>or</span>
         </div>
 
-        <!-- 5 Ordered Learning Steps Container -->
-        <div class="steps-wrapper">
+        <form id="mentorLoginForm">
+          <div class="form-group">
+            <label for="mentorEmailInput">Email</label>
+            <div class="input-with-icon">
+              <i class="fa-regular fa-envelope input-icon"></i>
+              <input type="email" id="mentorEmailInput" placeholder="you@example.com" value="mentor@engloray.com" required>
+            </div>
+          </div>
 
-          <!-- Step 1: Watch Video -->
-          <article class="step-card" id="step1Container">
-            <div class="step-header">
-              <div class="step-number-badge step-1">a</div>
-              <div class="step-header-text">
-                <h3 id="step1Title">Step 1: Watch Class Video</h3>
-                <p id="step1Desc">Watch the complete lesson video to understand hardware devices & computer
-                  fundamentals.</p>
-              </div>
-              <div class="step-status" id="step1StatusBadge">
-                <span class="badge badge-neutral"><i class="fa-regular fa-circle"></i> Pending</span>
-              </div>
+          <div class="form-group">
+            <div class="label-row">
+              <label for="mentorPasswordInput">Password</label>
+              <a href="#" class="forgot-link" onclick="alert('Please contact admin to reset your password.'); return false;">Forgot password?</a>
+            </div>
+            <div class="input-with-icon">
+              <i class="fa-solid fa-lock input-icon"></i>
+              <input type="password" id="mentorPasswordInput" placeholder="••••••••" value="password123" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit-primary" id="btnMentorSignIn">Sign in</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       VIEW 2C: REGISTRATION / ACCOUNT CREATION PAGE (/register)
+       ========================================================================== -->
+  <section id="registerPage" class="auth-page-wrapper hidden">
+    <div class="auth-center-container">
+      <div class="auth-logo-header">
+        <img src="/logo.png" alt="Engloray Learning Logo" class="auth-logo-img">
+        <h1 class="auth-main-title">Engloray Learning</h1>
+        <p class="auth-main-subtitle">A complete digital education ecosystem.</p>
+      </div>
+
+      <div class="auth-form-card register-wide-card">
+        <h2 class="form-card-title">Create your account</h2>
+        <p class="form-card-subtitle">Students and parents only &mdash; your Mentor approves new accounts.</p>
+
+        <!-- Role Selector Tabs -->
+        <div class="role-tab-selector">
+          <button type="button" class="role-tab-pill active" id="tabStudentRole">I am a student</button>
+          <button type="button" class="role-tab-pill" id="tabParentRole">I am a parent</button>
+        </div>
+
+        <!-- Student Registration Form -->
+        <form id="studentRegisterForm">
+          <div class="form-grid-two">
+            <div class="form-group">
+              <label for="regStudentName">Full name *</label>
+              <input type="text" id="regStudentName" class="form-input-clean" placeholder="First and last name" required>
             </div>
 
-            <div class="step-body">
-              <div class="video-container" id="videoContainer">
-                <iframe id="youtubeIframe" src="https://www.youtube.com/embed/Iv8X7aLikLE?enablejsapi=1&origin=http://localhost:3000" title="Class Video"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen>
-                </iframe>
-              </div>
-              <div class="step-actions">
-                <button class="btn btn-primary" id="btnCompleteStep1" disabled>
-                  <i class="fa-solid fa-lock"></i> Mark Video as Watched
-                </button>
-              </div>
+            <div class="form-group">
+              <label for="regStudentPhone">Phone number</label>
+              <input type="tel" id="regStudentPhone" class="form-input-clean" placeholder="e.g. +1 234 567 8900">
             </div>
-          </article>
+          </div>
 
-          <!-- Step 2: Topics Covered PDF -->
-          <article class="step-card" id="step2Container">
-            <div class="step-header">
-              <div class="step-number-badge step-2">b</div>
-              <div class="step-header-text">
-                <h3 id="step2Title">Step 2: Review Topics Covered</h3>
-                <p id="step2Desc">Read through the detailed topic documentation and download reference material.</p>
-              </div>
-              <div class="step-status" id="step2StatusBadge">
-                <span class="badge badge-neutral"><i class="fa-regular fa-circle"></i> Pending</span>
-              </div>
+          <div class="form-group">
+            <label for="regStudentEmail">Email *</label>
+            <input type="email" id="regStudentEmail" class="form-input-clean" placeholder="you@example.com" required>
+          </div>
+
+          <div class="form-grid-two">
+            <div class="form-group">
+              <label for="regStudentInstitution">Institution *</label>
+              <input type="text" id="regStudentInstitution" class="form-input-clean" placeholder="School or institute name" required>
             </div>
 
-            <div class="step-body">
-              <div class="doc-preview-box">
-                <div class="doc-icon"><i class="fa-solid fa-file-pdf"></i></div>
-                <div class="doc-details">
-                  <h4 id="topicPdfTitle">TOPIC COVERED.pdf</h4>
-                  <p id="topicPdfSubtext">Comprehensive breakdown of Computer Systems, Internal vs External Hardware &
-                    Peripherals.</p>
-                </div>
-                <div class="doc-actions">
-                  <a href="/asset/5th class/chapter 1/class 1/TOPIC COVERED.pdf" target="_blank" class="btn btn-outline"
-                    id="linkTopicPdf">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Open PDF Document
-                  </a>
-                </div>
-              </div>
-
-              <div class="topics-bullet-list">
-                <h4><i class="fa-solid fa-list-check"></i> Key Concepts Covered:</h4>
-                <ul id="keyConceptsList">
-                  <!-- Dynamically rendered -->
-                </ul>
-              </div>
-
-              <div class="step-actions">
-                <button class="btn btn-primary" id="btnCompleteStep2" disabled>
-                  <i class="fa-solid fa-lock"></i> Confirm Topic Reviewed
-                </button>
-              </div>
+            <div class="form-group">
+              <label for="regStudentGrade">Grade / Class *</label>
+              <select id="regStudentGrade" class="form-input-clean" required>
+                <option value="3">Class 3rd</option>
+                <option value="1">Class 1st</option>
+                <option value="2">Class 2nd</option>
+                <option value="4">Class 4th</option>
+                <option value="5">Class 5th</option>
+              </select>
             </div>
-          </article>
+          </div>
 
-          <!-- Step 3: Interactive Educational Website -->
-          <article class="step-card" id="step3Container">
-            <div class="step-header">
-              <div class="step-number-badge step-3">c</div>
-              <div class="step-header-text">
-                <h3 id="step3Title">Step 3: Interactive Learning Activity</h3>
-                <p id="step3Desc">Explore the educational website link for hands-on interactive tutorials & diagrams.
-                </p>
-              </div>
-              <div class="step-status" id="step3StatusBadge">
-                <span class="badge badge-neutral"><i class="fa-regular fa-circle"></i> Pending</span>
-              </div>
+          <div class="form-grid-two">
+            <div class="form-group">
+              <label for="regStudentSection">Section (optional)</label>
+              <input type="text" id="regStudentSection" class="form-input-clean" placeholder="e.g. A">
             </div>
 
-            <div class="step-body">
-              <div class="website-card">
-                <div class="web-preview-icon">
-                  <i class="fa-solid fa-globe"></i>
-                </div>
-                <div class="web-info">
-                  <h4 id="portalNameText">GeeksforGeeks - Computer Hardware Fundamentals</h4>
-                  <p id="websiteUrlText">https://www.geeksforgeeks.org/computer-science-fundamentals/computer-hardware/
-                  </p>
-                  <span class="badge badge-info"><i class="fa-solid fa-up-right-from-square"></i> External Learning
-                    Portal</span>
-                </div>
-                <a href="#" target="_blank" class="btn btn-accent" id="linkWebsite">
-                  <i class="fa-solid fa-external-link"></i> Launch Portal
-                </a>
-              </div>
-
-              <div class="step-actions">
-                <button class="btn btn-primary" id="btnCompleteStep3" disabled>
-                  <i class="fa-solid fa-lock"></i> Mark Activity Complete
-                </button>
-              </div>
+            <div class="form-group">
+              <label for="regStudentParentName">Parent / Guardian name (optional)</label>
+              <input type="text" id="regStudentParentName" class="form-input-clean" placeholder="Parent full name">
             </div>
-          </article>
+          </div>
 
-          <!-- Step 4: Concept Quiz -->
-          <article class="step-card" id="step4Container">
-            <div class="step-header">
-              <div class="step-number-badge step-4">d</div>
-              <div class="step-header-text">
-                <h3 id="step4Title">Step 4: Concept Check Quiz</h3>
-                <p id="step4Desc">Test your knowledge. Passing score is <strong id="passingScoreText">80%</strong>.</p>
-              </div>
-              <div class="step-status" id="step4StatusBadge">
-                <span class="badge badge-neutral"><i class="fa-regular fa-circle"></i> Pending</span>
-              </div>
+          <div class="form-grid-two">
+            <div class="form-group">
+              <label for="regStudentPassword">Password *</label>
+              <input type="password" id="regStudentPassword" class="form-input-clean" placeholder="At least 6 characters" required>
             </div>
 
-            <div class="step-body">
-              <div class="quiz-box">
-                <div id="quizQuestionsContainer" class="quiz-questions-list">
-                  <!-- Dynamically rendered 5 Quiz Question Cards -->
-                </div>
-
-                <div class="quiz-result-message hidden" id="quizResultBox">
-                  <div class="result-alert" id="resultAlertBanner">
-                    <i class="fa-solid fa-trophy"></i>
-                    <div>
-                      <h4 id="resultTitle">Quiz Passed!</h4>
-                      <p id="resultSubtitle">You scored 100% (Passing Score: 80%)</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="step-actions">
-                  <button class="btn btn-success" id="btnSubmitQuiz" disabled>
-                    <i class="fa-solid fa-lock"></i> Submit Quiz Answers
-                  </button>
-                </div>
-              </div>
+            <div class="form-group">
+              <label for="regStudentConfirmPassword">Confirm password *</label>
+              <input type="password" id="regStudentConfirmPassword" class="form-input-clean" placeholder="Re-enter password" required>
             </div>
-          </article>
+          </div>
 
-          <!-- Step 5: Practical Task & Upload -->
-          <article class="step-card" id="step5Container">
-            <div class="step-header">
-              <div class="step-number-badge step-5">e</div>
-              <div class="step-header-text">
-                <h3 id="step5Title">Step 5: Practical Activity & Task Submission</h3>
-                <p id="step5Desc">Complete the practical worksheet and upload your completed document or picture.</p>
-              </div>
-              <div class="step-status" id="step5StatusBadge">
-                <span class="badge badge-neutral"><i class="fa-regular fa-circle"></i> Pending</span>
-              </div>
+          <button type="submit" class="btn-submit-primary margin-top-md" id="btnSubmitStudentRegister">Create account</button>
+        </form>
+
+        <!-- Parent Registration Form -->
+        <form id="parentRegisterForm" class="hidden">
+          <div class="form-grid-two">
+            <div class="form-group">
+              <label for="regParentName">Full name *</label>
+              <input type="text" id="regParentName" class="form-input-clean" placeholder="First and last name" required>
             </div>
 
-            <div class="step-body">
-              <div class="task-instructions-card">
-                <div class="task-icon"><i class="fa-solid fa-pen-ruler"></i></div>
-                <div class="task-details">
-                  <h4>Practical Activity Instructions</h4>
-                  <p id="taskInstructionsText">Class 1: Hardware Device Identification, Computer System Labeling
-                    Activity & Picture Matching Worksheet. Refer to the practical activity document below.</p>
-                  <a href="/asset/5th class/chapter 1/class 1/practical activities.pdf" target="_blank"
-                    class="btn btn-sm btn-outline" id="linkPracticalPdf">
-                    <i class="fa-solid fa-file-pdf"></i> Download Practical Worksheet (PDF)
-                  </a>
-                </div>
-              </div>
-
-              <!-- Upload Container -->
-              <div class="upload-dropzone" id="dropzone">
-                <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
-                <div class="upload-text">
-                  <h4>Drag and drop your completed file here</h4>
-                  <p>Supports PDF, DOCX, PNG, JPG up to 10MB</p>
-                </div>
-                <input type="file" id="fileInput" class="file-input-hidden">
-                <button class="btn btn-outline btn-sm" id="btnBrowseFile">
-                  <i class="fa-solid fa-folder-open"></i> Browse File
-                </button>
-                <div class="selected-file-name hidden" id="selectedFileInfo">
-                  <i class="fa-solid fa-file-circle-check text-blue"></i>
-                  <span id="fileNameDisplay">my_worksheet.pdf</span>
-                  <button type="button" class="btn-clear-file" id="btnClearFile"><i
-                      class="fa-solid fa-xmark"></i></button>
-                </div>
-              </div>
-
-              <div class="submission-status-card hidden" id="submissionStatusBox">
-                <div class="sub-icon"><i class="fa-solid fa-circle-check text-success"></i></div>
-                <div>
-                  <h4>Assignment Submitted Successfully</h4>
-                  <p id="submissionMetaText">File: class1_worksheet.pdf • Status: SUBMITTED</p>
-                </div>
-              </div>
-
-              <div class="step-actions submission-actions-row">
-                <div class="email-input-inline-wrap">
-                  <i class="fa-solid fa-envelope input-email-icon"></i>
-                  <input type="email" id="studentEmailInput" class="compact-email-input" placeholder="Enter student email (required) *" required>
-                </div>
-                <button class="btn btn-primary btn-lg" id="btnSubmitTask" disabled>
-                  <i class="fa-solid fa-lock"></i> Upload & Submit Assignment
-                </button>
-              </div>
+            <div class="form-group">
+              <label for="regParentPhone">Phone number</label>
+              <input type="tel" id="regParentPhone" class="form-input-clean" placeholder="e.g. +1 234 567 8900">
             </div>
-          </article>
+          </div>
 
-          <!-- Navigation Footer Bar -->
-          <div class="course-navigation-footer">
-            <button class="btn btn-primary btn-lg" id="btnBackToCourse">
-              <i class="fa-solid fa-arrow-left"></i> Back to Course Page
+          <div class="form-group">
+            <label for="regParentEmail">Email *</label>
+            <input type="email" id="regParentEmail" class="form-input-clean" placeholder="you@example.com" required>
+          </div>
+
+          <div class="form-grid-two">
+            <div class="form-group">
+              <label for="regParentInstitution">Institution *</label>
+              <input type="text" id="regParentInstitution" class="form-input-clean" placeholder="School or institute name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="regParentChildEmail">Child's email *</label>
+              <input type="email" id="regParentChildEmail" class="form-input-clean" placeholder="child@example.com" required>
+            </div>
+          </div>
+
+          <div class="form-grid-two">
+            <div class="form-group">
+              <label for="regParentPassword">Password *</label>
+              <input type="password" id="regParentPassword" class="form-input-clean" placeholder="At least 6 characters" required>
+            </div>
+
+            <div class="form-group">
+              <label for="regParentConfirmPassword">Confirm password *</label>
+              <input type="password" id="regParentConfirmPassword" class="form-input-clean" placeholder="Re-enter password" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit-primary margin-top-md" id="btnSubmitParentRegister">Create account</button>
+        </form>
+
+        <div class="auth-divider">
+          <span>or</span>
+        </div>
+
+        <button type="button" class="btn-google-auth" id="btnRegisterGoogleSignIn">
+          <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <div class="auth-card-footer">
+          <span>Already have an account? </span>
+          <a href="#" class="auth-link" id="btnLinkGoToSignIn">Sign in</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       VIEW 3: MENTOR DASHBOARD PORTAL (/mentor/dashboard)
+       ========================================================================== -->
+  <div id="mentorDashboardPage" class="portal-layout hidden">
+    <!-- Mentor Sidebar -->
+    <aside class="portal-sidebar">
+      <div class="sidebar-brand">
+        <img src="/logo.png" alt="Engloray Learning Logo" class="sidebar-logo">
+        <div class="sidebar-title-group">
+          <span class="sidebar-brand-name">Engloray</span>
+          <span class="sidebar-brand-sub">LEARNING</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-link active" data-mentor-tab="dashboard">
+          <i class="fa-solid fa-border-all"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="curriculum">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Curriculum Builder</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="approvals">
+          <i class="fa-solid fa-user-check"></i>
+          <span>User Approvals</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="students">
+          <i class="fa-solid fa-users"></i>
+          <span>Students & Parents</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="classes">
+          <i class="fa-solid fa-chalkboard-user"></i>
+          <span>Classes</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="courses">
+          <i class="fa-solid fa-book"></i>
+          <span>Courses</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="terms">
+          <i class="fa-solid fa-calendar-days"></i>
+          <span>Terms</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="chapters">
+          <i class="fa-solid fa-folder-open"></i>
+          <span>Chapters</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="subjects">
+          <i class="fa-solid fa-book-open"></i>
+          <span>Subjects & Lessons</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="assignments">
+          <i class="fa-solid fa-clipboard-list"></i>
+          <span>Assignments</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="activities">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Activities</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="resources">
+          <i class="fa-solid fa-folder"></i>
+          <span>Resources</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="attendance">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Attendance</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="certificates">
+          <i class="fa-solid fa-award"></i>
+          <span>Certificates & Badges</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="announcements">
+          <i class="fa-solid fa-bullhorn"></i>
+          <span>Announcements</span>
+        </a>
+        <a href="#" class="nav-link" data-mentor-tab="analytics">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Reports & Analytics</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-user-footer">
+        <div class="user-avatar-blue">S</div>
+        <div class="user-info-text">
+          <span class="user-display-name">Sri</span>
+          <span class="user-display-role">Mentor</span>
+        </div>
+        <button type="button" class="btn-logout" id="btnMentorLogout" title="Sign out">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mentor Main Content Area -->
+    <main class="portal-main">
+      <header class="portal-top-bar">
+        <div class="portal-breadcrumb">
+          <span>Engloray Learning</span>
+          <i class="fa-solid fa-chevron-right"></i>
+          <span class="active">Dashboard</span>
+        </div>
+      </header>
+
+      <div class="portal-content-body">
+
+        <!-- MENTOR SUB-VIEW: DASHBOARD -->
+        <section id="mentorDashboardView" class="mentor-subview">
+          <div class="page-title-section">
+            <h1 class="page-title">Mentor Dashboard</h1>
+            <p class="page-subtitle">Everything happening across Engloray Learning.</p>
+          </div>
+
+          <!-- 4 Metric Cards -->
+          <div class="metric-cards-grid">
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">STUDENTS</span>
+                <div class="metric-icon-small">
+                  <i class="fa-solid fa-users"></i>
+                </div>
+              </div>
+              <div class="metric-value">3</div>
+              <div class="metric-subtext">3 approved</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">PARENTS</span>
+                <div class="metric-icon-small">
+                  <i class="fa-solid fa-user-group"></i>
+                </div>
+              </div>
+              <div class="metric-value">3</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">SUBJECTS</span>
+                <div class="metric-icon-small">
+                  <i class="fa-solid fa-book-open"></i>
+                </div>
+              </div>
+              <div class="metric-value">1</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">ASSIGNMENTS</span>
+                <div class="metric-icon-small">
+                  <i class="fa-solid fa-clipboard-check"></i>
+                </div>
+              </div>
+              <div class="metric-value">0</div>
+            </div>
+          </div>
+
+          <!-- Approval Queue Section -->
+          <div class="content-panel-card margin-top-lg">
+            <div class="panel-card-header">
+              <h3>Approval queue</h3>
+              <a href="#" class="panel-header-link" id="linkOpenApprovalQueue" onclick="return false;">Open queue &rarr;</a>
+            </div>
+            <div class="panel-card-body">
+              <p class="empty-state-text">No accounts waiting for approval.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- MENTOR SUB-VIEW: CURRICULUM BUILDER -->
+        <section id="mentorCurriculumView" class="mentor-subview hidden">
+          <div class="page-title-header-flex">
+            <div class="page-title-section">
+              <h1 class="page-title">Curriculum Builder</h1>
+              <p class="page-subtitle">Manage flow: Class &rarr; Course &rarr; Term &rarr; Chapter &rarr; Lessons. Lock or unlock nodes.</p>
+            </div>
+            <button type="button" class="btn-primary-action" id="btnNewClassMentor">
+              <i class="fa-solid fa-plus"></i> New class
             </button>
           </div>
 
+          <div class="nodes-list-grid margin-top-lg">
+            <div class="node-card">
+              <span class="node-title">CLASS 3rd</span>
+              <div class="node-actions-group">
+                <button type="button" class="btn-node-icon text-muted" title="Lock / Unlock node" onclick="alert('Class 3rd is unlocked.');">
+                  <i class="fa-solid fa-lock-open"></i>
+                </button>
+                <button type="button" class="btn-node-icon text-muted" title="Edit node" onclick="alert('Edit Class 3rd');">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button type="button" class="btn-node-icon text-danger" title="Delete node" onclick="alert('Cannot delete active class');">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MENTOR SUB-VIEW: USER APPROVALS (Image 4 UI) -->
+        <section id="mentorApprovalsView" class="mentor-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">User Approvals</h1>
+            <p class="page-subtitle">Approve or reject new Student, Parent, and Mentor accounts.</p>
+          </div>
+
+          <div class="dashed-empty-card margin-top-lg">
+            <div class="empty-icon-box blue-box">
+              <i class="fa-regular fa-user"></i>
+            </div>
+            <h3 class="empty-card-heading">Queue is clear</h3>
+            <p class="empty-card-subtext">Every registration has been reviewed.</p>
+          </div>
+        </section>
+
+        <!-- MENTOR SUB-VIEW: STUDENTS & PARENTS (Image 2 UI) -->
+        <section id="mentorStudentsView" class="mentor-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Students & Parents</h1>
+            <p class="page-subtitle">Manage accounts, status and class assignment.</p>
+          </div>
+
+          <!-- Filter Pills & Search Bar -->
+          <div class="filter-search-header-row margin-top-lg">
+            <div class="role-tab-selector inline-selector">
+              <button type="button" class="role-tab-pill active" id="tabMentorStudents">Students</button>
+              <button type="button" class="role-tab-pill" id="tabMentorParents">Parents</button>
+            </div>
+            <div class="search-input-wrap">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+              <input type="text" id="searchStudentsInput" class="search-input-pill" placeholder="Search name or email">
+            </div>
+          </div>
+
+          <!-- Students & Parents Table (Image 2) -->
+          <div class="content-panel-card margin-top-md">
+            <div class="panel-card-body no-padding">
+              <table class="attendance-data-table mentor-students-table">
+                <thead>
+                  <tr>
+                    <th>NAME</th>
+                    <th>CLASS</th>
+                    <th>SECTION</th>
+                    <th>STATUS</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="mentorStudentsTableBody">
+                  <tr>
+                    <td>
+                      <div class="user-table-name">Englorayman JD</div>
+                      <div class="user-table-email">jdenglorayman@gmail.com</div>
+                    </td>
+                    <td>
+                      <select class="table-select-clean">
+                        <option value="3" selected>CLASS 3rd</option>
+                        <option value="1">CLASS 1st</option>
+                        <option value="2">CLASS 2nd</option>
+                        <option value="4">CLASS 4th</option>
+                        <option value="5">CLASS 5th</option>
+                      </select>
+                    </td>
+                    <td>
+                      <input type="text" class="table-input-clean" placeholder="">
+                    </td>
+                    <td>
+                      <select class="status-select-badge approved">
+                        <option value="Approved" selected>Approved</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Disabled">Disabled</option>
+                      </select>
+                    </td>
+                    <td class="text-right">
+                      <button type="button" class="btn-node-icon text-danger" title="Delete account" onclick="this.closest('tr').remove();">
+                        <i class="fa-solid fa-trash-can"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="user-table-name">SRIRAM Mayan</div>
+                      <div class="user-table-email">mayansriram@gmail.com</div>
+                    </td>
+                    <td>
+                      <select class="table-select-clean">
+                        <option value="3" selected>CLASS 3rd</option>
+                        <option value="1">CLASS 1st</option>
+                        <option value="2">CLASS 2nd</option>
+                        <option value="4">CLASS 4th</option>
+                        <option value="5">CLASS 5th</option>
+                      </select>
+                    </td>
+                    <td>
+                      <input type="text" class="table-input-clean" placeholder="">
+                    </td>
+                    <td>
+                      <select class="status-select-badge approved">
+                        <option value="Approved" selected>Approved</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Disabled">Disabled</option>
+                      </select>
+                    </td>
+                    <td class="text-right">
+                      <button type="button" class="btn-node-icon text-danger" title="Delete account" onclick="this.closest('tr').remove();">
+                        <i class="fa-solid fa-trash-can"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="user-table-name">GOWTHAM D</div>
+                      <div class="user-table-email">gowthamd244@gmail.com</div>
+                    </td>
+                    <td>
+                      <select class="table-select-clean">
+                        <option value="3" selected>CLASS 3rd</option>
+                        <option value="1">CLASS 1st</option>
+                        <option value="2">CLASS 2nd</option>
+                        <option value="4">CLASS 4th</option>
+                        <option value="5">CLASS 5th</option>
+                      </select>
+                    </td>
+                    <td>
+                      <input type="text" class="table-input-clean" placeholder="">
+                    </td>
+                    <td>
+                      <select class="status-select-badge approved">
+                        <option value="Approved" selected>Approved</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Disabled">Disabled</option>
+                      </select>
+                    </td>
+                    <td class="text-right">
+                      <button type="button" class="btn-node-icon text-danger" title="Delete account" onclick="this.closest('tr').remove();">
+                        <i class="fa-solid fa-trash-can"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- MENTOR SUB-VIEW: CLASSES (Image 5 UI) -->
+        <section id="mentorClassesView" class="mentor-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Classes</h1>
+            <p class="page-subtitle">Define the classes your institution runs.</p>
+          </div>
+
+          <!-- Add Class Form Card (Image 5) -->
+          <div class="content-panel-card margin-top-lg">
+            <div class="panel-card-body">
+              <form id="addClassForm" class="add-class-form-grid">
+                <div class="form-group">
+                  <input type="text" id="newClassNameInput" class="form-input-clean" placeholder="Class name e.g. Class 8" required>
+                </div>
+                <div class="form-group">
+                  <input type="text" id="newClassInstInput" class="form-input-clean" placeholder="Institution">
+                </div>
+                <div class="form-group">
+                  <input type="text" id="newClassSectionsInput" class="form-input-clean" placeholder="Sections (A, B, C)">
+                </div>
+
+                <div class="form-group">
+                  <input type="text" id="newClassYearInput" class="form-input-clean" placeholder="Academic year">
+                </div>
+                <div class="form-group">
+                  <input type="text" id="newClassWebInput" class="form-input-clean" placeholder="Website URL">
+                </div>
+                <div class="form-group">
+                  <input type="text" id="newClassActInput" class="form-input-clean" placeholder="Activities URL">
+                </div>
+
+                <div class="form-group span-two">
+                  <input type="text" id="newClassCustomInput" class="form-input-clean" placeholder="Custom">
+                </div>
+                <div class="form-group span-btn">
+                  <button type="submit" class="btn-submit-primary blue-button-full"><i class="fa-solid fa-plus"></i> Add class</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Existing Classes Grid -->
+          <div class="classes-card-list margin-top-lg" id="mentorClassesList">
+            <div class="node-card class-item-card">
+              <div class="class-card-text">
+                <h3 class="node-title">CLASS 3rd</h3>
+                <p class="node-subtext">GREEN PARK SCHOOL &bull; &mdash;</p>
+              </div>
+              <button type="button" class="btn-node-icon text-danger" title="Delete class" onclick="this.closest('.node-card').remove();">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- MENTOR SUB-VIEW: GENERIC CONTENT VIEW -->
+        <section id="mentorGenericView" class="mentor-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title" id="mentorGenericTitle">Management Module</h1>
+            <p class="page-subtitle" id="mentorGenericSubtitle">Manage your institution settings and resources.</p>
+          </div>
+          <div class="dashed-empty-card margin-top-lg">
+            <div class="empty-icon-box blue-box">
+              <i class="fa-solid fa-folder-open"></i>
+            </div>
+            <h3 class="empty-card-heading">Module Ready</h3>
+            <p class="empty-card-subtext">All resources and records are synchronized.</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ==========================================================================
+       VIEW 4: STUDENT PORTAL (/student/dashboard & /student/subjects)
+       ========================================================================== -->
+  <div id="studentPortalLayout" class="portal-layout hidden">
+    <!-- Student Sidebar -->
+    <aside class="portal-sidebar">
+      <div class="sidebar-brand">
+        <img src="/logo.png" alt="Engloray Learning Logo" class="sidebar-logo">
+        <div class="sidebar-title-group">
+          <span class="sidebar-brand-name">Engloray</span>
+          <span class="sidebar-brand-sub">LEARNING</span>
         </div>
       </div>
 
-      <!-- Right Column Sidebar (30%) -->
-      <aside class="sidebar-content">
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-link active" id="studentNavDashboard" data-student-tab="dashboard">
+          <i class="fa-solid fa-border-all"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-link" id="studentNavCurriculum" data-student-tab="curriculum">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Curriculum Builder</span>
+        </a>
+        <a href="#" class="nav-link" id="studentNavSubjects" data-student-tab="subjects">
+          <i class="fa-solid fa-book-open"></i>
+          <span>Subjects & Lessons</span>
+        </a>
+        <a href="#" class="nav-link" id="studentNavAssignments" data-student-tab="assignments">
+          <i class="fa-solid fa-clipboard-list"></i>
+          <span>Assignments</span>
+        </a>
+        <a href="#" class="nav-link" id="studentNavActivities" data-student-tab="activities">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Activities & Resources</span>
+        </a>
+        <a href="#" class="nav-link" id="studentNavAttendance" data-student-tab="attendance">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Attendance</span>
+        </a>
+        <a href="#" class="nav-link" id="studentNavProgress" data-student-tab="progress">
+          <i class="fa-solid fa-award"></i>
+          <span>Progress & Awards</span>
+        </a>
+        <a href="#" class="nav-link" id="studentNavAI" data-student-tab="ai">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>AI Assistant</span>
+        </a>
+        <a href="#" class="nav-link" id="studentNavAnnouncements" data-student-tab="announcements">
+          <i class="fa-solid fa-bullhorn"></i>
+          <span>Announcements</span>
+        </a>
+        <a href="#" class="nav-link" id="studentNavProfile" data-student-tab="profile">
+          <i class="fa-regular fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </nav>
 
-        <!-- Progression Lock Status Card -->
-        <div class="sidebar-card lock-status-card">
-          <div class="sidebar-card-header">
-            <h3><i class="fa-solid fa-lock-open text-blue"></i> Class Progression Engine</h3>
+      <div class="sidebar-user-footer">
+        <div class="user-avatar-blue" id="studentUserAvatar">S</div>
+        <div class="user-info-text">
+          <span class="user-display-name" id="studentUserName">SRIRAM Mayan</span>
+          <span class="user-display-role">Student</span>
+        </div>
+        <button type="button" class="btn-logout" id="btnStudentLogout" title="Sign out">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Student Main Area -->
+    <main class="portal-main">
+      <header class="portal-top-bar">
+        <div class="portal-breadcrumb" id="studentBreadcrumb">
+          <span>Engloray Learning</span>
+          <i class="fa-solid fa-chevron-right"></i>
+          <span class="active" id="studentBreadcrumbActive">Dashboard</span>
+        </div>
+      </header>
+
+      <div class="portal-content-body">
+
+        <!-- SUB-VIEW 4A: STUDENT DASHBOARD -->
+        <section id="studentDashboardView" class="student-subview">
+          <!-- Welcome Hero Banner -->
+          <div class="student-welcome-banner">
+            <span class="banner-welcome-tag">Welcome back</span>
+            <h1 class="banner-student-name" id="bannerStudentName">SRIRAM Mayan</h1>
+            <p class="banner-student-meta" id="bannerStudentMeta">CLASS 3rd &bull; GREEN PARK SCHOOL</p>
           </div>
-          <div class="progression-summary">
-            <div class="progress-ring-container">
-              <svg class="progress-ring" width="100" height="100">
-                <circle class="progress-ring-bg" cx="50" cy="50" r="40" />
-                <circle class="progress-ring-fill" id="progressRingFill" cx="50" cy="50" r="40" />
-              </svg>
-              <div class="progress-ring-text" id="progressPercentageText">0%</div>
+
+          <!-- Stat Cards -->
+          <div class="metric-cards-grid margin-top-lg">
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">SUBJECTS</span>
+                <div class="metric-icon-small">
+                  <i class="fa-solid fa-book-open"></i>
+                </div>
+              </div>
+              <div class="metric-value" id="statSubjectsCount">1</div>
             </div>
-            <div class="progression-info">
-              <h4 id="progressionStatusTitle">Class 1 In Progress</h4>
-              <p id="progressionSubtitleText">Complete all 5 steps of this class.</p>
+
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">ASSIGNMENTS</span>
+                <div class="metric-icon-small">
+                  <i class="fa-solid fa-clipboard-check"></i>
+                </div>
+              </div>
+              <div class="metric-value" id="statAssignmentsCount">0</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">ATTENDANCE</span>
+                <div class="metric-icon-small">
+                  <i class="fa-solid fa-calendar-check"></i>
+                </div>
+              </div>
+              <div class="metric-value">100%</div>
+              <div class="metric-subtext">1/1 days present</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">AWARDS</span>
+                <div class="metric-icon-small">
+                  <i class="fa-solid fa-award"></i>
+                </div>
+              </div>
+              <div class="metric-value">0</div>
             </div>
           </div>
+
+          <!-- Upcoming Work & Announcements Row -->
+          <div class="portal-two-columns margin-top-lg">
+            <div class="content-panel-card">
+              <div class="panel-card-header">
+                <h3>Upcoming work</h3>
+                <a href="#" class="panel-header-link" onclick="return false;">All &rarr;</a>
+              </div>
+              <div class="panel-card-body">
+                <p class="empty-state-text">Nothing due right now.</p>
+              </div>
+            </div>
+
+            <div class="content-panel-card">
+              <div class="panel-card-header">
+                <h3>Announcements</h3>
+              </div>
+              <div class="panel-card-body">
+                <p class="empty-state-text">No announcements yet.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SUB-VIEW 4B: CURRICULUM BUILDER -->
+        <section id="studentCurriculumView" class="student-subview hidden">
+          <div class="page-title-header-flex">
+            <div class="page-title-section">
+              <h1 class="page-title">Curriculum Builder</h1>
+              <p class="page-subtitle">One flow: Class &rarr; Course &rarr; Term &rarr; Chapter &rarr; Lessons, Activities, Assignments & Resources. Lock or unlock any node.</p>
+            </div>
+            <button type="button" class="btn-primary-action" id="btnNewClassStudent">
+              <i class="fa-solid fa-plus"></i> New class
+            </button>
+          </div>
+
+          <div class="filter-pills-row margin-top-md">
+            <button type="button" class="pill-btn active">
+              <i class="fa-solid fa-layer-group"></i> Classes
+            </button>
+          </div>
+
+          <div class="nodes-list-grid margin-top-lg">
+            <div class="node-card" id="nodeClass3rd">
+              <span class="node-title">CLASS 3rd</span>
+              <div class="node-actions-group">
+                <button type="button" class="btn-node-icon text-muted" title="Lock / Unlock node" onclick="alert('Class 3rd is unlocked.');">
+                  <i class="fa-solid fa-lock-open"></i>
+                </button>
+                <button type="button" class="btn-node-icon text-muted" title="Edit node" onclick="alert('Editing Class 3rd');">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button type="button" class="btn-node-icon text-danger" title="Delete node" onclick="alert('Cannot delete default active class.');">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SUB-VIEW 4C: SUBJECTS & LESSONS -->
+        <section id="studentSubjectsView" class="student-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Subjects & Lessons</h1>
+            <p class="page-subtitle" id="subjectsGradeSubtitle">Curriculum for CLASS 3rd</p>
+          </div>
+
+          <div class="subject-cards-grid margin-top-lg">
+            <!-- Subject Card for class 1 -->
+            <div class="subject-card" id="subjectCardClass1">
+              <div class="subject-card-icon-box">
+                <i class="fa-solid fa-book-open"></i>
+              </div>
+              <h3 class="subject-card-title">class 1</h3>
+            </div>
+          </div>
+        </section>
+
+        <!-- SUB-VIEW 4D: ASSIGNMENTS (Image 4 UI) -->
+        <section id="studentAssignmentsView" class="student-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Assignments</h1>
+            <p class="page-subtitle">Everything assigned to your class.</p>
+          </div>
+
+          <div class="dashed-empty-card margin-top-lg">
+            <div class="empty-icon-box blue-box">
+              <i class="fa-solid fa-clipboard-list"></i>
+            </div>
+            <h3 class="empty-card-heading">No assignments</h3>
+            <p class="empty-card-subtext">You're all caught up.</p>
+          </div>
+        </section>
+
+        <!-- SUB-VIEW 4E: ACTIVITIES & RESOURCES (Image 1 UI) -->
+        <section id="studentActivitiesView" class="student-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Activities & Resources</h1>
+            <p class="page-subtitle">Practice tasks and study material for your class.</p>
+          </div>
+
+          <div class="section-block margin-top-lg">
+            <h4 class="section-label-header">ACTIVITIES</h4>
+            <div class="dashed-empty-card margin-top-sm">
+              <div class="empty-icon-box blue-box">
+                <i class="fa-solid fa-chart-line"></i>
+              </div>
+              <p class="empty-card-heading-simple">No activities yet</p>
+            </div>
+          </div>
+
+          <div class="section-block margin-top-lg">
+            <h4 class="section-label-header">RESOURCES</h4>
+            <div class="dashed-empty-card margin-top-sm">
+              <div class="empty-icon-box blue-box">
+                <i class="fa-regular fa-folder"></i>
+              </div>
+              <p class="empty-card-heading-simple">No resources yet</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SUB-VIEW 4F: MY ATTENDANCE (Image 2 & Image 5 UI) -->
+        <section id="studentAttendanceView" class="student-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">My Attendance</h1>
+            <p class="page-subtitle">Your daily record, percentage and monthly trend.</p>
+          </div>
+
+          <!-- 3 Stat Cards -->
+          <div class="metric-cards-grid margin-top-lg">
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">ATTENDANCE RATE</span>
+                <div class="metric-icon-small">
+                  <i class="fa-solid fa-percent"></i>
+                </div>
+              </div>
+              <div class="metric-value">100%</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">DAYS PRESENT</span>
+                <div class="metric-icon-small">
+                  <i class="fa-regular fa-calendar-check"></i>
+                </div>
+              </div>
+              <div class="metric-value">1</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">DAYS ABSENT</span>
+                <div class="metric-icon-small">
+                  <i class="fa-regular fa-calendar-xmark"></i>
+                </div>
+              </div>
+              <div class="metric-value">0</div>
+            </div>
+          </div>
+
+          <!-- Monthly Trend Visual Chart (Image 2 & 5) -->
+          <div class="content-panel-card margin-top-lg">
+            <div class="panel-card-header">
+              <h3>Monthly trend</h3>
+            </div>
+            <div class="panel-card-body">
+              <div class="chart-visual-container">
+                <div class="chart-y-axis">
+                  <span>100%</span>
+                  <span>75%</span>
+                  <span>50%</span>
+                  <span>25%</span>
+                  <span>0%</span>
+                </div>
+                <div class="chart-graph-area">
+                  <div class="chart-grid-line line-100"></div>
+                  <div class="chart-grid-line line-75"></div>
+                  <div class="chart-grid-line line-50"></div>
+                  <div class="chart-grid-line line-25"></div>
+                  <div class="chart-grid-line line-0"></div>
+
+                  <!-- Trend Line & Data Point -->
+                  <div class="chart-point-container" style="left: 60%; top: 0%;">
+                    <div class="chart-point-dot"></div>
+                    <div class="chart-tooltip-popup">
+                      <div class="tooltip-date">2026-08</div>
+                      <div class="tooltip-val">percentage : 100</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="chart-x-axis">
+                <span>2026-08</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Attendance History Table (Image 2 & 5) -->
+          <div class="content-panel-card margin-top-lg">
+            <div class="panel-card-body no-padding">
+              <table class="attendance-data-table">
+                <thead>
+                  <tr>
+                    <th>DATE</th>
+                    <th>STATUS</th>
+                    <th>NOTE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="date-cell">2026-08-11</td>
+                    <td>
+                      <span class="badge-status-present">Present</span>
+                    </td>
+                    <td class="note-cell">&mdash;</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SUB-VIEW 4G: PROGRESS & AWARDS -->
+        <section id="studentProgressView" class="student-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Progress & Awards</h1>
+            <p class="page-subtitle">Your learning achievements, certificates and badges.</p>
+          </div>
+
+          <div class="metric-cards-grid margin-top-lg">
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">BADGES</span>
+                <div class="metric-icon-small"><i class="fa-solid fa-award"></i></div>
+              </div>
+              <div class="metric-value">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">CERTIFICATES</span>
+                <div class="metric-icon-small"><i class="fa-solid fa-certificate"></i></div>
+              </div>
+              <div class="metric-value">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label-group">
+                <span class="metric-label">COURSE PROGRESS</span>
+                <div class="metric-icon-small"><i class="fa-solid fa-chart-pie"></i></div>
+              </div>
+              <div class="metric-value">100%</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SUB-VIEW 4H: AI ASSISTANT -->
+        <section id="studentAIView" class="student-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">AI Assistant</h1>
+            <p class="page-subtitle">Ask anything about your courses or study topics.</p>
+          </div>
+
+          <div class="ai-chat-card margin-top-lg">
+            <div class="chat-messages-container" id="aiChatMessages">
+              <div class="chat-message assistant-msg">
+                <div class="assistant-avatar"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <div class="msg-bubble">
+                  Hello SRIRAM! I am your AI Learning Assistant. How can I help you with your lessons today?
+                </div>
+              </div>
+            </div>
+
+            <form id="aiChatForm" class="chat-input-row">
+              <input type="text" id="aiQueryInput" class="form-input-clean" placeholder="Ask a question about your subject..." required>
+              <button type="submit" class="btn-primary-action"><i class="fa-solid fa-paper-plane"></i> Send</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- SUB-VIEW 4I: ANNOUNCEMENTS -->
+        <section id="studentAnnouncementsView" class="student-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Announcements</h1>
+            <p class="page-subtitle">Important updates from your mentors.</p>
+          </div>
+
+          <div class="dashed-empty-card margin-top-lg">
+            <div class="empty-icon-box blue-box">
+              <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            <h3 class="empty-card-heading">No announcements</h3>
+            <p class="empty-card-subtext">You're up to date.</p>
+          </div>
+        </section>
+
+        <!-- SUB-VIEW 4J: PROFILE -->
+        <section id="studentProfileView" class="student-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Profile</h1>
+            <p class="page-subtitle">Your personal account details.</p>
+          </div>
+
+          <div class="content-panel-card margin-top-lg">
+            <div class="panel-card-header">
+              <h3>Account Details</h3>
+            </div>
+            <div class="panel-card-body">
+              <div class="profile-details-grid">
+                <div class="profile-item"><label>FULL NAME</label><span>SRIRAM Mayan</span></div>
+                <div class="profile-item"><label>ROLE</label><span>Student</span></div>
+                <div class="profile-item"><label>EMAIL</label><span>student5@school.com</span></div>
+                <div class="profile-item"><label>INSTITUTION</label><span>GREEN PARK SCHOOL</span></div>
+                <div class="profile-item"><label>GRADE</label><span>CLASS 3rd</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SUB-VIEW 4C: INTEGRATED 5-STEP CLASS LEARNING VIEW -->
+        <section id="studentLearningPageWrapper" class="student-subview hidden">
+          <!-- VIEW 1: COURSE OVERVIEW PAGE (GRID OF ALL CLASSES FOR GRADE 3) -->
+          <section id="courseOverviewPage" class="course-overview-container hidden">
+            <div class="overview-hero-card">
+              <div class="hero-badge">
+                <span class="badge badge-primary" style="background: rgba(255,255,255,0.2); color: white; border: none;">
+                  <i class="fa-solid fa-book-open"></i> Class 3rd • Term 1
+                </span>
+              </div>
+              <h1>Chapter 1: Computer Skills & Hardware Devices</h1>
+              <p>Explore computer fundamentals, input/output peripherals, digital ethics, and practical activity worksheets.</p>
+            </div>
+
+            <div class="classes-grid-header">
+              <h2><i class="fa-solid fa-list-check text-blue"></i> Daily Classes Schedule</h2>
+              <p>Click on any unlocked class to open its 5-step interactive learning page.</p>
+            </div>
+
+            <div class="classes-grid" id="courseClassesGrid">
+              <!-- Dynamically rendered from coursesData.js -->
+            </div>
+          </section>
+
+          <!-- VIEW 2: DYNAMIC 5-STEP CLASS LEARNING PAGE -->
+          <section id="classLearningPage" class="content-grid">
+
+            <!-- Left Main Column (70%) -->
+            <div class="main-content">
+
+              <!-- Class Header & Title Card -->
+              <div class="class-hero-card">
+                <div class="hero-badge">
+                  <span class="badge badge-accent" id="activeDayBadge">Class 1 of 4</span>
+                  <span class="badge badge-success" id="overallCompletionBadge"><i class="fa-solid fa-spinner fa-spin"></i> In Progress (0/5 Steps)</span>
+                </div>
+                <h1 class="class-title" id="classTopicTitle">Class 1: Computer Fundamentals, Hardware Devices & Computer System</h1>
+                <p class="class-description" id="classTopicDescription">
+                  Topics Covered: Introduction to Computers, Computer Fundamentals, Computer System...
+                </p>
+              </div>
+
+              <!-- 5 Ordered Learning Steps Container -->
+              <div class="steps-wrapper">
+
+                <!-- Step 1: Watch Video -->
+                <article class="step-card" id="step1Container">
+                  <div class="step-header">
+                    <div class="step-number-badge step-1">a</div>
+                    <div class="step-header-text">
+                      <h3 id="step1Title">Step 1: Watch Class Video</h3>
+                      <p id="step1Desc">Watch the complete lesson video to understand hardware devices & computer fundamentals.</p>
+                    </div>
+                    <div class="step-status" id="step1StatusBadge">
+                      <span class="badge badge-neutral"><i class="fa-regular fa-circle"></i> Pending</span>
+                    </div>
+                  </div>
+
+                  <div class="step-body">
+                    <div class="video-container" id="videoContainer">
+                      <iframe id="youtubeIframe" src="https://www.youtube.com/embed/Iv8X7aLikLE?enablejsapi=1&origin=http://localhost:3000" title="Class Video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                      </iframe>
+                    </div>
+                    <div class="step-actions">
+                      <button class="btn btn-primary" id="btnCompleteStep1" disabled>
+                        <i class="fa-solid fa-lock"></i> Mark Video as Watched
+                      </button>
+                    </div>
+                  </div>
+                </article>
+
+                <!-- Step 2: Topics Covered PDF -->
+                <article class="step-card" id="step2Container">
+                  <div class="step-header">
+                    <div class="step-number-badge step-2">b</div>
+                    <div class="step-header-text">
+                      <h3 id="step2Title">Step 2: Review Topics Covered</h3>
+                      <p id="step2Desc">Read through the detailed topic documentation and download reference material.</p>
+                    </div>
+                    <div class="step-status" id="step2StatusBadge">
+                      <span class="badge badge-neutral"><i class="fa-regular fa-circle"></i> Pending</span>
+                    </div>
+                  </div>
+
+                  <div class="step-body">
+                    <div class="doc-preview-box">
+                      <div class="doc-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                      <div class="doc-details">
+                        <h4 id="topicPdfTitle">TOPIC COVERED.pdf</h4>
+                        <p id="topicPdfSubtext">Comprehensive breakdown of Computer Systems, Internal vs External Hardware & Peripherals.</p>
+                      </div>
+                      <div class="doc-actions">
+                        <a href="/asset/5th class/chapter 1/class 1/TOPIC COVERED.pdf" target="_blank" class="btn btn-outline"
+                          id="linkTopicPdf">
+                          <i class="fa-solid fa-arrow-up-right-from-square"></i> Open PDF Document
+                        </a>
+                      </div>
+                    </div>
+
+                    <div class="topics-bullet-list">
+                      <h4><i class="fa-solid fa-list-check"></i> Key Concepts Covered:</h4>
+                      <ul id="keyConceptsList">
+                        <!-- Dynamically rendered -->
+                      </ul>
+                    </div>
+
+                    <div class="step-actions">
+                      <button class="btn btn-primary" id="btnCompleteStep2" disabled>
+                        <i class="fa-solid fa-lock"></i> Confirm Topic Reviewed
+                      </button>
+                    </div>
+                  </div>
+                </article>
+
+                <!-- Step 3: Interactive Educational Website -->
+                <article class="step-card" id="step3Container">
+                  <div class="step-header">
+                    <div class="step-number-badge step-3">c</div>
+                    <div class="step-header-text">
+                      <h3 id="step3Title">Step 3: Interactive Learning Activity</h3>
+                      <p id="step3Desc">Explore the educational website link for hands-on interactive tutorials & diagrams.</p>
+                    </div>
+                    <div class="step-status" id="step3StatusBadge">
+                      <span class="badge badge-neutral"><i class="fa-regular fa-circle"></i> Pending</span>
+                    </div>
+                  </div>
+
+                  <div class="step-body">
+                    <div class="website-card">
+                      <div class="web-preview-icon">
+                        <i class="fa-solid fa-globe"></i>
+                      </div>
+                      <div class="web-info">
+                        <h4 id="portalNameText">GeeksforGeeks - Computer Hardware Fundamentals</h4>
+                        <p id="websiteUrlText">https://www.geeksforgeeks.org/computer-science-fundamentals/computer-hardware/</p>
+                        <span class="badge badge-info"><i class="fa-solid fa-up-right-from-square"></i> External Learning Portal</span>
+                      </div>
+                      <a href="#" target="_blank" class="btn btn-accent" id="linkWebsite">
+                        <i class="fa-solid fa-external-link"></i> Launch Portal
+                      </a>
+                    </div>
+
+                    <div class="step-actions">
+                      <button class="btn btn-primary" id="btnCompleteStep3" disabled>
+                        <i class="fa-solid fa-lock"></i> Mark Activity Complete
+                      </button>
+                    </div>
+                  </div>
+                </article>
+
+                <!-- Step 4: Concept Quiz -->
+                <article class="step-card" id="step4Container">
+                  <div class="step-header">
+                    <div class="step-number-badge step-4">d</div>
+                    <div class="step-header-text">
+                      <h3 id="step4Title">Step 4: Concept Check Quiz</h3>
+                      <p id="step4Desc">Test your knowledge. Passing score is <strong id="passingScoreText">80%</strong>.</p>
+                    </div>
+                    <div class="step-status" id="step4StatusBadge">
+                      <span class="badge badge-neutral"><i class="fa-regular fa-circle"></i> Pending</span>
+                    </div>
+                  </div>
+
+                  <div class="step-body">
+                    <div class="quiz-box">
+                      <div id="quizQuestionsContainer" class="quiz-questions-list">
+                        <!-- Dynamically rendered Quiz Questions -->
+                      </div>
+
+                      <div class="quiz-result-message hidden" id="quizResultBox">
+                        <div class="result-alert" id="resultAlertBanner">
+                          <i class="fa-solid fa-trophy"></i>
+                          <div>
+                            <h4 id="resultTitle">Quiz Passed!</h4>
+                            <p id="resultSubtitle">You scored 100% (Passing Score: 80%)</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="step-actions">
+                        <button class="btn btn-success" id="btnSubmitQuiz" disabled>
+                          <i class="fa-solid fa-lock"></i> Submit Quiz Answers
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <!-- Step 5: Practical Task & Upload -->
+                <article class="step-card" id="step5Container">
+                  <div class="step-header">
+                    <div class="step-number-badge step-5">e</div>
+                    <div class="step-header-text">
+                      <h3 id="step5Title">Step 5: Practical Activity & Task Submission</h3>
+                      <p id="step5Desc">Complete the practical worksheet and upload your completed document or picture.</p>
+                    </div>
+                    <div class="step-status" id="step5StatusBadge">
+                      <span class="badge badge-neutral"><i class="fa-regular fa-circle"></i> Pending</span>
+                    </div>
+                  </div>
+
+                  <div class="step-body">
+                    <div class="task-instructions-card">
+                      <div class="task-icon"><i class="fa-solid fa-pen-ruler"></i></div>
+                      <div class="task-details">
+                        <h4>Practical Activity Instructions</h4>
+                        <p id="taskInstructionsText">Class 1: Hardware Device Identification, Computer System Labeling Activity & Picture Matching Worksheet. Refer to the practical activity document below.</p>
+                        <a href="/asset/5th class/chapter 1/class 1/practical activities.pdf" target="_blank"
+                          class="btn btn-sm btn-outline" id="linkPracticalPdf">
+                          <i class="fa-solid fa-file-pdf"></i> Download Practical Worksheet (PDF)
+                        </a>
+                      </div>
+                    </div>
+
+                    <!-- Upload Container -->
+                    <div class="upload-dropzone" id="dropzone">
+                      <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                      <div class="upload-text">
+                        <h4>Drag and drop your completed file here</h4>
+                        <p>Supports PDF, DOCX, PNG, JPG up to 10MB</p>
+                      </div>
+                      <input type="file" id="fileInput" class="file-input-hidden">
+                      <button class="btn btn-outline btn-sm" id="btnBrowseFile">
+                        <i class="fa-solid fa-folder-open"></i> Browse File
+                      </button>
+                      <div class="selected-file-name hidden" id="selectedFileInfo">
+                        <i class="fa-solid fa-file-circle-check text-blue"></i>
+                        <span id="fileNameDisplay">my_worksheet.pdf</span>
+                        <button type="button" class="btn-clear-file" id="btnClearFile"><i class="fa-solid fa-xmark"></i></button>
+                      </div>
+                    </div>
+
+                    <div class="submission-status-card hidden" id="submissionStatusBox">
+                      <div class="sub-icon"><i class="fa-solid fa-circle-check text-success"></i></div>
+                      <div>
+                        <h4>Assignment Submitted Successfully</h4>
+                        <p id="submissionMetaText">File: class1_worksheet.pdf • Status: SUBMITTED</p>
+                      </div>
+                    </div>
+
+                    <div class="step-actions submission-actions-row">
+                      <div class="email-input-inline-wrap">
+                        <i class="fa-solid fa-envelope input-email-icon"></i>
+                        <input type="email" id="studentEmailInput" class="compact-email-input" placeholder="Enter student email (required) *" required>
+                      </div>
+                      <button class="btn btn-primary btn-lg" id="btnSubmitTask" disabled>
+                        <i class="fa-solid fa-lock"></i> Upload & Submit Assignment
+                      </button>
+                    </div>
+                  </div>
+                </article>
+
+                <!-- Navigation Footer Bar -->
+                <div class="course-navigation-footer">
+                  <button class="btn btn-primary btn-lg" id="btnBackToCourse">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Subjects & Lessons
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Right Column Sidebar (30%) -->
+            <aside class="sidebar-content">
+
+              <!-- Progression Lock Status Card -->
+              <div class="sidebar-card lock-status-card">
+                <div class="sidebar-card-header">
+                  <h3><i class="fa-solid fa-lock-open text-blue"></i> Class Progression Engine</h3>
+                </div>
+                <div class="progression-summary">
+                  <div class="progress-ring-container">
+                    <svg class="progress-ring" width="100" height="100">
+                      <circle class="progress-ring-bg" cx="50" cy="50" r="40" />
+                      <circle class="progress-ring-fill" id="progressRingFill" cx="50" cy="50" r="40" />
+                    </svg>
+                    <div class="progress-ring-text" id="progressPercentageText">0%</div>
+                  </div>
+                  <div class="progression-info">
+                    <h4 id="progressionStatusTitle">Class 1 In Progress</h4>
+                    <p id="progressionSubtitleText">Complete all 5 steps of this class.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Chapter Classes Navigation List -->
+              <div class="sidebar-card nav-list-card">
+                <div class="sidebar-card-header">
+                  <h3><i class="fa-solid fa-list-ol"></i> Chapter 1 Classes</h3>
+                </div>
+
+                <div class="class-nav-list" id="sidebarClassNavList">
+                  <!-- Dynamically rendered from JSON -->
+                </div>
+              </div>
+
+              <!-- Quick Assets Card -->
+              <div class="sidebar-card assets-card">
+                <div class="sidebar-card-header">
+                  <h3><i class="fa-solid fa-folder-open"></i> Chapter 1 Assets</h3>
+                </div>
+                <div class="assets-list" id="sidebarAssetsList">
+                  <!-- Dynamically rendered -->
+                </div>
+              </div>
+
+            </aside>
+
+          </section>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL DIALOG: SUBJECTS & LESSONS MODAL ("class 1") - Image 4 UI
+       ========================================================================== -->
+  <div id="studentClassModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">class 1</h3>
+        <button type="button" class="btn-modal-close" id="btnCloseStudentClassModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Lesson 1 -->
+        <div class="lesson-item-card" id="lessonCard1">
+          <span class="lesson-label">Lesson 1</span>
+          <h4 class="lesson-title">ddd</h4>
+          <p class="lesson-desc">sdsd</p>
+          <button type="button" class="btn-watch-video" id="btnLesson1Action">
+            <i class="fa-regular fa-circle-play"></i> Watch video
+          </button>
         </div>
 
-        <!-- Chapter Classes Navigation List -->
-        <div class="sidebar-card nav-list-card">
-          <div class="sidebar-card-header">
-            <h3><i class="fa-solid fa-list-ol"></i> Chapter 1 Classes</h3>
-          </div>
-
-          <div class="class-nav-list" id="sidebarClassNavList">
-            <!-- Dynamically rendered from JSON -->
-          </div>
+        <!-- Lesson 2: computer baiscs (Triggers 5-step learning page!) -->
+        <div class="lesson-item-card" id="lessonCard2">
+          <span class="lesson-label">Lesson 2</span>
+          <h4 class="lesson-title">computer baiscs</h4>
+          <p class="lesson-desc">to learn about computer and its parts</p>
+          <button type="button" class="btn-watch-video" id="btnLesson2Action">
+            <i class="fa-regular fa-circle-play"></i> Watch video
+          </button>
         </div>
-
-        <!-- Quick Assets Card -->
-        <div class="sidebar-card assets-card">
-          <div class="sidebar-card-header">
-            <h3><i class="fa-solid fa-folder-open"></i> Chapter 1 Assets</h3>
-          </div>
-          <div class="assets-list" id="sidebarAssetsList">
-            <!-- Dynamically rendered -->
-          </div>
-        </div>
-
-      </aside>
-
-    </section>
-  </main>
+      </div>
+    </div>
+  </div>
 
   <!-- Notification Toast Container -->
   <div class="toast-container" id="toastContainer"></div>

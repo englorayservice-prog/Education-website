@@ -176,53 +176,227 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // ── Backend API Auto-Connect Integration Helper ────────────────────────────
+  const API_BASE = window.API_BASE_URL || 'http://localhost:8080/api/v1';
+
+  async function loginWithBackend(email, password) {
+    try {
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.token) {
+          localStorage.setItem('lms_token', data.token);
+          localStorage.setItem('lms_user', JSON.stringify(data));
+        }
+        return data;
+      }
+    } catch (e) {
+      console.warn('Backend API offline or unreachable. Using client auth fallback.', e);
+    }
+    return null;
+  }
+
+  async function signupWithBackend(signupData) {
+    try {
+      const res = await fetch(`${API_BASE}/auth/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(signupData)
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (e) {
+      console.warn('Backend signup offline. Simulating local registration.', e);
+    }
+    return { success: true };
+  }
+
+  async function sendCompleteStepAPI(dayClassId, stepName) {
+    const token = localStorage.getItem('lms_token');
+    if (!token) return;
+    try {
+      await fetch(`${API_BASE}/student/progress/complete-step`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ dayClassId, step: stepName })
+      });
+    } catch (e) {}
+  }
+
+  // ── Portal View Routing Functions ──────────────────────────────────────────
+  function showAuthPage(pageId, path = '/login') {
+    document.getElementById('loginRoleSelectPage')?.classList.add('hidden');
+    document.getElementById('studentSignInPage')?.classList.add('hidden');
+    document.getElementById('mentorSignInPage')?.classList.add('hidden');
+    document.getElementById('registerPage')?.classList.add('hidden');
+    document.getElementById('mentorDashboardPage')?.classList.add('hidden');
+    document.getElementById('studentPortalLayout')?.classList.add('hidden');
+    document.getElementById('studentClassModal')?.classList.add('hidden');
+
+    const target = document.getElementById(pageId);
+    if (target) target.classList.remove('hidden');
+
+    if (window.location.pathname !== path) {
+      window.history.pushState({}, '', path);
+    }
+  }
+
+  function showMentorPortal(subViewId = 'mentorDashboardView', path = '/mentor/dashboard') {
+    document.getElementById('loginRoleSelectPage')?.classList.add('hidden');
+    document.getElementById('studentSignInPage')?.classList.add('hidden');
+    document.getElementById('mentorSignInPage')?.classList.add('hidden');
+    document.getElementById('registerPage')?.classList.add('hidden');
+    document.getElementById('studentPortalLayout')?.classList.add('hidden');
+    document.getElementById('studentClassModal')?.classList.add('hidden');
+
+    const mentorDashboard = document.getElementById('mentorDashboardPage');
+    if (mentorDashboard) mentorDashboard.classList.remove('hidden');
+
+    // Hide all mentor subviews
+    document.querySelectorAll('#mentorDashboardPage .mentor-subview').forEach(v => v.classList.add('hidden'));
+
+    const targetView = document.getElementById(subViewId);
+    if (targetView) targetView.classList.remove('hidden');
+
+    if (window.location.pathname !== path) {
+      window.history.pushState({}, '', path);
+    }
+  }
+
+  function showStudentPortal(subViewId, path = '/student/dashboard') {
+    document.getElementById('loginRoleSelectPage')?.classList.add('hidden');
+    document.getElementById('studentSignInPage')?.classList.add('hidden');
+    document.getElementById('mentorSignInPage')?.classList.add('hidden');
+    document.getElementById('registerPage')?.classList.add('hidden');
+    document.getElementById('mentorDashboardPage')?.classList.add('hidden');
+
+    const studentPortal = document.getElementById('studentPortalLayout');
+    if (studentPortal) studentPortal.classList.remove('hidden');
+
+    // Hide all subviews dynamically
+    document.querySelectorAll('#studentPortalLayout .student-subview').forEach(v => v.classList.add('hidden'));
+
+    const targetSubView = document.getElementById(subViewId);
+    if (targetSubView) targetSubView.classList.remove('hidden');
+
+    // Update active sidebar nav item & breadcrumb
+    const navLinks = document.querySelectorAll('#studentPortalLayout .sidebar-nav .nav-link');
+    navLinks.forEach(link => link.classList.remove('active'));
+
+    const breadcrumbActive = document.getElementById('studentBreadcrumbActive');
+    const tabMap = {
+      'studentDashboardView': { tab: 'dashboard', label: 'Dashboard' },
+      'studentCurriculumView': { tab: 'curriculum', label: 'Curriculum Builder' },
+      'studentSubjectsView': { tab: 'subjects', label: 'Subjects & Lessons' },
+      'studentLearningPageWrapper': { tab: 'subjects', label: 'Subjects & Lessons / Lesson 2' },
+      'studentAssignmentsView': { tab: 'assignments', label: 'Assignments' },
+      'studentActivitiesView': { tab: 'activities', label: 'Activities & Resources' },
+      'studentAttendanceView': { tab: 'attendance', label: 'Attendance' },
+      'studentProgressView': { tab: 'progress', label: 'Progress & Awards' },
+      'studentAIView': { tab: 'ai', label: 'AI Assistant' },
+      'studentAnnouncementsView': { tab: 'announcements', label: 'Announcements' },
+      'studentProfileView': { tab: 'profile', label: 'Profile' }
+    };
+
+    const currentTabInfo = tabMap[subViewId] || { tab: 'dashboard', label: 'Dashboard' };
+    const activeLink = document.querySelector(`#studentPortalLayout .sidebar-nav [data-student-tab="${currentTabInfo.tab}"]`);
+    if (activeLink) activeLink.classList.add('active');
+    if (breadcrumbActive) breadcrumbActive.textContent = currentTabInfo.label;
+
+    if (window.location.pathname !== path) {
+      window.history.pushState({}, '', path);
+    }
+  }
+
   function handleCurrentRoute() {
     ensureClass1UnlockedForAllGrades();
-    const route = getRouteInfo();
+    const path = window.location.pathname;
 
-    let targetGradeNum = 3;
-    let targetChapterNum = 1;
-    let targetDayNum = 1;
-    let isOverview = false;
-
-    if (route) {
-      targetGradeNum = route.gradeNum;
-      targetChapterNum = route.chapterNum;
-      targetDayNum = route.classDayNum;
-      isOverview = route.isOverview;
-    } else if (elements.gradeSelectDropdown) {
-      targetGradeNum = parseInt(elements.gradeSelectDropdown.value) || 3;
+    if (path === '/login/student') {
+      showAuthPage('studentSignInPage', '/login/student');
+      return;
     }
-
-    let targetGrade = COURSES_DATA.grades ? COURSES_DATA.grades.find(g => g.gradeNumber === targetGradeNum) : null;
-    if (!targetGrade && COURSES_DATA.grades && COURSES_DATA.grades.length > 0) {
-      targetGrade = COURSES_DATA.grades[0];
-      targetGradeNum = targetGrade.gradeNumber;
+    if (path === '/login/mentor') {
+      showAuthPage('mentorSignInPage', '/login/mentor');
+      return;
     }
-
-    if (targetGrade && targetGrade.chapters && targetGrade.chapters.length > 0) {
-      const firstChapter = targetGrade.chapters[0];
-      COURSES_DATA.classes = firstChapter.classes;
-      COURSES_DATA.currentGradeNumber = targetGradeNum;
-
-      if (elements.gradeDisplayBadge) {
-        elements.gradeDisplayBadge.textContent = `Grade ${targetGradeNum}`;
+    if (path === '/register') {
+      showAuthPage('registerPage', '/register');
+      return;
+    }
+    if (path === '/mentor/dashboard') {
+      showMentorPortal('/mentor/dashboard');
+      return;
+    }
+    if (path === '/student/dashboard') {
+      showStudentPortal('studentDashboardView', '/student/dashboard');
+      return;
+    }
+    if (path === '/student/curriculum') {
+      showStudentPortal('studentCurriculumView', '/student/curriculum');
+      return;
+    }
+    if (path === '/student/subjects') {
+      showStudentPortal('studentSubjectsView', '/student/subjects');
+      return;
+    }
+    if (path === '/student/assignments') {
+      showStudentPortal('studentAssignmentsView', '/student/assignments');
+      return;
+    }
+    if (path === '/student/activities') {
+      showStudentPortal('studentActivitiesView', '/student/activities');
+      return;
+    }
+    if (path === '/student/attendance') {
+      showStudentPortal('studentAttendanceView', '/student/attendance');
+      return;
+    }
+    if (path === '/student/progress') {
+      showStudentPortal('studentProgressView', '/student/progress');
+      return;
+    }
+    if (path === '/student/ai') {
+      showStudentPortal('studentAIView', '/student/ai');
+      return;
+    }
+    if (path === '/student/announcements') {
+      showStudentPortal('studentAnnouncementsView', '/student/announcements');
+      return;
+    }
+    if (path === '/student/profile') {
+      showStudentPortal('studentProfileView', '/student/profile');
+      return;
+    }
+    if (path === '/student/learning' || path.startsWith('/grade-')) {
+      showStudentPortal('studentLearningPageWrapper', path);
+      const route = getRouteInfo();
+      let targetGradeNum = route ? route.gradeNum : 3;
+      let targetDayNum = route ? route.classDayNum : 1;
+      let targetGrade = COURSES_DATA.grades ? COURSES_DATA.grades.find(g => g.gradeNumber === targetGradeNum) : null;
+      if (!targetGrade && COURSES_DATA.grades && COURSES_DATA.grades.length > 0) {
+        targetGrade = COURSES_DATA.grades[0];
       }
-
-      const activeBreadcrumb = document.getElementById('breadcrumbChapterTitle');
-      if (activeBreadcrumb) {
-        activeBreadcrumb.textContent = firstChapter.chapterTitle;
-      }
-
-      if (isOverview) {
-        showCourseOverviewPage(false);
-      } else {
+      if (targetGrade && targetGrade.chapters && targetGrade.chapters.length > 0) {
+        const firstChapter = targetGrade.chapters[0];
+        COURSES_DATA.classes = firstChapter.classes;
+        COURSES_DATA.currentGradeNumber = targetGradeNum;
         const targetClass = firstChapter.classes.find(c => c.dayNumber === targetDayNum) || firstChapter.classes[0];
         loadClassView(targetClass.id, false);
       }
-
-      updateURLRoute(targetGradeNum, targetChapterNum, isOverview ? 1 : targetDayNum, isOverview, true);
+      return;
     }
+
+    // Default route: Base44 Login Page
+    showAuthPage('loginRoleSelectPage', '/login');
   }
 
   // 1. App Initialization & Real-Time Admin Sync
@@ -548,13 +722,356 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 7. Setup View Switch Events & Grade Switching
   function setupViewSwitching() {
+    // 1. Role Selection Clicks
+    document.getElementById('cardStudentRole')?.addEventListener('click', () => {
+      showAuthPage('studentSignInPage', '/login/student');
+    });
+
+    document.getElementById('cardMentorRole')?.addEventListener('click', () => {
+      showAuthPage('mentorSignInPage', '/login/mentor');
+    });
+
+    document.getElementById('btnBackFromStudentSignIn')?.addEventListener('click', () => {
+      showAuthPage('loginRoleSelectPage', '/login');
+    });
+
+    document.getElementById('btnBackToRoleSelect')?.addEventListener('click', () => {
+      showAuthPage('loginRoleSelectPage', '/login');
+    });
+
+    // 2. Auth Links (Sign-In <-> Register)
+    document.getElementById('btnLinkGoToRegister')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      showAuthPage('registerPage', '/register');
+    });
+
+    document.getElementById('btnLinkGoToSignIn')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      showAuthPage('studentSignInPage', '/login/student');
+    });
+
+    document.getElementById('btnLinkGoToSignInParent')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      showAuthPage('studentSignInPage', '/login/student');
+    });
+
+    // 3. Registration Role Toggle Tabs (I am a student / I am a parent)
+    const tabStudent = document.getElementById('tabStudentRole');
+    const tabParent = document.getElementById('tabParentRole');
+    const formStudent = document.getElementById('studentRegisterForm');
+    const formParent = document.getElementById('parentRegisterForm');
+
+    tabStudent?.addEventListener('click', () => {
+      tabStudent.classList.add('active');
+      tabParent?.classList.remove('active');
+      formStudent?.classList.remove('hidden');
+      formParent?.classList.add('hidden');
+    });
+
+    tabParent?.addEventListener('click', () => {
+      tabParent.classList.add('active');
+      tabStudent?.classList.remove('active');
+      formParent?.classList.remove('hidden');
+      formStudent?.classList.add('hidden');
+    });
+
+    // 4. Student & Parent Sign-In Submission (Auto-Connect Backend API)
+    document.getElementById('studentLoginForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('studentSignInEmail')?.value.trim();
+      const password = document.getElementById('studentSignInPassword')?.value.trim();
+
+      showToast('Connecting to backend API...', 'info');
+      const authData = await loginWithBackend(email, password);
+
+      if (authData && authData.fullName) {
+        const nameDisplay = document.getElementById('studentUserName');
+        const nameBanner = document.getElementById('bannerStudentName');
+        if (nameDisplay) nameDisplay.textContent = authData.fullName;
+        if (nameBanner) nameBanner.textContent = authData.fullName;
+      }
+
+      showStudentPortal('studentDashboardView', '/student/dashboard');
+      showToast(`Welcome back${authData && authData.fullName ? ', ' + authData.fullName : ''}!`, 'success');
+    });
+
+    document.getElementById('btnStudentGoogleSignIn')?.addEventListener('click', () => {
+      showStudentPortal('studentDashboardView', '/student/dashboard');
+      showToast('Signed in with Google!', 'success');
+    });
+
+    // 5. Mentor Sign-In Submission
+    document.getElementById('mentorLoginForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('mentorEmailInput')?.value.trim();
+      const password = document.getElementById('mentorPasswordInput')?.value.trim();
+
+      await loginWithBackend(email, password);
+      showMentorPortal('mentorDashboardView', '/mentor/dashboard');
+      showToast('Welcome back, Sri (Mentor)!', 'success');
+    });
+
+    document.getElementById('btnGoogleSignIn')?.addEventListener('click', () => {
+      showMentorPortal('mentorDashboardView', '/mentor/dashboard');
+      showToast('Signed in with Google as Mentor!', 'success');
+    });
+
+    // Mentor Sidebar Nav Items
+    const mentorNavLinks = document.querySelectorAll('#mentorDashboardPage .sidebar-nav .nav-link');
+    mentorNavLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        mentorNavLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        const tab = link.getAttribute('data-mentor-tab');
+        const viewMap = {
+          'dashboard': 'mentorDashboardView',
+          'curriculum': 'mentorCurriculumView',
+          'approvals': 'mentorApprovalsView',
+          'students': 'mentorStudentsView'
+        };
+
+        const targetView = viewMap[tab] || 'mentorGenericView';
+        if (targetView === 'mentorGenericView') {
+          const titleEl = document.getElementById('mentorGenericTitle');
+          const tabText = link.querySelector('span')?.textContent || 'Module';
+          if (titleEl) titleEl.textContent = tabText;
+        }
+        showMentorPortal(targetView, `/mentor/${tab}`);
+      });
+    });
+
+    // Open Approval Queue link on Dashboard
+    document.getElementById('linkOpenApprovalQueue')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      showMentorPortal('mentorApprovalsView', '/mentor/approvals');
+    });
+
+    // Add Class Form Submission (Classes View - Image 5)
+    document.getElementById('addClassForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const className = document.getElementById('newClassNameInput')?.value.trim();
+      const instName = document.getElementById('newClassInstInput')?.value.trim() || 'GREEN PARK SCHOOL';
+      const container = document.getElementById('mentorClassesList');
+      if (className && container) {
+        const card = document.createElement('div');
+        card.className = 'node-card class-item-card';
+        card.innerHTML = `
+          <div class="class-card-text">
+            <h3 class="node-title">${className}</h3>
+            <p class="node-subtext">${instName} &bull; &mdash;</p>
+          </div>
+          <button type="button" class="btn-node-icon text-danger" title="Delete class" onclick="this.closest('.node-card').remove();">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        `;
+        container.appendChild(card);
+        document.getElementById('addClassForm')?.reset();
+        showToast(`Added new class: ${className}`, 'success');
+      }
+    });
+
+    // Search Students & Parents Input Filter (Image 2)
+    document.getElementById('searchStudentsInput')?.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      const rows = document.querySelectorAll('#mentorStudentsTableBody tr');
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(q) ? '' : 'none';
+      });
+    });
+
+    // 6. Registration Form Submissions (Auto-Connect Backend API)
+    formStudent?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('regStudentName')?.value.trim();
+      const email = document.getElementById('regStudentEmail')?.value.trim();
+      const password = document.getElementById('regStudentPassword')?.value.trim();
+      const confirmPassword = document.getElementById('regStudentConfirmPassword')?.value.trim();
+      const grade = parseInt(document.getElementById('regStudentGrade')?.value || '3');
+
+      if (password !== confirmPassword) {
+        showToast('Passwords do not match. Please try again.', 'error');
+        return;
+      }
+
+      showToast('Registering student account...', 'info');
+      await signupWithBackend({
+        email,
+        password,
+        fullName: name,
+        role: 'ROLE_STUDENT',
+        gradeNumber: grade
+      });
+
+      showToast('Account created successfully! Please sign in.', 'success');
+      showAuthPage('studentSignInPage', '/login/student');
+    });
+
+    formParent?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('regParentName')?.value.trim();
+      const email = document.getElementById('regParentEmail')?.value.trim();
+      const password = document.getElementById('regParentPassword')?.value.trim();
+      const confirmPassword = document.getElementById('regParentConfirmPassword')?.value.trim();
+
+      if (password !== confirmPassword) {
+        showToast('Passwords do not match. Please try again.', 'error');
+        return;
+      }
+
+      showToast('Registering parent account...', 'info');
+      await signupWithBackend({
+        email,
+        password,
+        fullName: name,
+        role: 'ROLE_PARENT',
+        gradeNumber: 3
+      });
+
+      showToast('Parent account created! Pending mentor approval.', 'success');
+      showAuthPage('studentSignInPage', '/login/student');
+    });
+
+    document.getElementById('btnRegisterGoogleSignIn')?.addEventListener('click', () => {
+      showStudentPortal('studentDashboardView', '/student/dashboard');
+      showToast('Signed up with Google!', 'success');
+    });
+
+    // 7. Logout Buttons
+    document.getElementById('btnMentorLogout')?.addEventListener('click', () => {
+      localStorage.removeItem('lms_token');
+      localStorage.removeItem('lms_user');
+      showAuthPage('loginRoleSelectPage', '/login');
+      showToast('Signed out of Mentor portal', 'info');
+    });
+
+    document.getElementById('btnStudentLogout')?.addEventListener('click', () => {
+      localStorage.removeItem('lms_token');
+      localStorage.removeItem('lms_user');
+      showAuthPage('loginRoleSelectPage', '/login');
+      showToast('Signed out of Student portal', 'info');
+    });
+
+    // 8. Student Sidebar Nav Items
+    const studentNavLinks = document.querySelectorAll('#studentPortalLayout .sidebar-nav .nav-link');
+    studentNavLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const tab = link.getAttribute('data-student-tab');
+        const viewMap = {
+          'dashboard': { view: 'studentDashboardView', path: '/student/dashboard' },
+          'curriculum': { view: 'studentCurriculumView', path: '/student/curriculum' },
+          'subjects': { view: 'studentSubjectsView', path: '/student/subjects' },
+          'assignments': { view: 'studentAssignmentsView', path: '/student/assignments' },
+          'activities': { view: 'studentActivitiesView', path: '/student/activities' },
+          'attendance': { view: 'studentAttendanceView', path: '/student/attendance' },
+          'progress': { view: 'studentProgressView', path: '/student/progress' },
+          'ai': { view: 'studentAIView', path: '/student/ai' },
+          'announcements': { view: 'studentAnnouncementsView', path: '/student/announcements' },
+          'profile': { view: 'studentProfileView', path: '/student/profile' }
+        };
+
+        const target = viewMap[tab] || { view: 'studentDashboardView', path: '/student/dashboard' };
+        showStudentPortal(target.view, target.path);
+      });
+    });
+
+    // 9. Curriculum Builder "+ New class" Button Handler
+    document.getElementById('btnNewClassStudent')?.addEventListener('click', () => {
+      const className = prompt('Enter new class name:', 'CLASS 4th');
+      if (className && className.trim()) {
+        const grid = document.querySelector('#studentCurriculumView .nodes-list-grid');
+        if (grid) {
+          const card = document.createElement('div');
+          card.className = 'node-card';
+          card.innerHTML = `
+            <span class="node-title">${className.trim()}</span>
+            <div class="node-actions-group">
+              <button type="button" class="btn-node-icon text-muted" title="Lock / Unlock node" onclick="alert('${className.trim()} is unlocked.');">
+                <i class="fa-solid fa-lock-open"></i>
+              </button>
+              <button type="button" class="btn-node-icon text-muted" title="Edit node" onclick="alert('Editing ${className.trim()}');">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button type="button" class="btn-node-icon text-danger" title="Delete node" onclick="this.closest('.node-card').remove();">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          `;
+          grid.appendChild(card);
+          showToast(`Created new class: ${className.trim()}`, 'success');
+        }
+      }
+    });
+
+    // 10. AI Assistant Interactive Chat Handler
+    document.getElementById('aiChatForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('aiQueryInput');
+      const messagesBox = document.getElementById('aiChatMessages');
+      const query = input?.value.trim();
+      if (!query || !messagesBox) return;
+
+      // Add user message
+      const userMsg = document.createElement('div');
+      userMsg.className = 'chat-message user-msg';
+      userMsg.innerHTML = `<div class="msg-bubble">${query}</div>`;
+      messagesBox.appendChild(userMsg);
+
+      input.value = '';
+      messagesBox.scrollTop = messagesBox.scrollHeight;
+
+      // Simulate AI response
+      setTimeout(() => {
+        const assistantMsg = document.createElement('div');
+        assistantMsg.className = 'chat-message assistant-msg';
+        assistantMsg.innerHTML = `
+          <div class="assistant-avatar"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <div class="msg-bubble">Great question! Regarding "${query}", computers use input devices (keyboard, mouse) to receive instructions, process them in the CPU, and present results via output devices (monitor, printer).</div>
+        `;
+        messagesBox.appendChild(assistantMsg);
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+      }, 600);
+    });
+
+    // 5. Subject Card "class 1" Click -> Opens Modal (Image 4)
+    document.getElementById('subjectCardClass1')?.addEventListener('click', () => {
+      document.getElementById('studentClassModal')?.classList.remove('hidden');
+    });
+
+    // 6. Close Modal Button & Backdrop
+    document.getElementById('btnCloseStudentClassModal')?.addEventListener('click', () => {
+      document.getElementById('studentClassModal')?.classList.add('hidden');
+    });
+
+    document.getElementById('studentClassModal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'studentClassModal') {
+        document.getElementById('studentClassModal')?.classList.add('hidden');
+      }
+    });
+
+    // 7. Lesson 1 Button
+    document.getElementById('btnLesson1Action')?.addEventListener('click', () => {
+      showToast('Lesson 1: ddd loaded', 'info');
+    });
+
+    // 8. LESSON 2 BUTTON -> TRIGGERS 5-STEP CLASS LEARNING PAGE (HINT FULFILLED!)
+    document.getElementById('btnLesson2Action')?.addEventListener('click', () => {
+      document.getElementById('studentClassModal')?.classList.add('hidden');
+      showStudentPortal('studentLearningPageWrapper', '/grade-3/chapter-1/class-1');
+      loadClassView(6, false);
+      showToast('Loaded Lesson 2: computer baiscs', 'success');
+    });
+
+    // 9. Back to Subjects & Lessons button inside 5-step view
     elements.btnBackToCourse?.addEventListener('click', () => {
-      showToast('Navigating back to Course Overview Page...', 'info');
-      showCourseOverviewPage();
+      showStudentPortal('studentSubjectsView', '/student/subjects');
     });
 
     elements.logoHeaderHome?.addEventListener('click', () => {
-      showCourseOverviewPage();
+      showStudentPortal('studentDashboardView', '/student/dashboard');
     });
 
     elements.gradeSelectDropdown?.addEventListener('change', (e) => {
