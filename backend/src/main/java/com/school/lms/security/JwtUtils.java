@@ -25,11 +25,25 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    /**
+     * Generate JWT from Spring Authentication object (used by email/password login).
+     */
     public String generateJwtToken(Authentication authentication) {
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+        return buildToken(userPrincipal.getUsername());
+    }
 
+    /**
+     * Generate JWT directly from an email/username string.
+     * Used by Google OAuth login which bypasses the Spring AuthenticationManager.
+     */
+    public String generateJwtTokenForUser(String email) {
+        return buildToken(email);
+    }
+
+    private String buildToken(String subject) {
         return Jwts.builder()
-                .subject(userPrincipal.getUsername())
+                .subject(subject)
                 .issuedAt(new Date())
                 .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(getSigningKey())
@@ -54,3 +68,4 @@ public class JwtUtils {
         }
     }
 }
+

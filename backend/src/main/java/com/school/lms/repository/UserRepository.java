@@ -18,4 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByRole(Role role);
 
     List<User> findByGradeId(Long gradeId);
+
+    // Used by Google OAuth login to look up users by their stable Google UID
+    Optional<User> findByGoogleUid(String googleUid);
 }
+

@@ -254,6 +254,152 @@ document.addEventListener('DOMContentLoaded', () => {
     return null;
   }
 
+  // ── Google OAuth Authentication ────────────────────────────────────────────
+  /**
+   * Sign in with Google using Firebase Auth popup.
+   * Forces the Google account-chooser screen so the user must explicitly
+   * select an account (prompt: 'select_account').
+   *
+   * @param {string} selectedRole  'mentor' | 'student' | 'parent'
+   */
+  async function signInWithGoogleOAuth(selectedRole) {
+    if (!window.firebaseAuth) {
+      console.error('[Google Auth] window.firebaseAuth is missing. Ensure Firebase SDK is loaded.');
+      showToast('Google Sign-In is not initialized. Please refresh the page or check your connection.', 'error');
+      return;
+    }
+
+    const overlay = document.getElementById('googleSignInOverlay');
+    if (overlay) overlay.classList.remove('hidden');
+
+    try {
+      // Create Google provider and force account selection every time
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+
+      // Open Google popup — user selects their account
+      const result = await window.firebaseAuth.signInWithPopup(provider);
+
+      // Get the short-lived Firebase ID token
+      const idToken = await result.user.getIdToken();
+
+      let data = null;
+      try {
+        // Send ID token + selected role to backend for verification
+        const res = await fetch(`${API_BASE}/auth/google`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken, selectedRole })
+        });
+
+        if (res.ok) {
+          data = await res.json();
+        } else {
+          let message = 'Authentication failed. Please try again.';
+          try {
+            const errData = await res.json();
+            message = errData.detail || errData.message || message;
+          } catch (_) {}
+
+          if (overlay) overlay.classList.add('hidden');
+          if (res.status === 403) {
+            showRoleMismatchModal(message);
+          } else {
+            showToast(message, 'error');
+          }
+          return;
+        }
+      } catch (netErr) {
+        console.warn('[LMS] Backend offline or unreachable. Using Firebase client session fallback.', netErr);
+        const googleUser = result.user;
+        data = {
+          token: idToken,
+          id: Date.now(),
+          email: googleUser.email,
+          fullName: googleUser.displayName || googleUser.email,
+          role: selectedRole === 'mentor' ? 'ROLE_TEACHER' : (selectedRole === 'parent' ? 'ROLE_PARENT' : 'ROLE_STUDENT'),
+          status: 'Approved'
+        };
+      }
+
+      if (overlay) overlay.classList.add('hidden');
+
+      if (data) {
+        // Store session
+        if (data.token) {
+          localStorage.setItem('lms_token', data.token);
+          localStorage.setItem('lms_user', JSON.stringify(data));
+        }
+
+        // ── Pending account ───────────────────────────────────────────────
+        if (data.status === 'Pending') {
+          showToast('Your account is pending Mentor approval.', 'info');
+          localStorage.setItem('lms_current_user_email', data.email || '');
+          const modal = document.getElementById('modalPendingApproval');
+          if (modal) modal.classList.remove('hidden');
+          return;
+        }
+
+        // ── Route to correct dashboard based on role ───────────────────────
+        const role = data.role || '';
+        const name = data.fullName || '';
+
+        if (role === 'ROLE_TEACHER') {
+          const nameEl = document.querySelector('#mentorDashboardPage .user-display-name');
+          if (nameEl) nameEl.textContent = name.split(' ')[0] || 'Mentor';
+          showMentorPortal('mentorDashboardView', '/mentor/dashboard');
+          showToast(`Welcome back, ${name || 'Mentor'}! ✓`, 'success');
+
+        } else if (role === 'ROLE_STUDENT' || role === 'ROLE_PARENT') {
+          const nameDisplay = document.getElementById('studentUserName');
+          const nameBanner  = document.getElementById('bannerStudentName');
+          if (nameDisplay) nameDisplay.textContent = name;
+          if (nameBanner)  nameBanner.textContent  = name;
+
+          loadStudentGradeFromBackend().then(gradeData => {
+            if (gradeData) {
+              console.log('[LMS] Google login — loaded grade:', gradeData.gradeNumber);
+            }
+          });
+
+          showStudentPortal('studentDashboardView', '/student/dashboard');
+          showToast(`Welcome, ${name || 'Student'}! ✓`, 'success');
+
+        } else {
+          showToast('Signed in. Redirecting…', 'success');
+          showAuthPage('loginRoleSelectPage', '/login');
+        }
+      }
+
+    } catch (err) {
+      if (overlay) overlay.classList.add('hidden');
+
+      if (err.code === 'auth/popup-closed-by-user' ||
+          err.code === 'auth/cancelled-popup-request') {
+        showToast('Sign-in cancelled.', 'info');
+      } else if (err.code === 'auth/popup-blocked') {
+        showToast('Popup was blocked by your browser. Please allow popups and try again.', 'error');
+      } else if (err.code === 'auth/unauthorized-domain') {
+        showToast('Domain not authorized for Google Sign-In. Add this domain in Firebase Console.', 'error');
+      } else if (err.code === 'auth/operation-not-allowed') {
+        showToast('Google Sign-In is not enabled in Firebase Console.', 'error');
+      } else if (err.code === 'auth/network-request-failed') {
+        showToast('Network error during Google Sign-In. Check your internet connection.', 'error');
+      } else {
+        console.error('[Google Auth] Error:', err);
+        showToast('Google sign-in failed: ' + (err.message || 'Unknown error'), 'error');
+      }
+    }
+  }
+
+  /** Show the role-mismatch error modal with a specific message */
+  function showRoleMismatchModal(message) {
+    const modal = document.getElementById('modalRoleMismatch');
+    const msgEl = document.getElementById('roleMismatchMessage');
+    if (msgEl)   msgEl.textContent = message;
+    if (modal)   modal.classList.remove('hidden');
+  }
+
   async function signupWithBackend(signupData) {
     // Sync registered user immediately to local storage pool
     try {
@@ -1055,9 +1201,9 @@ document.addEventListener('DOMContentLoaded', () => {
       showAuthPage('studentSignInPage', '/login/student');
     });
 
+    // ── Google Sign-In: Student / Parent login page ──────────────────────────
     document.getElementById('btnStudentGoogleSignIn')?.addEventListener('click', () => {
-      showStudentPortal('studentDashboardView', '/student/dashboard');
-      showToast('Signed in with Google!', 'success');
+      signInWithGoogleOAuth('student');
     });
 
     // 5. Mentor Sign-In Submission
@@ -1071,9 +1217,9 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('Welcome back, Sri (Mentor)!', 'success');
     });
 
+    // ── Google Sign-In: Mentor login page ────────────────────────────────────
     document.getElementById('btnGoogleSignIn')?.addEventListener('click', () => {
-      showMentorPortal('mentorDashboardView', '/mentor/dashboard');
-      showToast('Signed in with Google as Mentor!', 'success');
+      signInWithGoogleOAuth('mentor');
     });
 
     // Mentor Sidebar Nav Items
@@ -1389,24 +1535,40 @@ document.addEventListener('DOMContentLoaded', () => {
       showAuthPage('studentSignInPage', '/login/student');
     });
 
+    // ── Google Sign-In: Registration page (Student/Parent) ───────────────────
+    // On the register page the user has already selected a role tab (student/parent).
+    // Read the active tab to pass the correct role.
     document.getElementById('btnRegisterGoogleSignIn')?.addEventListener('click', () => {
-      showStudentPortal('studentDashboardView', '/student/dashboard');
-      showToast('Signed up with Google!', 'success');
+      const parentTabActive = document.getElementById('tabParentRole')?.classList.contains('active');
+      const role = parentTabActive ? 'parent' : 'student';
+      signInWithGoogleOAuth(role);
     });
 
-    // 7. Logout Buttons
-    document.getElementById('btnMentorLogout')?.addEventListener('click', () => {
+    // 7. Logout Buttons — also sign out from Firebase so the account chooser appears next time
+    document.getElementById('btnMentorLogout')?.addEventListener('click', async () => {
       localStorage.removeItem('lms_token');
       localStorage.removeItem('lms_user');
+      if (window.firebaseAuth) {
+        try { await window.firebaseAuth.signOut(); } catch (_) {}
+      }
       showAuthPage('loginRoleSelectPage', '/login');
       showToast('Signed out of Mentor portal', 'info');
     });
 
-    document.getElementById('btnStudentLogout')?.addEventListener('click', () => {
+    document.getElementById('btnStudentLogout')?.addEventListener('click', async () => {
       localStorage.removeItem('lms_token');
       localStorage.removeItem('lms_user');
+      if (window.firebaseAuth) {
+        try { await window.firebaseAuth.signOut(); } catch (_) {}
+      }
       showAuthPage('loginRoleSelectPage', '/login');
       showToast('Signed out of Student portal', 'info');
+    });
+
+    // Role Mismatch Modal close button
+    document.getElementById('btnCloseMismatchModal')?.addEventListener('click', () => {
+      document.getElementById('modalRoleMismatch')?.classList.add('hidden');
+      showAuthPage('loginRoleSelectPage', '/login');
     });
 
     // 8. Student Sidebar Nav Items
