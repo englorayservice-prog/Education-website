@@ -20,4 +20,6 @@ public class AdminStudentDto {
     private Integer progressPercentage;
     private String lastActive;
     private Integer submissionsCount;
+    private String section;
+    private String status;
 }

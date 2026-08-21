@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/community/community.css">
 </head>
 
 <body>
@@ -373,22 +374,6 @@
           <i class="fa-solid fa-chalkboard-user"></i>
           <span>Classes</span>
         </a>
-        <a href="#" class="nav-link" data-mentor-tab="courses">
-          <i class="fa-solid fa-book"></i>
-          <span>Courses</span>
-        </a>
-        <a href="#" class="nav-link" data-mentor-tab="terms">
-          <i class="fa-solid fa-calendar-days"></i>
-          <span>Terms</span>
-        </a>
-        <a href="#" class="nav-link" data-mentor-tab="chapters">
-          <i class="fa-solid fa-folder-open"></i>
-          <span>Chapters</span>
-        </a>
-        <a href="#" class="nav-link" data-mentor-tab="subjects">
-          <i class="fa-solid fa-book-open"></i>
-          <span>Subjects & Lessons</span>
-        </a>
         <a href="#" class="nav-link" data-mentor-tab="assignments">
           <i class="fa-solid fa-clipboard-list"></i>
           <span>Assignments</span>
@@ -409,9 +394,9 @@
           <i class="fa-solid fa-award"></i>
           <span>Certificates & Badges</span>
         </a>
-        <a href="#" class="nav-link" data-mentor-tab="announcements">
-          <i class="fa-solid fa-bullhorn"></i>
-          <span>Announcements</span>
+        <a href="#" class="nav-link" data-mentor-tab="community">
+          <i class="fa-solid fa-comments"></i>
+          <span>Community</span>
         </a>
         <a href="#" class="nav-link" data-mentor-tab="analytics">
           <i class="fa-solid fa-chart-pie"></i>
@@ -518,37 +503,43 @@
             </button>
           </div>
 
-          <div class="nodes-list-grid margin-top-lg">
-            <div class="node-card">
-              <span class="node-title">CLASS 3rd</span>
-              <div class="node-actions-group">
-                <button type="button" class="btn-node-icon text-muted" title="Lock / Unlock node" onclick="alert('Class 3rd is unlocked.');">
-                  <i class="fa-solid fa-lock-open"></i>
+          <div id="mentorCurriculumNodesGrid" class="nodes-list-grid margin-top-lg">
+            <div class="node-card" style="display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; border-radius: 14px; border: 1px solid #cbd5e1; background: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+              <div>
+                <span class="node-title" style="font-size: 1.1rem; font-weight: 700; color: #0f172a;">CLASS 3rd</span>
+                <p style="font-size: 0.825rem; color: #64748b; margin-top: 4px;">
+                  Computer Skills & Digital Literacy &bull; Chapter 1: Computer Fundamentals &bull; <span class="badge badge-success" style="font-size:0.75rem; background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:10px;">Published Live for Grade 3</span>
+                </p>
+              </div>
+              <div class="node-actions-group" style="display: flex; gap: 8px;">
+                <button type="button" class="btn-node-icon text-muted btn-toggle-lock" data-class-id="class_3" title="Lock / Unlock node" onclick="window.toggleLockPublishedClass('class_3')">
+                  <i class="fa-solid fa-lock-open" id="iconLock_class_3"></i>
                 </button>
-                <button type="button" class="btn-node-icon text-muted" title="Edit node" onclick="alert('Edit Class 3rd');">
+                <button type="button" class="btn-node-icon text-muted btn-edit-node" data-class-id="class_3" title="Edit node" onclick="window.openCurriculumBuilderModal()">
                   <i class="fa-solid fa-pen"></i>
                 </button>
-                <button type="button" class="btn-node-icon text-danger" title="Delete node" onclick="alert('Cannot delete active class');">
+                <button type="button" class="btn-node-icon text-danger btn-delete-node" data-class-id="class_3" title="Delete node" onclick="window.deletePublishedClass('class_3')">
                   <i class="fa-solid fa-trash-can"></i>
                 </button>
               </div>
             </div>
           </div>
+
+          <!-- Backend Grade Curriculum Lock/Unlock Management -->
+          <div id="mentorGradeCurriculumContainer" class="margin-top-lg">
+            <!-- Rendered dynamically by renderMentorGradeCurriculum in app.js -->
+          </div>
         </section>
 
-        <!-- MENTOR SUB-VIEW: USER APPROVALS (Image 4 UI) -->
+        <!-- MENTOR SUB-VIEW: USER APPROVALS -->
         <section id="mentorApprovalsView" class="mentor-subview hidden">
           <div class="page-title-section">
             <h1 class="page-title">User Approvals</h1>
             <p class="page-subtitle">Approve or reject new Student, Parent, and Mentor accounts.</p>
           </div>
 
-          <div class="dashed-empty-card margin-top-lg">
-            <div class="empty-icon-box blue-box">
-              <i class="fa-regular fa-user"></i>
-            </div>
-            <h3 class="empty-card-heading">Queue is clear</h3>
-            <p class="empty-card-subtext">Every registration has been reviewed.</p>
+          <div id="mentorApprovalsContainer" class="margin-top-lg">
+            <!-- Rendered dynamically by renderMentorApprovalsQueue in app.js -->
           </div>
         </section>
 
@@ -736,6 +727,408 @@
           </div>
         </section>
 
+        <!-- MENTOR SUB-VIEW: ASSIGNMENTS -->
+        <section id="mentorAssignmentsView" class="mentor-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Assignments & Task Management</h1>
+            <p class="page-subtitle">Create assignments, control student unlock permissions, and review completed submissions.</p>
+          </div>
+
+          <!-- Form: Assign New Task / Assignment -->
+          <div class="content-panel-card margin-top-lg">
+            <div class="panel-card-header">
+              <h3 class="panel-card-title"><i class="fa-solid fa-plus-circle text-blue"></i> Assign New Task to Students</h3>
+            </div>
+            <div class="panel-card-body">
+              <form id="formCreateMentorAssignment" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
+                <div class="form-group">
+                  <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Assignment Title</label>
+                  <input type="text" id="assignTitleInput" class="form-input-clean" placeholder="e.g. Computer Hardware Sketch Task" required>
+                </div>
+                <div class="form-group">
+                  <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Target Class / Grade</label>
+                  <select id="assignGradeSelect" class="form-input-clean">
+                    <option value="3" selected>CLASS 3rd</option>
+                    <option value="1">CLASS 1st</option>
+                    <option value="2">CLASS 2nd</option>
+                    <option value="4">CLASS 4th</option>
+                    <option value="5">CLASS 5th</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Chapter / Topic</label>
+                  <input type="text" id="assignChapterInput" class="form-input-clean" placeholder="e.g. Chapter 1: Computer Fundamentals" required>
+                </div>
+                <div class="form-group span-two">
+                  <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Instructions / Description</label>
+                  <input type="text" id="assignDescInput" class="form-input-clean" placeholder="Detailed instructions for the student..." required>
+                </div>
+                <div class="form-group span-two">
+                  <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Attachment / Worksheet URL (PDF / Link)</label>
+                  <input type="url" id="assignFileUrlInput" class="form-input-clean" placeholder="https://..." value="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">
+                </div>
+                <div class="form-group span-btn" style="align-self:end;">
+                  <button type="submit" class="btn-submit-primary blue-button-full" style="height:44px;">
+                    <i class="fa-solid fa-paper-plane"></i> Assign Task to Class
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Section Switcher Tabs -->
+          <div class="role-tab-selector margin-top-lg" style="display:flex; gap:12px; background:#f8fafc; padding:6px; border-radius:12px; border:1px solid #cbd5e1;">
+            <button type="button" class="role-tab-pill active" id="btnTabAssignedTasks" style="padding:8px 18px; font-weight:700; font-size:0.85rem; border-radius:8px;">
+              <i class="fa-solid fa-list-check"></i> Assigned Tasks & Lock Controls
+            </button>
+            <button type="button" class="role-tab-pill" id="btnTabStudentSubmissions" style="padding:8px 18px; font-weight:700; font-size:0.85rem; border-radius:8px;">
+              <i class="fa-solid fa-file-arrow-up"></i> Received Student Submissions
+            </button>
+          </div>
+
+          <!-- PANEL 1: Created Assignments & Lock Controls -->
+          <div id="panelAssignedTasks" class="margin-top-md">
+            <div class="content-panel-card">
+              <div class="panel-card-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 class="panel-card-title"><i class="fa-solid fa-lock-open text-blue"></i> Assigned Tasks (Lock / Unlock Permissions)</h3>
+                <span style="font-size:0.8rem; color:#64748b;">Only <strong>unlocked</strong> assignments are visible to students.</span>
+              </div>
+              <div class="panel-card-body" id="mentorAssignedTasksList">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 2: Received Student Submissions -->
+          <div id="panelStudentSubmissions" class="margin-top-md hidden">
+            <div class="filter-search-header-row" style="display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:12px;">
+              <div style="display:flex; gap:12px; align-items:center;">
+                <select id="filterAssignmentGradeSelect" class="table-select-clean" style="padding:8px 16px; border-radius:12px; border:1px solid #cbd5e1; font-weight:600;">
+                  <option value="ALL">All Grades</option>
+                  <option value="3" selected>CLASS 3rd</option>
+                  <option value="1">CLASS 1st</option>
+                  <option value="2">CLASS 2nd</option>
+                  <option value="4">CLASS 4th</option>
+                  <option value="5">CLASS 5th</option>
+                </select>
+                <select id="filterAssignmentStatusSelect" class="table-select-clean" style="padding:8px 16px; border-radius:12px; border:1px solid #cbd5e1; font-weight:600;">
+                  <option value="ALL">All Statuses</option>
+                  <option value="SUBMITTED" selected>Pending Review</option>
+                  <option value="GRADED">Graded / Approved</option>
+                  <option value="REJECTED">Rejected</option>
+                </select>
+              </div>
+              <div class="search-input-wrap">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="searchAssignmentsInput" class="search-input-pill" placeholder="Search student or task name">
+              </div>
+            </div>
+
+            <div class="content-panel-card">
+              <div class="panel-card-body no-padding">
+                <table class="attendance-data-table mentor-students-table">
+                  <thead>
+                    <tr>
+                      <th>STUDENT & EMAIL</th>
+                      <th>GRADE</th>
+                      <th>TASK / TOPIC</th>
+                      <th>SUBMITTED FILE</th>
+                      <th>STATUS</th>
+                      <th>SCORE</th>
+                      <th class="text-right">ACTIONS</th>
+                    </tr>
+                  </thead>
+                  <tbody id="mentorAssignmentsTableBody">
+                    <!-- Rendered dynamically from backend API -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MENTOR SUB-VIEW: ACTIVITIES -->
+        <section id="mentorActivitiesView" class="mentor-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Activities & Interactive Labs</h1>
+            <p class="page-subtitle">Track student engagement across daily coding labs, quizzes, and interactive games.</p>
+          </div>
+
+          <div class="dashboard-stats-grid margin-top-lg">
+            <div class="stat-widget-card border-blue">
+              <div class="stat-card-header">
+                <span class="stat-label">Total Completed Labs</span>
+                <i class="fa-solid fa-laptop-code stat-icon text-blue"></i>
+              </div>
+              <div class="stat-value-big" id="valTotalCompletedLabs">128</div>
+              <div class="stat-footer-text"><span class="text-success"><i class="fa-solid fa-arrow-up"></i> +18%</span> vs last week</div>
+            </div>
+
+            <div class="stat-widget-card border-emerald">
+              <div class="stat-card-header">
+                <span class="stat-label">Average Quiz Score</span>
+                <i class="fa-solid fa-award stat-icon text-emerald"></i>
+              </div>
+              <div class="stat-value-big" id="valAvgQuizScore">94%</div>
+              <div class="stat-footer-text">High mastery level</div>
+            </div>
+
+            <div class="stat-widget-card border-purple">
+              <div class="stat-card-header">
+                <span class="stat-label">Interactive Game Mastery</span>
+                <i class="fa-solid fa-gamepad stat-icon text-purple"></i>
+              </div>
+              <div class="stat-value-big" id="valGameMastery">88%</div>
+              <div class="stat-footer-text">Puzzle solving completed</div>
+            </div>
+          </div>
+
+          <div class="content-panel-card margin-top-lg">
+            <div class="panel-card-header" style="display:flex; justify-content:space-between; align-items:center;">
+              <h3 class="panel-card-title"><i class="fa-solid fa-list-check text-blue"></i> Daily Class Activities & Quizzes Overview</h3>
+              <select id="filterActivityGradeSelect" class="table-select-clean" style="padding:6px 14px; border-radius:10px; border:1px solid #cbd5e1; font-weight:600;">
+                <option value="3" selected>CLASS 3rd</option>
+                <option value="1">CLASS 1st</option>
+                <option value="2">CLASS 2nd</option>
+                <option value="4">CLASS 4th</option>
+                <option value="5">CLASS 5th</option>
+              </select>
+            </div>
+            <div class="panel-card-body" id="mentorActivitiesContainer">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- MENTOR SUB-VIEW: RESOURCES -->
+        <section id="mentorResourcesView" class="mentor-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Course Resources & Learning Materials</h1>
+            <p class="page-subtitle">Publish PDF workbooks, video tutorials, and reference guides for students.</p>
+          </div>
+
+          <!-- Add Resource Form -->
+          <div class="content-panel-card margin-top-lg">
+            <div class="panel-card-header">
+              <h3 class="panel-card-title"><i class="fa-solid fa-plus-circle text-blue"></i> Add New Learning Resource</h3>
+            </div>
+            <div class="panel-card-body">
+              <form id="formAddMentorResource" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
+                <div class="form-group">
+                  <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Resource Name</label>
+                  <input type="text" id="resTitleInput" class="form-input-clean" placeholder="e.g. Chapter 1 PDF Guide" required>
+                </div>
+                <div class="form-group">
+                  <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Target Class</label>
+                  <select id="resGradeSelect" class="form-input-clean">
+                    <option value="3" selected>CLASS 3rd</option>
+                    <option value="1">CLASS 1st</option>
+                    <option value="2">CLASS 2nd</option>
+                    <option value="4">CLASS 4th</option>
+                    <option value="5">CLASS 5th</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Resource Type</label>
+                  <select id="resTypeSelect" class="form-input-clean">
+                    <option value="PDF">PDF Workbook / Guide</option>
+                    <option value="VIDEO">Video Tutorial</option>
+                    <option value="SLIDES">Slide Deck Presentation</option>
+                    <option value="LINK">Reference Web Link</option>
+                  </select>
+                </div>
+                <div class="form-group span-two">
+                  <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Resource URL or Drive Link</label>
+                  <input type="url" id="resUrlInput" class="form-input-clean" placeholder="https://..." required>
+                </div>
+                <div class="form-group span-btn" style="align-self:end;">
+                  <button type="submit" class="btn-submit-primary blue-button-full" style="height:44px;"><i class="fa-solid fa-upload"></i> Publish Resource</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Published Custom Resources Container -->
+          <div class="content-panel-card margin-top-lg">
+            <div class="panel-card-header">
+              <h3 class="panel-card-title"><i class="fa-solid fa-cloud-arrow-up text-blue"></i> Published Student Custom Resources</h3>
+            </div>
+            <div class="panel-card-body" id="mentorResourcesListContainer">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Grade Learning Resources & Materials Grid (Matching Images 1 & 2) -->
+          <div class="margin-top-lg">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
+              <div>
+                <h2 style="font-size:1.4rem; font-weight:800; color:#0f172a; margin:0;" id="mentorGradeResHeaderTitle">Grade 3 Learning Resources & Materials</h2>
+                <p style="font-size:0.875rem; color:#64748b; margin-top:4px; margin-bottom:0;">All topic documentation, video lectures, worksheets, and mentor resources.</p>
+              </div>
+              <select id="filterMentorResGradeSelect" class="table-select-clean" style="padding:8px 16px; border-radius:12px; border:1px solid #cbd5e1; font-weight:700;">
+                <option value="3" selected>CLASS 3rd</option>
+                <option value="1">CLASS 1st</option>
+                <option value="2">CLASS 2nd</option>
+                <option value="4">CLASS 4th</option>
+                <option value="5">CLASS 5th</option>
+              </select>
+            </div>
+
+            <!-- Chapter & Class Resource Cards Container -->
+            <div id="mentorGradeResourcesGridContainer">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- MENTOR SUB-VIEW: ATTENDANCE -->
+        <section id="mentorAttendanceView" class="mentor-subview hidden">
+          <div class="page-title-section" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div>
+              <h1 class="page-title">Student Attendance Register</h1>
+              <p class="page-subtitle">Record and monitor daily student attendance across classes.</p>
+            </div>
+            <!-- Tab Switcher: Daily Register vs All Marked Log -->
+            <div style="display:flex; background:#e2e8f0; padding:4px; border-radius:12px; gap:4px;">
+              <button type="button" id="btnToggleDailyRegister" style="padding:8px 16px; border-radius:8px; border:none; font-weight:700; font-size:0.85rem; cursor:pointer; background:#2563eb; color:#ffffff; transition:all 0.2s;">
+                <i class="fa-solid fa-clipboard-user"></i> Daily Register
+              </button>
+              <button type="button" id="btnToggleAllAttendanceLogs" style="padding:8px 16px; border-radius:8px; border:none; font-weight:700; font-size:0.85rem; cursor:pointer; background:transparent; color:#64748b; transition:all 0.2s;">
+                <i class="fa-solid fa-clock-rotate-left"></i> All Marked Attendance Log
+              </button>
+            </div>
+          </div>
+
+          <!-- PANEL 1: DAILY REGISTER (MARKING MODE) -->
+          <div id="panelDailyAttendanceRegister" class="margin-top-lg">
+            <div class="filter-search-header-row" style="display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:16px;">
+              <div style="display:flex; gap:12px; align-items:center;">
+                <label style="font-size:0.85rem; font-weight:700; color:#334155;">Class:</label>
+                <select id="filterAttendanceGradeSelect" class="table-select-clean" style="padding:8px 16px; border-radius:12px; border:1px solid #cbd5e1; font-weight:700;">
+                  <option value="3" selected>CLASS 3rd</option>
+                  <option value="1">CLASS 1st</option>
+                  <option value="2">CLASS 2nd</option>
+                  <option value="4">CLASS 4th</option>
+                  <option value="5">CLASS 5th</option>
+                </select>
+
+                <label style="font-size:0.85rem; font-weight:700; color:#334155; margin-left:8px;">System Date:</label>
+                <input type="date" id="attendanceDatePicker" class="table-input-clean" style="padding:8px 14px; border-radius:12px; border:1px solid #cbd5e1; font-weight:700; color:#0f172a;">
+              </div>
+              <button type="button" class="btn-submit-primary blue-button-full" id="btnSaveAttendanceAll" style="border-radius:12px; padding:10px 24px; font-weight:700;"><i class="fa-solid fa-floppy-disk"></i> Save Attendance</button>
+            </div>
+
+            <div class="content-panel-card">
+              <div class="panel-card-body no-padding">
+                <table class="attendance-data-table mentor-students-table">
+                  <thead>
+                    <tr>
+                      <th>STUDENT NAME</th>
+                      <th>EMAIL</th>
+                      <th>CLASS</th>
+                      <th>ATTENDANCE STATUS</th>
+                    </tr>
+                  </thead>
+                  <tbody id="mentorAttendanceTableBody">
+                    <!-- Rendered dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 2: ALL MARKED ATTENDANCE LOG (HISTORY MODE) -->
+          <div id="panelAllAttendanceLogs" class="margin-top-lg hidden">
+            <div class="content-panel-card">
+              <div class="panel-card-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 class="panel-card-title"><i class="fa-solid fa-folder-open text-blue"></i> Saved Attendance Records (Every Day Log)</h3>
+                <span style="font-size:0.8rem; color:#64748b;" id="attendanceTotalLogsBadge">0 Days Marked</span>
+              </div>
+              <div class="panel-card-body" id="mentorAttendanceHistoryContainer">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MENTOR SUB-VIEW: CERTIFICATES & BADGES -->
+        <section id="mentorCertificatesView" class="mentor-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Certificates & Achievement Badges</h1>
+            <p class="page-subtitle">Award digital completion certificates and achievement badges to students.</p>
+          </div>
+
+          <div class="content-panel-card margin-top-lg">
+            <div class="panel-card-header">
+              <h3 class="panel-card-title"><i class="fa-solid fa-award text-amber"></i> Student Course Completion & Badges</h3>
+            </div>
+            <div class="panel-card-body no-padding">
+              <table class="attendance-data-table mentor-students-table">
+                <thead>
+                  <tr>
+                    <th>STUDENT NAME</th>
+                    <th>EMAIL</th>
+                    <th>CLASS</th>
+                    <th>PROGRESS</th>
+                    <th>BADGES EARNED</th>
+                    <th>CERTIFICATE STATUS</th>
+                    <th class="text-right">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="mentorCertificatesTableBody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- MENTOR SUB-VIEW: REPORTS & ANALYTICS -->
+        <section id="mentorAnalyticsView" class="mentor-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Reports & Performance Analytics</h1>
+            <p class="page-subtitle">Real-time analytics on student completion rates, average scores, and curriculum stats.</p>
+          </div>
+
+          <div class="dashboard-stats-grid margin-top-lg">
+            <div class="stat-widget-card border-blue">
+              <div class="stat-card-header">
+                <span class="stat-label">Total Registered Students</span>
+                <i class="fa-solid fa-user-graduate stat-icon text-blue"></i>
+              </div>
+              <div class="stat-value-big" id="analyticsValTotalStudents">--</div>
+              <div class="stat-footer-text"><span class="text-success"><i class="fa-solid fa-circle-check"></i> Active DB</span></div>
+            </div>
+
+            <div class="stat-widget-card border-emerald">
+              <div class="stat-card-header">
+                <span class="stat-label">Submissions Reviewed</span>
+                <i class="fa-solid fa-file-circle-check stat-icon text-emerald"></i>
+              </div>
+              <div class="stat-value-big" id="analyticsValApprovedSubmissions">--</div>
+              <div class="stat-footer-text">Completed assignments</div>
+            </div>
+
+            <div class="stat-widget-card border-purple">
+              <div class="stat-card-header">
+                <span class="stat-label">Unlocked Chapters</span>
+                <i class="fa-solid fa-unlock stat-icon text-purple"></i>
+              </div>
+              <div class="stat-value-big" id="analyticsValUnlockedChapters">--</div>
+              <div class="stat-footer-text">Published curriculum</div>
+            </div>
+          </div>
+
+          <div class="content-panel-card margin-top-lg">
+            <div class="panel-card-header">
+              <h3 class="panel-card-title"><i class="fa-solid fa-chart-pie text-blue"></i> Institutional Analytics Summary</h3>
+            </div>
+            <div class="panel-card-body" id="mentorAnalyticsContainer">
+              <!-- Rendered dynamically from backend GET /api/v1/admin/dashboard -->
+            </div>
+          </div>
+        </section>
+
         <!-- MENTOR SUB-VIEW: GENERIC CONTENT VIEW -->
         <section id="mentorGenericView" class="mentor-subview hidden">
           <div class="page-title-section">
@@ -748,6 +1141,137 @@
             </div>
             <h3 class="empty-card-heading">Module Ready</h3>
             <p class="empty-card-subtext">All resources and records are synchronized.</p>
+          </div>
+        </section>
+
+        <!-- COMMUNITY SUB-VIEW (MENTOR) -->
+        <section id="mentorCommunityView" class="mentor-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Engloray Community</h1>
+            <p class="page-subtitle">Connect, discuss, ask doubts, share photos, and study resources in real time.</p>
+          </div>
+
+          <div class="community-layout-container">
+            <!-- Left Column: Channels List -->
+            <div class="community-channels-panel">
+              <div class="channels-header">
+                <div class="channels-header-title">
+                  <i class="fa-solid fa-comments"></i>
+                  <span>Channels</span>
+                </div>
+                <button type="button" class="btn-new-channel" title="Create new channel/group">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+
+              <div class="channels-search-box">
+                <div class="search-input-wrapper">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input type="text" class="channels-search-input" placeholder="Search channels...">
+                </div>
+              </div>
+
+              <div class="channels-list">
+                <!-- Rendered by community.js -->
+              </div>
+            </div>
+
+            <!-- Middle Column: Active Chat Stream -->
+            <div class="community-chat-panel">
+              <div class="chat-header">
+                <div class="chat-header-info">
+                  <div class="chat-header-avatar">
+                    <i class="fa-solid fa-comments"></i>
+                  </div>
+                  <div>
+                    <div class="chat-header-title-text">💬 General Lounge</div>
+                    <div class="chat-header-subtitle">Open discussion space for all students & mentors</div>
+                  </div>
+                </div>
+                <div class="chat-header-actions">
+                  <button type="button" class="btn-chat-action" title="Search messages">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Chat Stream Messages Container -->
+              <div class="chat-messages-container">
+                <!-- Messages rendered by community.js -->
+              </div>
+
+              <!-- Input Bar -->
+              <div class="chat-input-bar">
+                <div class="input-actions-left">
+                  <button type="button" class="btn-attachment-toggle" title="Attach file or photo">
+                    <i class="fa-solid fa-paperclip"></i>
+                  </button>
+
+                  <div class="attachment-menu-popup" style="display: none;">
+                    <button type="button" class="attachment-menu-item" id="btnAttachPhoto">
+                      <i class="fa-solid fa-image"></i>
+                      <span>Send Photo</span>
+                    </button>
+                    <button type="button" class="attachment-menu-item" id="btnAttachDoc">
+                      <i class="fa-solid fa-file-lines"></i>
+                      <span>Send Document</span>
+                    </button>
+                  </div>
+
+                  <!-- Hidden File Inputs -->
+                  <input type="file" id="fileInputPhoto" accept="image/*" style="display:none;">
+                  <input type="file" id="fileInputDoc" accept=".pdf,.doc,.docx,.ppt,.pptx,.zip,.txt" style="display:none;">
+                </div>
+
+                <input type="text" class="chat-text-input" placeholder="Type a message or share files...">
+
+                <button type="button" class="btn-send-message" title="Send message">
+                  <i class="fa-solid fa-paper-plane"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right Column: Media Gallery & Group Info -->
+            <div class="community-info-panel">
+              <div class="info-panel-header">
+                <div class="info-panel-avatar">
+                  <i class="fa-solid fa-comments"></i>
+                </div>
+                <div class="info-panel-title">General Lounge</div>
+                <div class="info-panel-desc">Community discussion for Engloray Learning.</div>
+              </div>
+
+              <div class="info-section">
+                <div class="info-section-title">
+                  <span>Shared Media</span>
+                  <i class="fa-solid fa-images"></i>
+                </div>
+                <div class="media-thumbs-grid">
+                  <!-- Rendered by community.js -->
+                </div>
+              </div>
+
+              <div class="info-section">
+                <div class="info-section-title">
+                  <span>Active Members</span>
+                  <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="members-list">
+                  <div class="member-row">
+                    <div class="member-avatar">S</div>
+                    <div class="member-name">Sri (Mentor)</div>
+                  </div>
+                  <div class="member-row">
+                    <div class="member-avatar" style="background:#dbeafe; color:#1e40af;">G</div>
+                    <div class="member-name">Gowtham D</div>
+                  </div>
+                  <div class="member-row">
+                    <div class="member-avatar" style="background:#e0e7ff; color:#3730a3;">SM</div>
+                    <div class="member-name">SRIRAM Mayan</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -774,10 +1298,6 @@
           <i class="fa-solid fa-border-all"></i>
           <span>Dashboard</span>
         </a>
-        <a href="#" class="nav-link" id="studentNavCurriculum" data-student-tab="curriculum">
-          <i class="fa-solid fa-layer-group"></i>
-          <span>Curriculum Builder</span>
-        </a>
         <a href="#" class="nav-link" id="studentNavSubjects" data-student-tab="subjects">
           <i class="fa-solid fa-book-open"></i>
           <span>Subjects & Lessons</span>
@@ -787,8 +1307,12 @@
           <span>Assignments</span>
         </a>
         <a href="#" class="nav-link" id="studentNavActivities" data-student-tab="activities">
-          <i class="fa-solid fa-chart-line"></i>
-          <span>Activities & Resources</span>
+          <i class="fa-solid fa-flask"></i>
+          <span>Practical Activities</span>
+        </a>
+        <a href="#" class="nav-link" id="studentNavResources" data-student-tab="resources">
+          <i class="fa-solid fa-folder"></i>
+          <span>Learning Resources</span>
         </a>
         <a href="#" class="nav-link" id="studentNavAttendance" data-student-tab="attendance">
           <i class="fa-solid fa-calendar-check"></i>
@@ -798,13 +1322,9 @@
           <i class="fa-solid fa-award"></i>
           <span>Progress & Awards</span>
         </a>
-        <a href="#" class="nav-link" id="studentNavAI" data-student-tab="ai">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
-          <span>AI Assistant</span>
-        </a>
-        <a href="#" class="nav-link" id="studentNavAnnouncements" data-student-tab="announcements">
-          <i class="fa-solid fa-bullhorn"></i>
-          <span>Announcements</span>
+        <a href="#" class="nav-link" id="studentNavCommunity" data-student-tab="community">
+          <i class="fa-solid fa-comments"></i>
+          <span>Community</span>
         </a>
         <a href="#" class="nav-link" id="studentNavProfile" data-student-tab="profile">
           <i class="fa-regular fa-user"></i>
@@ -912,57 +1432,63 @@
           </div>
         </section>
 
-        <!-- SUB-VIEW 4B: CURRICULUM BUILDER -->
+        <!-- SUB-VIEW 4B: CURRICULUM BUILDER (STUDENT EXPLORER) -->
         <section id="studentCurriculumView" class="student-subview hidden">
           <div class="page-title-header-flex">
             <div class="page-title-section">
               <h1 class="page-title">Curriculum Builder</h1>
-              <p class="page-subtitle">One flow: Class &rarr; Course &rarr; Term &rarr; Chapter &rarr; Lessons, Activities, Assignments & Resources. Lock or unlock any node.</p>
+              <p class="page-subtitle">Scheduled Flow: Class &rarr; Course &rarr; Term &rarr; Chapter &rarr; Lessons, Activities, Assignments & Resources.</p>
             </div>
-            <button type="button" class="btn-primary-action" id="btnNewClassStudent">
-              <i class="fa-solid fa-plus"></i> New class
-            </button>
           </div>
 
-          <div class="filter-pills-row margin-top-md">
-            <button type="button" class="pill-btn active">
-              <i class="fa-solid fa-layer-group"></i> Classes
-            </button>
+          <!-- Dynamic Breadcrumb Navigation Pills -->
+          <div id="studentCurriculumBreadcrumbs" class="filter-pills-row margin-top-md">
+            <!-- Rendered by initStudentCurriculumExplorer in app.js -->
           </div>
 
-          <div class="nodes-list-grid margin-top-lg">
-            <div class="node-card" id="nodeClass3rd">
-              <span class="node-title">CLASS 3rd</span>
-              <div class="node-actions-group">
-                <button type="button" class="btn-node-icon text-muted" title="Lock / Unlock node" onclick="alert('Class 3rd is unlocked.');">
-                  <i class="fa-solid fa-lock-open"></i>
-                </button>
-                <button type="button" class="btn-node-icon text-muted" title="Edit node" onclick="alert('Editing Class 3rd');">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button type="button" class="btn-node-icon text-danger" title="Delete node" onclick="alert('Cannot delete default active class.');">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </div>
-            </div>
+          <!-- Dynamic Drilldown Content Container -->
+          <div id="studentCurriculumContainer" class="margin-top-lg">
+            <!-- Rendered by initStudentCurriculumExplorer in app.js -->
           </div>
         </section>
 
-        <!-- SUB-VIEW 4C: SUBJECTS & LESSONS -->
+        <!-- SUB-VIEW 4C: SUBJECTS & LESSONS (Image 2 & 3 UI Flow) -->
         <section id="studentSubjectsView" class="student-subview hidden">
-          <div class="page-title-section">
-            <h1 class="page-title">Subjects & Lessons</h1>
-            <p class="page-subtitle" id="subjectsGradeSubtitle">Curriculum for CLASS 3rd</p>
+          <!-- Page Header & Back Button Row (Image 2 UI) -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div>
+              <h1 class="page-title" style="font-size: 1.6rem; font-weight: 700; color: #0f172a; margin-bottom: 4px;">Subjects & Lessons</h1>
+              <p class="page-subtitle" id="studentSubjectsBreadcrumbText" style="font-size: 0.875rem; color: #64748b;">
+                CLASS 3rd &rsaquo; Computer Skills &rsaquo; TERM 1 &rsaquo; Chapter 1: Computer Fundamentals
+              </p>
+            </div>
+            <button type="button" class="btn btn-outline btn-sm" id="btnStudentBackToChapters" style="border-radius: 8px; font-size: 0.85rem; padding: 6px 14px; background: #ffffff; color: #475569; border: 1px solid #cbd5e1;">
+              <i class="fa-solid fa-arrow-left"></i> Back to chapters
+            </button>
           </div>
 
-          <div class="subject-cards-grid margin-top-lg">
-            <!-- Subject Card for class 1 -->
-            <div class="subject-card" id="subjectCardClass1">
-              <div class="subject-card-icon-box">
-                <i class="fa-solid fa-book-open"></i>
-              </div>
-              <h3 class="subject-card-title">class 1</h3>
-            </div>
+          <!-- Horizontal Navigation Tabs matching Image 2 -->
+          <div class="role-tab-selector" style="display: flex; gap: 8px; background: #f8fafc; padding: 6px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 20px; overflow-x: auto;">
+            <button type="button" class="role-tab-pill active" id="tabSubjLessons" style="border-radius: 8px; font-weight: 600; font-size: 0.85rem; padding: 8px 16px;">
+              <i class="fa-solid fa-book-open"></i> Subjects & Lessons
+            </button>
+            <button type="button" class="role-tab-pill" id="tabSubjEndActivities" style="border-radius: 8px; font-weight: 600; font-size: 0.85rem; padding: 8px 16px;">
+              <i class="fa-solid fa-flag"></i> End Activities
+            </button>
+            <button type="button" class="role-tab-pill" id="tabSubjAssignments" style="border-radius: 8px; font-weight: 600; font-size: 0.85rem; padding: 8px 16px;">
+              <i class="fa-solid fa-clipboard-list"></i> Assignments
+            </button>
+            <button type="button" class="role-tab-pill" id="tabSubjActivities" style="border-radius: 8px; font-weight: 600; font-size: 0.85rem; padding: 8px 16px;">
+              <i class="fa-solid fa-chart-line"></i> Activities
+            </button>
+            <button type="button" class="role-tab-pill" id="tabSubjResources" style="border-radius: 8px; font-weight: 600; font-size: 0.85rem; padding: 8px 16px;">
+              <i class="fa-regular fa-folder"></i> Resources
+            </button>
+          </div>
+
+          <!-- Dynamic Container for Subjects & Lessons / Activities / Assignments -->
+          <div id="studentSubjectsTabContent">
+            <!-- Rendered dynamically by renderStudentSubjectsView in app.js -->
           </div>
         </section>
 
@@ -982,31 +1508,25 @@
           </div>
         </section>
 
-        <!-- SUB-VIEW 4E: ACTIVITIES & RESOURCES (Image 1 UI) -->
+        <!-- SUB-VIEW 4E: PRACTICAL ACTIVITIES -->
         <section id="studentActivitiesView" class="student-subview hidden">
           <div class="page-title-section">
-            <h1 class="page-title">Activities & Resources</h1>
-            <p class="page-subtitle">Practice tasks and study material for your class.</p>
+            <h1 class="page-title">Practical Activities & Interactive Labs</h1>
+            <p class="page-subtitle">Complete practical tasks assigned by your mentor and submit your work.</p>
           </div>
-
-          <div class="section-block margin-top-lg">
-            <h4 class="section-label-header">ACTIVITIES</h4>
-            <div class="dashed-empty-card margin-top-sm">
-              <div class="empty-icon-box blue-box">
-                <i class="fa-solid fa-chart-line"></i>
-              </div>
-              <p class="empty-card-heading-simple">No activities yet</p>
-            </div>
+          <div id="studentActivitiesContainer">
+            <!-- Rendered dynamically by renderStudentActivitiesView in app.js -->
           </div>
+        </section>
 
-          <div class="section-block margin-top-lg">
-            <h4 class="section-label-header">RESOURCES</h4>
-            <div class="dashed-empty-card margin-top-sm">
-              <div class="empty-icon-box blue-box">
-                <i class="fa-regular fa-folder"></i>
-              </div>
-              <p class="empty-card-heading-simple">No resources yet</p>
-            </div>
+        <!-- SUB-VIEW 4E-2: LEARNING RESOURCES & MATERIALS -->
+        <section id="studentResourcesView" class="student-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Learning Resources & Materials</h1>
+            <p class="page-subtitle">Access topic documentations, video lectures, and unlocked chapter resources.</p>
+          </div>
+          <div id="studentResourcesContainer">
+            <!-- Rendered dynamically by renderStudentResourcesView in app.js -->
           </div>
         </section>
 
@@ -1144,29 +1664,7 @@
           </div>
         </section>
 
-        <!-- SUB-VIEW 4H: AI ASSISTANT -->
-        <section id="studentAIView" class="student-subview hidden">
-          <div class="page-title-section">
-            <h1 class="page-title">AI Assistant</h1>
-            <p class="page-subtitle">Ask anything about your courses or study topics.</p>
-          </div>
 
-          <div class="ai-chat-card margin-top-lg">
-            <div class="chat-messages-container" id="aiChatMessages">
-              <div class="chat-message assistant-msg">
-                <div class="assistant-avatar"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                <div class="msg-bubble">
-                  Hello SRIRAM! I am your AI Learning Assistant. How can I help you with your lessons today?
-                </div>
-              </div>
-            </div>
-
-            <form id="aiChatForm" class="chat-input-row">
-              <input type="text" id="aiQueryInput" class="form-input-clean" placeholder="Ask a question about your subject..." required>
-              <button type="submit" class="btn-primary-action"><i class="fa-solid fa-paper-plane"></i> Send</button>
-            </form>
-          </div>
-        </section>
 
         <!-- SUB-VIEW 4I: ANNOUNCEMENTS -->
         <section id="studentAnnouncementsView" class="student-subview hidden">
@@ -1202,6 +1700,137 @@
                 <div class="profile-item"><label>EMAIL</label><span>student5@school.com</span></div>
                 <div class="profile-item"><label>INSTITUTION</label><span>GREEN PARK SCHOOL</span></div>
                 <div class="profile-item"><label>GRADE</label><span>CLASS 3rd</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- COMMUNITY SUB-VIEW (STUDENT) -->
+        <section id="studentCommunityView" class="student-subview hidden">
+          <div class="page-title-section">
+            <h1 class="page-title">Engloray Community</h1>
+            <p class="page-subtitle">Connect, discuss, ask doubts, share photos, and study resources in real time.</p>
+          </div>
+
+          <div class="community-layout-container">
+            <!-- Left Column: Channels List -->
+            <div class="community-channels-panel">
+              <div class="channels-header">
+                <div class="channels-header-title">
+                  <i class="fa-solid fa-comments"></i>
+                  <span>Channels</span>
+                </div>
+                <button type="button" class="btn-new-channel" title="Create new channel/group">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+
+              <div class="channels-search-box">
+                <div class="search-input-wrapper">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input type="text" class="channels-search-input" placeholder="Search channels...">
+                </div>
+              </div>
+
+              <div class="channels-list">
+                <!-- Rendered by community.js -->
+              </div>
+            </div>
+
+            <!-- Middle Column: Active Chat Stream -->
+            <div class="community-chat-panel">
+              <div class="chat-header">
+                <div class="chat-header-info">
+                  <div class="chat-header-avatar">
+                    <i class="fa-solid fa-comments"></i>
+                  </div>
+                  <div>
+                    <div class="chat-header-title-text">💬 General Lounge</div>
+                    <div class="chat-header-subtitle">Open discussion space for all students & mentors</div>
+                  </div>
+                </div>
+                <div class="chat-header-actions">
+                  <button type="button" class="btn-chat-action" title="Search messages">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Chat Stream Messages Container -->
+              <div class="chat-messages-container">
+                <!-- Messages rendered by community.js -->
+              </div>
+
+              <!-- Input Bar -->
+              <div class="chat-input-bar">
+                <div class="input-actions-left">
+                  <button type="button" class="btn-attachment-toggle" title="Attach file or photo">
+                    <i class="fa-solid fa-paperclip"></i>
+                  </button>
+
+                  <div class="attachment-menu-popup" style="display: none;">
+                    <button type="button" class="attachment-menu-item" id="btnAttachPhotoStudent">
+                      <i class="fa-solid fa-image"></i>
+                      <span>Send Photo</span>
+                    </button>
+                    <button type="button" class="attachment-menu-item" id="btnAttachDocStudent">
+                      <i class="fa-solid fa-file-lines"></i>
+                      <span>Send Document</span>
+                    </button>
+                  </div>
+
+                  <!-- Hidden File Inputs -->
+                  <input type="file" id="fileInputPhotoStudent" accept="image/*" style="display:none;">
+                  <input type="file" id="fileInputDocStudent" accept=".pdf,.doc,.docx,.ppt,.pptx,.zip,.txt" style="display:none;">
+                </div>
+
+                <input type="text" class="chat-text-input" placeholder="Type a message or share files...">
+
+                <button type="button" class="btn-send-message" title="Send message">
+                  <i class="fa-solid fa-paper-plane"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right Column: Media Gallery & Group Info -->
+            <div class="community-info-panel">
+              <div class="info-panel-header">
+                <div class="info-panel-avatar">
+                  <i class="fa-solid fa-comments"></i>
+                </div>
+                <div class="info-panel-title">General Lounge</div>
+                <div class="info-panel-desc">Community discussion for Engloray Learning.</div>
+              </div>
+
+              <div class="info-section">
+                <div class="info-section-title">
+                  <span>Shared Media</span>
+                  <i class="fa-solid fa-images"></i>
+                </div>
+                <div class="media-thumbs-grid">
+                  <!-- Rendered by community.js -->
+                </div>
+              </div>
+
+              <div class="info-section">
+                <div class="info-section-title">
+                  <span>Active Members</span>
+                  <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="members-list">
+                  <div class="member-row">
+                    <div class="member-avatar">S</div>
+                    <div class="member-name">Sri (Mentor)</div>
+                  </div>
+                  <div class="member-row">
+                    <div class="member-avatar" style="background:#dbeafe; color:#1e40af;">G</div>
+                    <div class="member-name">Gowtham D</div>
+                  </div>
+                  <div class="member-row">
+                    <div class="member-avatar" style="background:#e0e7ff; color:#3730a3;">SM</div>
+                    <div class="member-name">SRIRAM Mayan</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1557,12 +2186,321 @@
     </div>
   </div>
 
+  <!-- ==========================================================================
+       MENTOR CURRICULUM BUILDER DIALOG MODAL (Class -> Course -> Term -> Chapter -> Lessons)
+       ========================================================================== -->
+  <div id="modalCurriculumBuilder" class="modal-backdrop hidden">
+    <div class="modal-card" style="max-width: 680px; width: 92%; max-height: 85vh; overflow-y: auto;">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-layer-group text-blue"></i> Curriculum Flow Builder</h3>
+        <button type="button" class="btn-modal-close" id="btnCloseCurriculumBuilderModal">&times;</button>
+      </div>
+      
+      <form id="formCurriculumBuilder">
+        <div class="modal-body" style="display: flex; flex-direction: column; gap: 16px; padding: 20px;">
+          <p style="font-size: 0.85rem; color: #64748b; margin-top: -6px;">
+            Configure flow: <strong>Class &rarr; Course &rarr; Term &rarr; Chapter &rarr; Lessons, Activities & Assignments</strong>. Submissions publish live to Students & Parents.
+          </p>
+
+          <!-- Flow Section 1: Class / Grade -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
+            <label style="font-weight: 700; font-size: 0.875rem; color: #0f172a; display: block; margin-bottom: 6px;">
+              1. Class / Grade Name
+            </label>
+            <div style="display: grid; grid-template-columns: 1fr 140px; gap: 10px;">
+              <input type="text" id="curriculumInputClassName" class="chat-text-input" placeholder="e.g. CLASS 4th" required style="border-radius: 8px;">
+              <select id="curriculumInputGradeNum" class="chat-text-input" style="border-radius: 8px;">
+                <option value="3">Grade 3</option>
+                <option value="4" selected>Grade 4</option>
+                <option value="5">Grade 5</option>
+                <option value="6">Grade 6</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Flow Section 2: Course Details -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
+            <label style="font-weight: 700; font-size: 0.875rem; color: #0f172a; display: block; margin-bottom: 6px;">
+              2. Scheduled Course Name & Overview
+            </label>
+            <input type="text" id="curriculumInputCourseName" class="chat-text-input" placeholder="e.g. Computer Hardware & Applications" required style="border-radius: 8px; margin-bottom: 8px;">
+            <input type="text" id="curriculumInputCourseDesc" class="chat-text-input" placeholder="Course description and learning objectives..." style="border-radius: 8px;">
+          </div>
+
+          <!-- Flow Section 3: Registered Term -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
+            <label style="font-weight: 700; font-size: 0.875rem; color: #0f172a; display: block; margin-bottom: 6px;">
+              3. Registered Term
+            </label>
+            <div style="display: grid; grid-template-columns: 130px 1fr; gap: 10px;">
+              <select id="curriculumInputTermNum" class="chat-text-input" style="border-radius: 8px;">
+                <option value="1">Term 1</option>
+                <option value="2">Term 2</option>
+              </select>
+              <input type="text" id="curriculumInputTermName" class="chat-text-input" placeholder="e.g. Term 1: Hardware & System Basics" required style="border-radius: 8px;">
+            </div>
+          </div>
+
+          <!-- Flow Section 4: Chapter Details -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
+            <label style="font-weight: 700; font-size: 0.875rem; color: #0f172a; display: block; margin-bottom: 6px;">
+              4. Scheduled Chapter
+            </label>
+            <input type="text" id="curriculumInputChapTitle" class="chat-text-input" placeholder="e.g. Chapter 1: Computer Fundamentals & Hardware" required style="border-radius: 8px; margin-bottom: 8px;">
+            <input type="text" id="curriculumInputChapDesc" class="chat-text-input" placeholder="Chapter overview and topics summary..." style="border-radius: 8px;">
+          </div>
+
+          <!-- Flow Section 5: Lessons, Activities & Assignments -->
+          <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 14px;">
+            <label style="font-weight: 700; font-size: 0.875rem; color: #1e40af; display: block; margin-bottom: 6px;">
+              5. Daily Class Lesson, Activity & Assignment Setup
+            </label>
+            
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <input type="text" id="curriculumInputLessonTitle" class="chat-text-input" placeholder="Class / Lesson Title (e.g. Class 1: Hardware Devices & System)" required style="border-radius: 8px; background: #ffffff;">
+              <input type="text" id="curriculumInputLessonDesc" class="chat-text-input" placeholder="Topics covered summary..." style="border-radius: 8px; background: #ffffff;">
+              
+              <!-- 5 Steps Inputs -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px;">
+                <div>
+                  <span style="font-size: 0.75rem; font-weight: 700; color: #2563eb;">Step 1: Lesson Video URL</span>
+                  <input type="text" id="curriculumInputVideoUrl" class="chat-text-input" placeholder="https://www.youtube.com/embed/..." style="border-radius: 6px; font-size: 0.8rem; background: #ffffff;">
+                </div>
+                <div>
+                  <span style="font-size: 0.75rem; font-weight: 700; color: #dc2626;">Step 2: Topics PDF File URL</span>
+                  <input type="text" id="curriculumInputPdfUrl" placeholder="TOPIC COVERED.pdf" class="chat-text-input" style="border-radius: 6px; font-size: 0.8rem; background: #ffffff;">
+                </div>
+                <div>
+                  <span style="font-size: 0.75rem; font-weight: 700; color: #059669;">Step 3: Activity Portal Link</span>
+                  <input type="text" id="curriculumInputActivityUrl" placeholder="https://www.geeksforgeeks.org/..." class="chat-text-input" style="border-radius: 6px; font-size: 0.8rem; background: #ffffff;">
+                </div>
+                <div>
+                  <span style="font-size: 0.75rem; font-weight: 700; color: #d97706;">Step 4: Quiz Question</span>
+                  <input type="text" id="curriculumInputQuizQ" placeholder="Which component is internal hardware?" class="chat-text-input" style="border-radius: 6px; font-size: 0.8rem; background: #ffffff;">
+                </div>
+              </div>
+
+              <!-- Step 5 Assignment Input -->
+              <div style="margin-top: 4px;">
+                <span style="font-size: 0.75rem; font-weight: 700; color: #7c3aed;">Step 5: Practical Task Assignment Title</span>
+                <input type="text" id="curriculumInputTaskTitle" placeholder="e.g. Activity 1: Hardware Identification Worksheet" class="chat-text-input" style="border-radius: 6px; font-size: 0.8rem; background: #ffffff;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer" style="padding: 14px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn btn-outline btn-sm" id="btnCancelCurriculumModal" style="border-radius: 20px;">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm" style="border-radius: 20px;">
+            <i class="fa-solid fa-paper-plane"></i> Save & Publish Flow
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ACCOUNT PENDING APPROVAL MODAL (IMAGE 2 UI)
+       ========================================================================== -->
+  <div id="modalPendingApproval" class="modal-backdrop hidden" style="background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(8px); z-index: 99999;">
+    <div class="modal-card" style="max-width: 440px; width: 90%; text-align: center; padding: 36px 28px; border-radius: 24px; box-shadow: 0 25px 60px rgba(0,0,0,0.3); background: #ffffff;">
+      <!-- Hourglass Blue Icon Box -->
+      <div style="width: 56px; height: 56px; border-radius: 16px; background: #2563eb; color: #ffffff; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 1.6rem; box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);">
+        <i class="fa-solid fa-hourglass-half"></i>
+      </div>
+
+      <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 700; color: #0f172a; margin-bottom: 10px;">
+        Account Pending Approval
+      </h3>
+
+      <p style="font-size: 0.875rem; color: #64748b; line-height: 1.55; margin-bottom: 20px; max-width: 380px; margin-left: auto; margin-right: auto;">
+        Your account has been created successfully and is currently awaiting approval from your Mentor. You will receive access to your learning dashboard once your account has been approved.
+      </p>
+
+      <div style="margin-bottom: 24px;">
+        <span style="background: #fffbeb; color: #d97706; border: 1px solid #fef3c7; font-size: 0.8rem; font-weight: 700; padding: 6px 16px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px;">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: #f59e0b; display: inline-block;"></span> Pending Approval
+        </span>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button type="button" class="btn btn-primary" id="btnRefreshPendingStatus" style="border-radius: 12px; width: 100%; padding: 12px; font-size: 0.925rem; font-weight: 600; background: #2563eb; color: #ffffff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease;">
+          <i class="fa-solid fa-rotate"></i> Refresh Status
+        </button>
+        <button type="button" class="btn btn-outline" id="btnLogoutPendingAccount" style="border-radius: 12px; width: 100%; padding: 12px; font-size: 0.925rem; font-weight: 600; background: #f1f5f9; color: #475569; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease;">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STUDENT ASSIGNMENT SUBMISSION MODAL -->
+  <div id="modalStudentSubmitAssignment" class="modal-backdrop hidden">
+    <div class="modal-card" style="max-width: 580px; width: 92%;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="submitModalAssignmentTitle"><i class="fa-solid fa-file-arrow-up text-blue"></i> Submit Assignment to Mentor</h3>
+        <button type="button" class="btn-modal-close" id="btnCloseStudentSubmitModal">&times;</button>
+      </div>
+      <form id="formStudentAssignmentSubmission">
+        <input type="hidden" id="submitModalAssignmentId">
+        <div class="modal-body" style="display:flex; flex-direction:column; gap:14px; padding:20px;">
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px;">
+            <div style="font-size:0.775rem; font-weight:700; color:#2563eb;" id="submitModalChapterText">Chapter 1</div>
+            <h4 style="font-size:1.05rem; font-weight:700; color:#0f172a; margin:4px 0;" id="submitModalTaskTitle">Assignment Title</h4>
+            <p style="font-size:0.85rem; color:#64748b; margin:0;" id="submitModalTaskDesc">Instructions...</p>
+            <div style="margin-top:10px;" id="submitModalFileLinkWrap">
+              <a href="#" target="_blank" id="submitModalFileLink" class="btn btn-sm btn-outline-clean" style="border-radius:8px; font-size:0.8rem; font-weight:600;">
+                <i class="fa-solid fa-paperclip"></i> Download Mentor Assignment File
+              </a>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Student Email Address *</label>
+            <input type="email" id="submitModalStudentEmail" class="form-input-clean" placeholder="e.g. student@school.com" required>
+          </div>
+
+          <div class="form-group">
+            <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Submission File URL / Attachment Link *</label>
+            <input type="url" id="submitModalFileUrl" class="form-input-clean" placeholder="https://..." value="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" required>
+          </div>
+
+          <div class="form-group">
+            <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Student Notes / Comments (Optional)</label>
+            <textarea id="submitModalNotes" class="form-input-clean" style="height:70px; resize:none;" placeholder="Notes for mentor..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit-primary blue-button-full" style="height:44px; margin-top:8px;">
+            <i class="fa-solid fa-paper-plane"></i> Submit Completed Assignment
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- BADGE INFO DETAIL MODAL -->
+  <div id="modalBadgeInfoDetail" class="modal-backdrop hidden">
+    <div class="modal-card" style="max-width: 480px; width: 92%; border-radius: 20px;">
+      <div class="modal-header" style="background:#fffbeb; border-bottom:1px solid #fef3c7;">
+        <h3 class="modal-title" id="badgeModalTitle" style="color:#92400e; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-award text-amber"></i> Badge Information</h3>
+        <button type="button" class="btn-modal-close" id="btnCloseBadgeModal">&times;</button>
+      </div>
+      <div class="modal-body" style="padding:28px 24px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:12px;">
+        <div id="badgeModalIconBox" style="width:72px; height:72px; border-radius:50%; background:#fef3c7; color:#d97706; display:flex; align-items:center; justify-content:center; font-size:2.5rem; box-shadow:0 6px 16px rgba(217,119,6,0.15);">🥇</div>
+        <h2 id="badgeModalName" style="font-size:1.3rem; font-weight:800; color:#0f172a; margin:4px 0 0 0;">Computer Starter Badge</h2>
+        <div id="badgeModalTopicTag" style="font-size:0.8rem; font-weight:700; color:#2563eb; background:#eff6ff; padding:4px 14px; border-radius:12px;">Chapter 1 Mastery</div>
+        <p id="badgeModalDescription" style="font-size:0.875rem; color:#475569; margin:8px 0; line-height:1.6;">Awarded for completing all Class 1 to Class 4 lessons and practical activities in Computer Fundamentals.</p>
+        <div style="font-size:0.775rem; color:#94a3b8; border-top:1px solid #f1f5f9; padding-top:12px; width:100%;" id="badgeModalEarnedAt">Status: Unlocked & Earned</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DUMMY CERTIFICATE VIEW MODAL -->
+  <div id="modalCertificateViewer" class="modal-backdrop hidden">
+    <div class="modal-card" style="max-width: 820px; width: 94%; border-radius: 20px; padding: 0; overflow: hidden;">
+      <div class="modal-header" style="background:#0f172a; color:#ffffff; padding:14px 24px;">
+        <h3 class="modal-title" style="color:#ffffff; font-size:1rem; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-graduation-cap text-blue"></i> Official Course Completion Certificate</h3>
+        <button type="button" class="btn-modal-close" id="btnCloseCertificateModal" style="color:#ffffff;">&times;</button>
+      </div>
+      <div class="modal-body" style="padding:32px 36px; background:#fafafa; display:flex; flex-direction:column; align-items:center;">
+        
+        <!-- Certificate Card Visual Container -->
+        <div style="width:100%; background:#ffffff; border:10px solid #1e3a8a; outline:2px solid #fbbf24; border-radius:12px; padding:40px 48px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.1); position:relative;">
+          <div style="font-size:0.75rem; font-weight:800; letter-spacing:2px; color:#2563eb; text-transform:uppercase;">Engloray Learning Academic Portal</div>
+          <h1 style="font-size:2rem; font-weight:900; color:#0f172a; margin-top:8px; margin-bottom:4px; font-family:serif;">Certificate of Completion</h1>
+          <p style="font-size:0.875rem; color:#64748b; font-style:italic; margin-bottom:20px;">This digital certificate is proudly awarded to</p>
+          
+          <h2 style="font-size:2.2rem; font-weight:800; color:#1e40af; border-bottom:2px solid #e2e8f0; display:inline-block; padding-bottom:6px; margin-bottom:16px;" id="certStudentName">Englorayman JD</h2>
+          
+          <p style="font-size:0.95rem; color:#334155; max-width:580px; margin:0 auto 24px auto; line-height:1.6;">
+            for successfully mastering 100% of all chapters, practical labs, assignments, and curriculum requirements in the course:
+          </p>
+
+          <div style="font-size:1.2rem; font-weight:800; color:#0f172a; background:#f1f5f9; padding:10px 24px; border-radius:10px; display:inline-block; margin-bottom:32px;" id="certCourseTitle">
+            Grade 3 Computer Skills & Digital Literacy Course
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:20px; padding-top:20px; border-top:1px solid #f1f5f9;">
+            <div style="text-align:left;">
+              <div style="font-size:0.775rem; color:#94a3b8;">Issued Date</div>
+              <div style="font-size:0.9rem; font-weight:700; color:#0f172a;" id="certIssuedDate">August 21, 2026</div>
+              <div style="font-size:0.75rem; color:#2563eb; margin-top:2px;" id="certIdNumber">ID: CERT-ENG-2026-0821</div>
+            </div>
+            
+            <div style="text-align:center;">
+              <div style="width:50px; height:50px; border-radius:50%; background:#fef3c7; color:#d97706; border:2px solid #f59e0b; display:inline-flex; align-items:center; justify-content:center; font-size:1.5rem;">🏅</div>
+              <div style="font-size:0.7rem; font-weight:700; color:#64748b; margin-top:2px;">Verified Badge</div>
+            </div>
+
+            <div style="text-align:right;">
+              <div style="font-family:cursive; font-size:1.3rem; font-weight:700; color:#1e40af;" id="certMentorSignature">Mentor Sri</div>
+              <div style="font-size:0.775rem; font-weight:700; color:#0f172a; border-top:1px solid #cbd5e1; padding-top:2px; margin-top:2px;">Lead Course Mentor</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; margin-top:24px;">
+          <button type="button" onclick="window.print()" class="btn-submit-primary blue-button-full" style="padding:10px 24px; border-radius:10px; font-weight:700;">
+            <i class="fa-solid fa-print"></i> Print / Download Certificate PDF
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STUDENT PRACTICAL ACTIVITY SUBMISSION MODAL -->
+  <div id="modalStudentSubmitActivity" class="modal-backdrop hidden">
+    <div class="modal-card" style="max-width: 580px; width: 92%; border-radius: 18px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="submitActModalTitle"><i class="fa-solid fa-flask text-blue"></i> Submit Practical Activity to Mentor</h3>
+        <button type="button" class="btn-modal-close" id="btnCloseStudentSubmitActModal">&times;</button>
+      </div>
+      <form id="formStudentActivitySubmission">
+        <input type="hidden" id="submitActModalStateKey">
+        <input type="hidden" id="submitActModalGradeNum">
+        <input type="hidden" id="submitActModalClassId">
+        <div class="modal-body" style="display:flex; flex-direction:column; gap:14px; padding:20px;">
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px;">
+            <div style="font-size:0.775rem; font-weight:700; color:#2563eb;" id="submitActModalChapText">Chapter 1</div>
+            <h4 style="font-size:1.05rem; font-weight:700; color:#0f172a; margin:4px 0;" id="submitActModalClassTitle">Class 1 Practical Activity</h4>
+            <p style="font-size:0.85rem; color:#64748b; margin:0;" id="submitActModalTaskDesc">In-class practical lab exercise & drills assigned by your mentor.</p>
+            <div style="margin-top:10px;" id="submitActModalPdfWrap">
+              <a href="#" target="_blank" id="submitActModalPdfLink" class="btn btn-sm btn-outline-clean" style="border-radius:8px; font-size:0.8rem; font-weight:600;">
+                <i class="fa-solid fa-file-pdf text-danger"></i> View Activity Worksheet PDF
+              </a>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Student Email Address *</label>
+            <input type="email" id="submitActModalStudentEmail" class="form-input-clean" placeholder="e.g. student@school.com" required>
+          </div>
+
+          <div class="form-group">
+            <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Submission File URL / Solution Link *</label>
+            <input type="url" id="submitActModalFileUrl" class="form-input-clean" placeholder="https://..." value="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" required>
+          </div>
+
+          <div class="form-group">
+            <label style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Completion Notes / Output Summary (Optional)</label>
+            <textarea id="submitActModalNotes" class="form-input-clean" style="height:70px; resize:none;" placeholder="Notes for mentor on what you completed..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit-primary blue-button-full" style="height:44px; margin-top:8px;">
+            <i class="fa-solid fa-paper-plane"></i> Submit Practical Activity to Mentor
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Notification Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Load Central JSON Dataset and Config first, then Application logic -->
   <script src="/config.js"></script>
   <script src="/coursesData.js"></script>
+  <script src="/community/community.js"></script>
   <script src="/app.js"></script>
 </body>
 

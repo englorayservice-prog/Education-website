@@ -6,12 +6,14 @@ com\school\lms\dto\DayClassDto$Step3WebsiteDto.class
 com\school\lms\dto\QuizDto.class
 com\school\lms\dto\QuizDto$QuizOptionDto.class
 com\school\lms\dto\TermDto.class
+com\school\lms\controller\CommunityController.class
 com\school\lms\controller\TeacherController.class
 com\school\lms\dto\QuizResultDto.class
 com\school\lms\dto\DayClassDto$Step5TaskDto.class
 com\school\lms\dto\QuizSubmissionDto$QuizSubmissionDtoBuilder.class
 com\school\lms\dto\SubmissionDto.class
 com\school\lms\repository\GradeRepository.class
+com\school\lms\entity\CommunityMessage.class
 com\school\lms\entity\Grade$GradeBuilder.class
 com\school\lms\dto\DayClassDto$Step3WebsiteDto$Step3WebsiteDtoBuilder.class
 com\school\lms\LmsApplication.class
@@ -67,6 +69,7 @@ com\school\lms\dto\GradeDto.class
 com\school\lms\entity\Submission.class
 com\school\lms\entity\Role.class
 com\school\lms\dto\DailyReportDto.class
+com\school\lms\service\StudentService.class
 com\school\lms\repository\StudentProgressRepository.class
 com\school\lms\dto\GradeDto$GradeDtoBuilder.class
 com\school\lms\dto\DailyReportDto$DailyReportDtoBuilder.class
@@ -80,6 +83,7 @@ com\school\lms\dto\AdminDashboardStatsDto$AdminDashboardStatsDtoBuilder.class
 com\school\lms\dto\AdminStudentDto.class
 com\school\lms\dto\DayClassDto$DayClassDtoBuilder.class
 com\school\lms\dto\QuizDto$QuizQuestionDto.class
+com\school\lms\controller\StudentController.class
 com\school\lms\dto\StudentOverviewDto.class
 com\school\lms\dto\ChapterDto.class
 com\school\lms\entity\Attendance.class
@@ -102,5 +106,7 @@ com\school\lms\repository\QuizRepository.class
 com\school\lms\entity\QuizQuestion$QuizQuestionBuilder.class
 com\school\lms\entity\Term$TermBuilder.class
 com\school\lms\dto\QuizResultDto$QuizResultDtoBuilder.class
+com\school\lms\repository\CommunityMessageRepository.class
+com\school\lms\entity\CommunityMessage$CommunityMessageBuilder.class
 com\school\lms\entity\DailyReport$DailyReportBuilder.class
 com\school\lms\entity\Quiz$QuizBuilder.class

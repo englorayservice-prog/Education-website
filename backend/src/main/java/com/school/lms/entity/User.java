@@ -32,4 +32,11 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "grade_id")
     private Grade grade; // Associated standard/class for student (e.g. Class 3)
+
+    @Column(name = "section")
+    private String section;
+
+    @Column(name = "status")
+    @Builder.Default
+    private String status = "Approved";
 }

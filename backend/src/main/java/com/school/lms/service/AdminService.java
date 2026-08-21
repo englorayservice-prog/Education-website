@@ -160,47 +160,65 @@ public class AdminService {
         }
     }
 
-                public List<AdminStudentDto> getAllStudents() {
+    public List<AdminStudentDto> getAllStudents() {
         List<User> students = userRepository.findByRole(Role.ROLE_STUDENT);
-        return students.stream().map(s -> {
-            List<Submission> subs = submissionRepository.findByStudentId(s.getId());
-            int subsCount = subs.size();
-            long completedCount = studentProgressRepository.findByStudentId(s.getId()).stream()
-                    .filter(p -> Boolean.TRUE.equals(p.getClassCompleted()))
-                    .count();
-            int progress = subsCount > 0 ? Math.min(100, subsCount * 25) : (completedCount > 0 ? (int)(completedCount * 25) : 0);
+        return students.stream().map(this::mapUserToStudentDto).collect(Collectors.toList());
+    }
 
-            Integer gn = 3;
-            if (s.getGrade() != null && s.getGrade().getGradeNumber() != null) {
-                gn = s.getGrade().getGradeNumber();
-            }
-            if (s.getEmail() != null) {
-                String lower = s.getEmail().toLowerCase();
-                if (lower.equals("student3@school.com") || lower.equals("newstudent@school.com")) {
-                    gn = 3;
-                } else if (lower.equals("student5@school.com") || lower.equals("newstudent5@school.com")) {
-                    gn = 5;
-                }
-            }
+    public List<AdminStudentDto> getAllParents() {
+        List<User> parents = userRepository.findByRole(Role.ROLE_PARENT);
+        return parents.stream().map(this::mapUserToStudentDto).collect(Collectors.toList());
+    }
 
-            Integer classNum = 1;
-            if (!subs.isEmpty() && subs.get(0).getDayClass() != null && subs.get(0).getDayClass().getDayNumber() != null) {
-                classNum = subs.get(0).getDayClass().getDayNumber();
-            }
+    private AdminStudentDto mapUserToStudentDto(User s) {
+        List<Submission> subs = submissionRepository.findByStudentId(s.getId());
+        int subsCount = subs.size();
+        long completedCount = studentProgressRepository.findByStudentId(s.getId()).stream()
+                .filter(p -> Boolean.TRUE.equals(p.getClassCompleted()))
+                .count();
+        int progress = subsCount > 0 ? Math.min(100, subsCount * 25) : (completedCount > 0 ? (int)(completedCount * 25) : 0);
 
-            return AdminStudentDto.builder()
-                    .id(s.getId())
-                    .fullName(s.getFullName())
-                    .email(s.getEmail())
-                    .role("STUDENT")
-                    .gradeNumber(gn)
-                    .currentClassNumber(classNum)
-                    .parentName("Parent / Guardian of " + s.getFullName())
-                    .progressPercentage(progress)
-                    .lastActive("Active Today")
-                    .submissionsCount(subsCount)
-                    .build();
-        }).collect(Collectors.toList());
+        Integer gn = 3;
+        if (s.getGrade() != null && s.getGrade().getGradeNumber() != null) {
+            gn = s.getGrade().getGradeNumber();
+        }
+
+        Integer classNum = 1;
+        if (!subs.isEmpty() && subs.get(0).getDayClass() != null && subs.get(0).getDayClass().getDayNumber() != null) {
+            classNum = subs.get(0).getDayClass().getDayNumber();
+        }
+
+        return AdminStudentDto.builder()
+                .id(s.getId())
+                .fullName(s.getFullName())
+                .email(s.getEmail())
+                .role(s.getRole() != null ? s.getRole().name() : "ROLE_STUDENT")
+                .gradeNumber(gn)
+                .currentClassNumber(classNum)
+                .parentName(s.getRole() == Role.ROLE_PARENT ? s.getFullName() : "Parent / Guardian of " + s.getFullName())
+                .progressPercentage(progress)
+                .lastActive("Active Today")
+                .submissionsCount(subsCount)
+                .section(s.getSection() != null ? s.getSection() : "")
+                .status(s.getStatus() != null ? s.getStatus() : "Approved")
+                .build();
+    }
+
+    public AdminStudentDto updateUserStatus(Long userId, String status, Integer gradeNumber, String section) {
+        User u = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found: " + userId));
+        if (status != null) u.setStatus(status);
+        if (section != null) u.setSection(section);
+        if (gradeNumber != null) {
+            Grade g = gradeRepository.findByGradeNumber(gradeNumber).orElse(null);
+            if (g != null) u.setGrade(g);
+        }
+        User saved = userRepository.save(u);
+        return mapUserToStudentDto(saved);
+    }
+
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
     }
 
     public List<AdminCourseDto> getAllCourses() {
