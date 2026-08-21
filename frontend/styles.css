@@ -2091,10 +2091,10 @@ p, span, li, a {
 /* Portal Layout (Mentor & Student) */
 .portal-layout {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
   background: #F8FAFC;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .portal-sidebar {
@@ -2102,13 +2102,26 @@ p, span, li, a {
   background: #FFFFFF;
   border-right: 1px solid #E2E8F0;
   flex-shrink: 0;
-  position: sticky;
+  position: fixed;
+  left: 0;
   top: 0;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  z-index: 90;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+/* Main Content Wrapper */
+.portal-main {
+  flex: 1;
+  margin-left: 250px;
+  width: calc(100vw - 250px);
+  height: 100vh;
+  background: #F8FAFC;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sidebar-brand {
@@ -2246,14 +2259,7 @@ p, span, li, a {
   color: #EF4444;
 }
 
-/* Main Content Wrapper */
-.portal-main {
-  flex: 1;
-  min-width: 0;
-  background: #F8FAFC;
-  overflow-y: auto;
-  min-height: 100vh;
-}
+/* Top Bar */
 
 .portal-top-bar {
   padding: 1rem 2rem;
@@ -2629,6 +2635,11 @@ p, span, li, a {
     width: 200px;
   }
   
+  .portal-main {
+    margin-left: 200px;
+    width: calc(100vw - 200px);
+  }
+  
   .portal-content-body {
     padding: 1.25rem;
   }
@@ -2637,12 +2648,23 @@ p, span, li, a {
 @media (max-width: 600px) {
   .portal-layout {
     flex-direction: column;
+    height: auto;
+    overflow: auto;
   }
 
   .portal-sidebar {
     width: 100%;
     height: auto;
     position: relative;
+    left: auto;
+    top: auto;
+  }
+
+  .portal-main {
+    margin-left: 0;
+    width: 100%;
+    height: auto;
+    overflow-y: visible;
   }
 
   .sidebar-nav {
@@ -3218,6 +3240,112 @@ p, span, li, a {
   .span-two, .span-btn {
     grid-column: span 1;
   }
+}
+
+/* ==========================================================================
+   ACTIVITIES & INTERACTIVE LABS - PREMIUM DASHBOARD STATS & CARD STYLES
+   ========================================================================== */
+.dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-widget-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 1.4rem 1.6rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.stat-widget-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.08);
+}
+
+.stat-widget-card.border-blue {
+  border-left: 5px solid #2563eb;
+}
+
+.stat-widget-card.border-emerald {
+  border-left: 5px solid #10b981;
+}
+
+.stat-widget-card.border-purple {
+  border-left: 5px solid #8b5cf6;
+}
+
+.stat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  width: 100%;
+}
+
+.stat-label {
+  font-size: 0.825rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-icon {
+  font-size: 1.25rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-icon.text-blue {
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+.stat-icon.text-emerald {
+  color: #10b981;
+  background: #dcfce7;
+}
+
+.stat-icon.text-purple {
+  color: #8b5cf6;
+  background: #f3e8ff;
+}
+
+.stat-value-big {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
+}
+
+.stat-footer-text {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.stat-footer-text .text-success {
+  color: #16a34a;
+  font-weight: 700;
 }
 
 

@@ -60,6 +60,26 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAllStudents());
     }
 
+    @GetMapping("/parents")
+    public ResponseEntity<List<AdminStudentDto>> getAllParents() {
+        return ResponseEntity.ok(adminService.getAllParents());
+    }
+
+    @PutMapping("/users/{userId}/status")
+    public ResponseEntity<AdminStudentDto> updateUserStatus(
+            @PathVariable Long userId,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) Integer gradeNumber,
+            @RequestParam(required = false) String section) {
+        return ResponseEntity.ok(adminService.updateUserStatus(userId, status, gradeNumber, section));
+    }
+
+    @DeleteMapping("/users/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+        adminService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/courses")
     public ResponseEntity<List<AdminCourseDto>> getAllCourses() {
         return ResponseEntity.ok(adminService.getAllCourses());

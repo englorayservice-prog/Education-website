@@ -4,8 +4,8 @@
   "description": "Engloray Learning LMS Frontend - Grade 5 Computer Skills",
   "main": "index.html",
   "scripts": {
-    "start": "npx serve -l 3000",
-    "dev": "npx serve -l 3000"
+    "start": "npx serve -s . -l 3000",
+    "dev": "npx serve -s . -l 3000"
   },
   "keywords": [
     "lms",
