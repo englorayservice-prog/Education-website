@@ -20,6 +20,12 @@
 
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/community/community.css">
+
+  <!-- Firebase SDK (compat build — no bundler required) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <!-- Firebase project config & initialization (must load BEFORE app.js) -->
+  <script src="/firebase-config.js"></script>
 </head>
 
 <body>
@@ -2497,6 +2503,67 @@
   <!-- Notification Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
 
+  <!-- ======================================================================
+       GOOGLE AUTH: Role Mismatch Error Modal
+       Shown when the authenticated Google account's role doesn't match the
+       role the user selected on the login page.
+       ====================================================================== -->
+  <div id="modalRoleMismatch" class="hidden" style="
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+  ">
+    <div style="
+      background: #ffffff; border-radius: 20px; padding: 40px 36px;
+      max-width: 440px; width: 90%; box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+      text-align: center; animation: fadeInUp 0.3s ease;
+    ">
+      <div style="
+        width: 64px; height: 64px; border-radius: 50%;
+        background: #fee2e2; display: flex; align-items: center; justify-content: center;
+        margin: 0 auto 20px;
+      ">
+        <i class="fa-solid fa-shield-halved" style="font-size: 1.75rem; color: #ef4444;"></i>
+      </div>
+      <h2 style="font-size: 1.3rem; font-weight: 700; color: #0f172a; margin-bottom: 12px;">
+        Wrong Role Selected
+      </h2>
+      <p id="roleMismatchMessage" style="
+        font-size: 0.9rem; color: #475569; line-height: 1.6; margin-bottom: 28px;
+      ">
+        Your Google account is not registered for this role.
+      </p>
+      <button id="btnCloseMismatchModal" type="button" style="
+        background: linear-gradient(135deg, #3b82f6, #6366f1);
+        color: #fff; border: none; border-radius: 12px;
+        padding: 12px 32px; font-size: 0.95rem; font-weight: 600;
+        cursor: pointer; transition: opacity 0.2s;
+      " onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+        <i class="fa-solid fa-arrow-left"></i>&nbsp; Back to Login
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       GOOGLE AUTH: Sign-in Loading Overlay
+       Shown while the Google popup is opening and the backend is being called.
+       ====================================================================== -->
+  <div id="googleSignInOverlay" class="hidden" style="
+    position: fixed; inset: 0; z-index: 9998;
+    background: rgba(255,255,255,0.75); backdrop-filter: blur(3px);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 18px;
+  ">
+    <div style="
+      width: 52px; height: 52px; border-radius: 50%;
+      border: 4px solid #e2e8f0; border-top-color: #3b82f6;
+      animation: spin 0.8s linear infinite;
+    "></div>
+    <p style="font-size: 0.95rem; font-weight: 600; color: #334155;">
+      Signing in with Google…
+    </p>
+  </div>
+
   <!-- Load Central JSON Dataset and Config first, then Application logic -->
   <script src="/config.js"></script>
   <script src="/coursesData.js"></script>
@@ -2504,4 +2571,4 @@
   <script src="/app.js"></script>
 </body>
 
-</html>
+</html>

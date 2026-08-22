@@ -19,4 +19,8 @@ public class AuthResponse {
     private String fullName;
     private Role role;
     private Integer gradeNumber;
+    // "Approved" or "Pending" — used by Google login to tell the frontend the account state
+    @Builder.Default
+    private String status = "Approved";
 }
+

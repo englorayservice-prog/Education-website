@@ -35,3 +35,11 @@ supabase:
   url: ${SUPABASE_URL:https://your-supabase-project.supabase.co}
   service-key: ${SUPABASE_KEY:your-supabase-service-key}
   bucket: ${SUPABASE_BUCKET:student-tasks}
+
+# Firebase Admin SDK Configuration
+# Supports raw JSON (FIREBASE_SERVICE_ACCOUNT_JSON), file path (FIREBASE_SERVICE_ACCOUNT_PATH),
+# or public token verification mode via project-id (FIREBASE_PROJECT_ID).
+firebase:
+  project-id: ${FIREBASE_PROJECT_ID:education-website-17c4b-a2dcb}
+  service-account-json: ${FIREBASE_SERVICE_ACCOUNT_JSON:}
+  service-account-path: ${FIREBASE_SERVICE_ACCOUNT_PATH:}

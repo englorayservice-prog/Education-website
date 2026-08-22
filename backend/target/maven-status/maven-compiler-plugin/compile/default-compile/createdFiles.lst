@@ -17,6 +17,7 @@ com\school\lms\entity\CommunityMessage.class
 com\school\lms\entity\Grade$GradeBuilder.class
 com\school\lms\dto\DayClassDto$Step3WebsiteDto$Step3WebsiteDtoBuilder.class
 com\school\lms\LmsApplication.class
+com\school\lms\config\FirebaseConfig.class
 com\school\lms\repository\TermRepository.class
 com\school\lms\dto\AdminSubmissionDto$AdminSubmissionDtoBuilder.class
 com\school\lms\security\SecurityConfig.class
@@ -25,6 +26,7 @@ com\school\lms\service\TeacherService.class
 com\school\lms\dto\TermDto$TermDtoBuilder.class
 com\school\lms\service\AuthService.class
 com\school\lms\dto\DayClassDto$Step4QuizDto.class
+com\school\lms\dto\GoogleAuthRequest.class
 com\school\lms\dto\QuizSubmissionDto.class
 com\school\lms\dto\StepProgressDto$StepProgressDtoBuilder.class
 com\school\lms\dto\AdminCourseDto$AdminCourseDtoBuilder.class
@@ -87,6 +89,7 @@ com\school\lms\controller\StudentController.class
 com\school\lms\dto\StudentOverviewDto.class
 com\school\lms\dto\ChapterDto.class
 com\school\lms\entity\Attendance.class
+com\school\lms\service\AuthService$1.class
 com\school\lms\dto\AuthRequest.class
 com\school\lms\dto\QuizDto$QuizQuestionDto$QuizQuestionDtoBuilder.class
 com\school\lms\security\JwtAuthenticationFilter.class

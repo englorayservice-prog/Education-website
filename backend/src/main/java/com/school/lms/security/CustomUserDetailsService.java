@@ -22,9 +22,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
+        // Google-only accounts have no local password; substitute empty string so Spring's
+        // User constructor doesn't throw NullPointerException. The DaoAuthenticationProvider
+        // is never called for Google-authenticated users (they use the /auth/google endpoint).
+        String password = user.getPassword() != null ? user.getPassword() : "";
+
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
-                user.getPassword(),
+                password,
                 Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))
         );
     }

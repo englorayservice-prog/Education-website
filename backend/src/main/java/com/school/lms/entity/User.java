@@ -19,11 +19,16 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    // Nullable: Google-authenticated users do not have a local password
+    @Column(nullable = true)
     private String password;
 
     @Column(name = "full_name", nullable = false)
     private String fullName;
+
+    // Stable Google UID (sub claim). Null for email/password-only accounts.
+    @Column(name = "google_uid", unique = true, nullable = true)
+    private String googleUid;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -40,3 +45,4 @@ public class User {
     @Builder.Default
     private String status = "Approved";
 }
+

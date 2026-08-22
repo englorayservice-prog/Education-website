@@ -3348,5 +3348,23 @@ p, span, li, a {
   font-weight: 700;
 }
 
+/* ==========================================================================
+   GOOGLE OAUTH UI — Keyframe Animations
+   Used by the sign-in loading overlay and role-mismatch modal.
+   ========================================================================== */
 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
 
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
